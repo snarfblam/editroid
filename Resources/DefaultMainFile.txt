@@ -1,0 +1,360 @@
+; Edtroid 3.5
+; Main Project File
+;
+; This file contains the code needed to allow the game to use
+; CHR ROM and extra data banks.
+
+
+
+
+; ================================
+; Variables
+; ================================
+
+    
+    RoomDataBanked      :=	$7810
+    BankSwapLock        :=  $7811
+
+
+; ================================
+; Updated Pointers
+; ================================
+
+; Pointers to structures and combos
+.PATCH 01:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+.PATCH 02:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+.PATCH 03:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+.PATCH 04:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+.PATCH 05:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+
+
+
+; ================================
+; New code
+; ================================
+
+.PATCH 0F:CA35
+; Overwrites unused save-file code
+
+LoadRoomDataBank: ;---------------
+        ; Don't execute NMI
+        INC BankSwapLock
+        
+            ; If NMI occurs before we revert to normal bank, inform NMI 
+            ; it must temporarily revert to normal bank
+            LDA #$FF				
+            STA RoomDataBanked
+    
+            ; Swap in room data bank (level bank + 7)
+            LDA CurrentBank
+            CLC
+	        ADC #$07				
+	        JSR MMCWriteReg3
+    	    
+    releaseLock:
+    	;Now the NMI can run
+    	DEC BankSwapLock
+    	
+    	;If the NMI tried to run during the lock, run it now
+    	BEQ +
+    	DEC BankSwapLock
+    	JMP SafeNMI
+	
+      * RTS
+RestoreLevelBank: ;---------------
+        ; Don't execute NMI
+        INC BankSwapLock
+        
+	        ; Room data bank will no longer be loaded (see LoadRoomDataBank)
+	        LDA #$00
+            STA RoomDataBanked
+    
+            ; Swap out room data bank
+            LDA CurrentBank
+            JSR MMCWriteReg3
+    	
+    	;Now the NMI can run if necessary
+    	JMP releaseLock
+
+OnBeforeRoomLoad: ;---------------
+    JSR LoadRoomDataBank
+	
+	LDY #$00				;Displaced code
+	LDA (RoomPtr),Y
+	
+	RTS
+	
+OnAfterRoomLoad: ;----------------
+    ; The pointer to the end of room data will be stored in RAM at either $00 or $33, depending on
+    ; whether there was any data in the room besides background objects.
+    
+    ; Ugly hack: The game uses $00 to hold ptr to wram screen buffer while drawing background.
+    ;            If there is non-bg data, then the room pointer is copied to $00. If not, $00
+    ;            will still contain the pointer to wram, which is < $8000, so this is how we
+    ;            can determine whether we need to copy the ptr from $33 to $00
+    lda $01
+    bmi +                   ; skip this code if $00-$01 contains a value >= $8000
+        ; Copy room data ptr to $00
+        ; (only necessary if there are no non-bg objects. otherwise, the non-bg-object-loading-routine already copies the pointer to $00)
+        lda RoomPtr
+        sta $00
+        lda RoomPtr + 1
+        sta $01
+    *
+    ; Increment pointer at $0000
+    inc $00
+    bne +
+        inc $01
+    *
+    
+    ; Execute code at pointer
+    jsr Jmp00
+    JSR RestoreLevelBank
+
+	LDX #$F0				; Displaced code
+	STX RoomNumber
+	
+	RTS
+
+
+InitEnemy: ;---------------------
+        ; 0F:EB20: jsr LEB4D                                             ; (In GetEnemyData)
+        PHA                         ; RestoreLevelBank affects A
+        JSR RestoreLevelBank
+        PLA
+        JSR $EB4D                   ; This routine requires level-bank to be loaded
+        JMP LoadRoomDataBank
+
+NewSqueeptHandler: ;-------------
+        ;; SqueeptHandler:
+        ;; LEDF8:        jsr GetEnemyData                ;($EB0C)Load Squeept data.
+        ;; LEDFB:*        jmp ChooseHandlerRoutine        ;($EDD6)Exit handler routines.
+; This is an enemy loading routine for enemies stored in item data. The problem is that we've
+; modified the enemy-loading routine to swap in the room-data bank when it is done, but this
+; shouldn't happen when processing item data. The fix is to run the same code, but to restore 
+; the level bank before returning;
+
+        GetEnemyData := $EB0C
+        ChooseHandlerRoutine := $EDD6
+        JSR GetEnemyData
+        PHA                     ; Preserve A!
+        JSR RestoreLevelBank
+        PLA        
+        JMP ChooseHandlerRoutine
+        
+GetStructPointer: ;--------------
+; I'm a bastard and I'm hardcoding the location of the struct pointer table.
+; Wanna fight about it?
+        LDA $8400,Y
+        STA StructPtr
+        LDA $8401,Y
+        STA StructPtr + 1
+        JMP $EAA2
+GetHighStructPointer: ;----------
+        LDA $8500,Y
+        STA StructPtr
+        LDA $8501,Y
+        STA StructPtr + 1
+        JMP $EAA2
+                
+CalculateMacroPtr: ;-------------
+        ;LEF45:        asl                                ;
+        ;LEF46:        asl                                ;A=macro number * 4. Each macro is 4 bytes long.
+        ;LEF47:        sta $11                                ;Store macro index.
+; This modified routine calculates a 16-bit macro pointer, ignoring the high byte of the 
+; macro pointer specified by the level's pointer table. This hack is necessary to allow
+; more than $40 combos, because without modifying the pointer you can only access $100
+; bytes with an indexed instructon.
+        ;A *= 4 (overflow stored in 'MacroPtr + 1') [12 extra cycles]
+LEF45:  asl                                ;
+        ROL MacroPtr + 1
+LEF46:  asl                                ;A=macro number * 4. Each macro is 4 bytes long.
+        ROL MacroPtr + 1
+LEF47:  sta $11                                ;Store macro index.
+
+        ;Calculate high byte of MacroPtr [12 extra cycles]
+        LDA MacroPtr + 1
+        AND #$03              ; Keep only lower 2 bits (the rest is leftover junk)
+        ORA #$80              ; Or with $80 to produce pointer from $8000 to $8300
+        STA MacroPtr + 1
+
+        ;Return from hijack [JMP to and from = extra 6 cycles, 3 per JMP]
+        JMP $EF49
+        
+
+
+
+SafeNMI: ;---------------------
+        ; This routine wraps the original NMI routine, and ensures that
+        ; the correct bank is loaded for the NMI routine.
+        ; SEE NewNMI
+
+        PHA
+
+        ; Ensure normal level bank is loaded during NMI
+        BIT RoomDataBanked      ; V is set if room data is banked
+        BVC +                   ; Skip bank swap if not necessary
+            ; Swap level bank
+            LDA CurrentBank
+            JSR MMCWriteReg3
+        
+    *   JSR NMI
+
+        ; Restore room-data-bank if it was loaded
+        BIT RoomDataBanked      ; V is set if room data is banked
+        BVC +                   ; Skip bank swap if not necessary
+            ; Swap room-data-bank
+            LDA CurrentBank         ; room-data-bank = level bank + 7
+            CLC
+            ADC #$07
+            JSR MMCWriteReg3
+            
+    *   PLA
+        RTS
+
+    endOfBlock:
+    
+    .if endOfBlock >= $CAF5
+        .error TOO MUCH STUFF At ca35
+    .endif
+    
+    
+.PATCH 0F:FFD5
+Jmp00:
+    jmp ($00)   ; Jump to routine pointed to by $00
+    
+NewNMI: ;---------------------
+; This routine enforces the bank swap lock. If NMI occurs while
+; there is a lock, we queue the NMI routine for later and return
+; immediately. Otherwise we run the NMI routine.
+        ; Defer NMI if we are in the middle of a bank swap
+        ASL BankSwapLock        ; Goes from 0->0 if free, 1->2 if locked
+        BNE +                   ; If locked, exit NMI
+
+        JSR SafeNMI                 ; Run the original NMI
+
+    *   RTI
+        
+; Repoint NMI vector to ours
+.PATCH 0F:FFFA
+        .WORD NewNMI
+        
+; Modify NMI to RTS instead of RTI (it is JSR'd from new NMI)
+.PATCH 0F:C113
+        ;LC113:        rti                                ;Return from NMI.
+        RTS
+        
+; ROUGHLY $1E BYTES REMAINING ($CAD6 UP TO & INLCUDING $CAF3 AVAILABLE)
+        
+        
+; ================================
+; Hijacks
+; ================================
+
+; Following 2 hijacks removed (replaced with updated NMI)
+;.PATCH 0F:C0DF
+;	;NMI hijacks
+;		;; LC0DF:        lda #$00                        ;
+;		;; LC0E1:        sta SPRAddress                        ;Sprite RAM address = 0.
+;		JSR NmiBankCheck
+;		NOP
+;		NOP
+;.PATCH 0F:C109
+;		;; LC109:        ldy #$01                        ; NMI = finished.
+;		;; LC10B:        sty NMIStatus                        ;
+;		JSR NmiBankRestore
+;		NOP
+
+
+.PATCH 0F:EA4C
+		;; LEA4C:        ldy #$00								;
+		;; LEA4E:        lda (RoomPtr),y						;First byte of room data.
+		JSR OnBeforeRoomLoad
+		NOP
+		
+.PATCH 0F:EAF4
+		;LEAF4:			ldx #$F0                        ;Prepare for PPU attribute table write.
+		;				stx RoomNumber                  ;
+		JSR OnAfterRoomLoad
+		NOP
+		
+.PATCH 0F:EB20
+        ;; 0F:EB20: jsr LEB4D                                             ; (In GetEnemyData)
+        JSR InitEnemy
+        
+.PATCH 0F:EDE4
+        ;; LEDE4:        .word SqueeptHandler                ;($EDF8)Some squeepts.
+        .word NewSqueeptHandler
+
+.PATCH 0F:EF45
+        ;DrawMacro hijack
+        JMP CalculateMacroPtr
+        
+.PATCH 0F:EA97
+        ;;LEA97:        asl                                ;*2. Structure pointers are two bytes in size.
+        ;;LEA98:        tay                                ;
+        ;;LEA99: <--    lda (StructPtrTable),y                ;Low byte of 16-bit structure ptr.
+        ;;LEA9B:        sta StructPtr                        ;
+        ;;LEA9D:        iny                                ;
+        ;;LEA9E:        lda (StructPtrTable),y                ;High byte of 16-bit structure ptr.
+        ;;LEAA0:        sta StructPtr+1                        ;
+        ;;LEAA2: <--    jsr DrawStruct                        ;($EF8C)Draw one structure.
+        ;;LEAA5:        lda #$03                        ;Move to next set of structure data.
+        ;;LEAA7:        jsr AddToRoomPtr                ;($EAC0)Add A to room data pointer.
+        ;; return to EAA2
+        ASL
+        TAY
+        BCS structAbove80
+        JMP GetStructPointer
+    structAbove80:
+        JMP GetHighStructPointer
+        
+
+
+;SetupRoom:
+;LEA2B:        lda RoomNumber                        ;Room number.
+;LEA2D:        cmp #$FF								;
+;LEA2F:        beq -									;Branch to exit if room is undefined.
+;LEA31:        cmp #$FE								;
+;LEA33:        beq +									;Branch if empty place holder byte found in room data.
+;LEA35:        cmp #$F0								;
+;LEA37:        bcs --                                ;Branch if time to write PPU attribute table data.
+;LEA39:        jsr UpdateRoomSpriteInfo				;($EC9B)Update which sprite belongs on which name table.
+;
+;LEA3C:        jsr ScanForItems						;($ED98)Set up any special items.
+;LEA3F:        lda RoomNumber                        ;Room number to load.
+;LEA41:        asl									;*2(for loading address of room pointer).
+;LEA42:        tay									;
+;LEA43:        lda (RoomPtrTable),y					;Low byte of 16-bit room pointer.-->
+;LEA45:        sta RoomPtr							;Base copied from $959A to $3B.
+;LEA47:        iny									;
+;LEA48:        lda (RoomPtrTable),y					;High byte of 16-bit room pointer.-->
+;LEA4A:        sta RoomPtr+1							;Base copied from $959B to $3C.
+;LEA4C:        ldy #$00								;
+;LEA4E:        lda (RoomPtr),y						;First byte of room data.
+;LEA50:        sta RoomPal							;store initial palette # to fill attrib table with.
+;LEA52:        lda #$01								;
+;LEA54:        jsr AddToRoomPtr						;($EAC0)Increment room data pointer.
+;LEA57:        jsr SelectRoomRAM						;($EA05)Determine where to draw room in RAM, $6000 or $6400.
+;LEA5A:        jsr InitTables                        ;($EFF8)clear Name Table & do initial Attrib table setup.
+;LEA5D:*        jmp DrawRoom                         ;($EAAA)Load room contents into room RAM;.
+
+;EndOfRoom:
+;LEAF4:			ldx #$F0                        ;Prepare for PPU attribute table write.
+;				stx RoomNumber                  ;
+;				lda ScrollDir                   ;
+;				sta TempScrollDir               ;Make temp copy of ScrollDir.
+;				and #$02                        ;Check if scrolling left or right.
+;				bne +                           ;
+;				jmp LE57C
+;    *			jmp LE70C

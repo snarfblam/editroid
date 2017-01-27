@@ -1,0 +1,19 @@
+﻿
+- Version
+    -Assembly info
+    -Caption
+    -Intro.rtf (i.e. "About")
+    -Splash screen (SpashImages.resx)
+    
+    
+- Todo for next version
+    - Fix or hide title screen editor
+    - Fix or hide tile re-arranger
+    - Fix bug: user is allowed to place combo FF in struct editor, but this represents an empty tile, allowing user to create invalid constructions
+    - Bug: When a ROM is saved with a completely empty room as the last room in a level, when the ROM is loaded, the entire unused portion of the screen data bank is interpreted as screen data
+    - If a ROM is tagged as no project, but a project file is found, the user should be informed and given the option to associate the two (with appropriate warning of things exploding if the two don't actually belong together).
+    
+- In release info, note that for 3.5.1 (or 3.6 or whatever):
+    - Note that tile re-arranger works based on CHR usage table!
+    - Make note of whatever was done with title screen editor
+    - Fixed bug where ASM for levels other than Brinstar may not get applied properly

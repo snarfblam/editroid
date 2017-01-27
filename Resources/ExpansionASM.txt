@@ -1,0 +1,1026 @@
+; Edtroid 3.5
+; Main Project File
+;
+; This file contains the code needed to allow the game to use
+; CHR ROM and extra data banks.
+
+        
+
+; ================================
+; Declarations
+; ================================
+    
+    RoomDataBanked      :=	$7810
+    BankSwapLock        :=  $7811
+    TilePhysicsTable    :=  $7F00
+    TilePhysicsRomBank  =   $3D     ; (extended game engine bank)
+    TilePhysicsRomAddr  =   $BB00   ; $500 bytes at end of bank
+    
+    
+    ; (some) zero page memory not used by the original game. Bytes not repuposed for expansion are named "SpareMemXX"
+    SpareMemB7      =   $B7 ;Written to in title routine and accessed by unsed routine.
+    SpareMemB8      =   $B8 ;Written to in title routine and accessed by unsed routine.
+    SpareMemBB      =   $BB ;Written to in title routine, but never accessed.
+    SpareMemC9      =   $C9 ;Written to in title routine, but never accessed.
+    SpareMemCB      =   $CB ;Written to in title routine, but never accessed.
+    SpareMemCC      =   $CC ;Written to in title routine, but never accessed.
+    SpareMemCD      =   $CD ;Written to in title routine, but never accessed.
+    TilePhysPtr     =   $CE ;Pointer used to write tile physics table
+    TilePhysPtrHi   =   $CF ;Pointer used to write tile physics table
+    SpareMemD3      =   $D3 ;Written to in title routine, but never accessed.
+    SpareMemD7      =   $D7 ;Written to in title routine, but never accessed.
+    SpareMemD0      =   $D0 ;
+    RoomPointer     =   $D1 ; Temporary pointer variable for loading value to RoomPtr during screen loading
+    RoomPointerHi   =   $D2 ;
+    
+    Bank_GameEngineExpanded     = $3D
+    
+    ; Chr Cycling                   ; Usage                 ; Previous (Enhanco) usage
+    Chr_Spr1            =   $7800    ; Sprite Bank 1         ; Spr Bank index
+    Chr_BgLoopStart     =   $7801    ; First anim frame      ; Bg first bank index
+    Chr_Spr2            =   $7802    ; Sprite bank 2         ; Bg last bank index
+    Chr_BgLoopIndex     =   $7803    ; Current anim fra      ; Bg current bank index
+    Chr_Unused          =   $7804    ; (not used)            ; Frames per iteration
+    Chr_FrameCounter    =   $7805    ; This frame countdown  ; Frames left for current iteration
+    ; Bank lookup tables (Bank (MMC3) 3D)
+    Anim_Bank0          =   $B600        ; Slot 0 bank index
+    Anim_Bank1          =   $B700        ; Slot 1 bank index
+    Anim_Bank2          =   $B800        ; Slot 2 bank index
+    Anim_Bank3          =   $B900        ; Slot 3 bank index
+    Anim_FrameTime      =   $BA00        ; Lower 7 bits: frame delay / High bit: if set, last frame
+; ================================
+; MMC3 conversion declarations
+; ================================
+
+
+INES_PRGBANKS   = $20   ; 20 * 16k bytes ($20 MMC1 banks or $40 MMC3 banks)
+INES_CHRBANKS   = $20   ; 20 * 8k banks  ($40 1k banks, or $100 $400-byte banks)
+INES_BYTE_6     = $41   ; Not battery backed
+;INES_BYTE_6    = $43   ; Battery backed
+
+; MMC3 registers:
+    MMC3_SLOT           =   $8000   ; Swappable memory regions
+    MMC3_BANK           =   $8001   ; The data that is swapped into these regions
+    MMC3_MIRRORING      =   $A000
+    MMC3_WRAM_PROTECT   =   $A001
+    MMC3_IRQ_LATCH      =   $C000
+    MMC3_IRQ_RELOAD     =   $C001
+    MMC3_IRQ_DISABLE    =   $E000
+    MMC3_IRQ_ENABLE     =   $E001
+; MMC3 constants
+    MMC3SLOT_CHR0000    =   $00      ; No mmc3 "inversion" banking is used (i.e. sticking with default mapping scheme)
+    MMC3SLOT_CHR0800    =   $01
+    MMC3SLOT_CHR1000    =   $02
+    MMC3SLOT_CHR1400    =   $03
+    MMC3SLOT_CHR1800    =   $04
+    MMC3SLOT_CHR1C00    =   $05
+    MMC3SLOT_PRG8000    =   $06
+    MMC3SLOT_PRGA000    =   $07
+; MMC3 bank register "RAM mirrors"
+    MMC3MR_SLOTSELECT   =   $77F0       ; last value written to slot select register (does not apply to NMI)
+    MMC3MR_BANKSELECT   =   $77F1       ; last value written to bank select register (does not apply to NMI)
+    MMC3MR_LoadedBanks  =   $77F2       ; 8 bytes - banks currently loaded (does not apply to NMI)
+    ;next thing         =   $77FA
+    
+    
+    
+    MMC3WRAM_DISABLEWRITE   =   $40
+    MMC3WRAM_ENABLE         =   $80
+    
+    MMC3MIRROR_V            =   $00
+    MMC3MIRROR_H            =   $01
+
+; ================================
+; MMC3 conversion
+; ================================
+
+; Header =======================
+.PATCH $04
+
+.db INES_PRGBANKS
+.db INES_CHRBANKS
+.db INES_BYTE_6
+
+        
+; Vectors ======================
+.PATCH 1F:FFFA
+    .WORD SafeNMI
+    .WORD MMC3_RESET
+    .WORD IRQ
+    
+; Reset ========================
+
+.PATCH 1F:FFB0
+MMC3_RESET:
+        sei                     ;Disable IRQ
+        cld                     ;Sets processor to binary mode
+        sta MMC3_IRQ_DISABLE    ;(NEW) Disable mmc3 scanline IRQ
+        
+        ldx #$00                ;
+        stx PPUControl0         ;Clear PPU control registers
+        stx PPUControl1         ;
+    *   lda PPUStatus           ;
+        bpl -                   ;Wait for VBlank
+    *   lda PPUStatus           ;
+        bpl -                   ;
+        
+        ldx #MMC3SLOT_PRG8000
+        ldy #$00
+        jsr SelectMMC3Bank
+        ;lda #MMC3SLOT_PRG8000   ;(NEW-ish: replaces MMC1 reset code)
+        ;sta MMC3_SLOT           ;Ensure $C000-$FFFF points to last banks
+        ;lda #$00                ;and switch to PRG bank 0 for $8000
+        ;STA MMC3_BANK
+        
+        iny
+        jsr SelectMMC3Bank
+        ;lda #MMC3SLOT_PRGA000   ;
+        ;sta MMC3_SLOT           ;Switch to PRG bank 1 for $A000
+        ;lda #$01
+        ;STA MMC3_BANK
+        
+        lda #MMC3WRAM_ENABLE    ;Enable reading/writing WRAM
+        sta MMC3_WRAM_PROTECT
+        
+        ora #$FF                ;
+        jmp MMC3_Startup        ;(NEW) Do preliminary housekeeping (new startup routine).
+
+
+SelectMMC3Bank:
+    ; Selects an MMC3 bank. To be called via non-NMI routines only. NMI restores
+    ; selected bank upon return
+    ;X:  Slot number. Gets incremented.
+    ;y:  Value
+    pha
+    tya
+    sta MMC3MR_LoadedBanks,x
+    stx MMC3MR_SLOTSELECT
+    stx MMC3_SLOT
+    inx                         ; Incremented so next call writes next slot
+    sty MMC3MR_BANKSELECT
+    sty MMC3_BANK
+    pla
+    rts
+    
+;NO LONGER NEEDED.
+;The new NMI for MMC3 uses a thread-safe bank swapping approach
+;; This is old expansion code included in MMC3 conversion section because it's part of a contiguous code block
+;NewNMI: ;---------------------
+;; This routine enforces the bank swap lock. If NMI occurs while
+;; there is a lock, we queue the NMI routine for later and return
+;; immediately. Otherwise we run the NMI routine.
+;        ; Defer NMI if we are in the middle of a bank swap
+;        ASL BankSwapLock        ; Goes from 0->0 if free, 1->2 if locked
+;        BNE +                   ; If locked, exit NMI
+;
+;        JSR SafeNMI                 ; Run the original NMI
+;
+;IRQ:        
+;    *   RTI
+    
+
+
+EndOfResetSection:
+    .if EndOfResetSection >= $FFFA
+        .error RESET SECTION TOO LONG
+    .endif
+    .if EndOfResetSection < $C000
+        .error RESET SECTION TOO LONG
+    .endif
+
+; Startup ======================
+
+.PATCH 1F:C01A
+MMC3_Startup:
+    ldx #$FF
+    txs
+    jmp $C03F
+    
+; Register write routines ======
+.PATCH 1F:C4FA
+MMC1_WriteReg3:
+    ; A specifies an MMC1 (16K) PRG bank number
+    ; (original is 22 bytes, including rts)
+    ; Note: Y reg is not used by any callers
+    ;asl                         ; Get 8K bank number
+    ;tay
+    ;lda #MMC3SLOT_PRG8000       ; Specify bank for $8000-$9FFF
+    ;sta MMC3_SLOT
+    ;sty MMC3_BANK               ; bank #
+    ;
+    ;lda #MMC3SLOT_PRGA000       ; Specify bank for $A000-BFFF
+    ;sta MMC3_SLOT
+    ;iny                         ; next 8k bank will be used for $A000-$BFFF
+    ;sty MMC3_BANK
+    ;lda $00
+    ;rts
+    asl                         ; Get 8K bank number
+    tay
+    ldx #MMC3SLOT_PRG8000       ; Specify bank for $8000-$9FFF
+    ;sta MMC3_SLOT
+    ;sty MMC3_BANK               ; bank #
+    jsr SelectMMC3Bank
+    
+    ;lda #MMC3SLOT_PRGA000       ; Specify bank for $A000-BFFF
+    ;sta MMC3_SLOT
+    iny                         ; next 8k bank will be used for $A000-$BFFF
+    jsr SelectMMC3Bank
+    ;sty MMC3_BANK
+    lda $00
+    rts
+    
+.PATCH 1F:C4B6
+MMC3_SetPPUMirror:
+    
+       lsr                             ;
+        lsr                             ;Move bit 3 to bit 0 position.
+        lsr                             ;
+        and #$01                        ;Remove all other bits.
+        sta $00                         ;Store at address $00.
+        ;None of the other MMC1 control register bits are relevant to MMC3
+        ;lda MMCReg0Cntrl                ;
+        ;and #$FE                        ;Load MMCReg0Cntrl and remove bit 0.
+        ;ora $00                         ;Replace bit 0 with stored bit at $00.
+        sta MMCReg0Cntrl                ;
+        
+        ; This is so much simpler with MMC3
+        ;sta MMC1Reg0                    ;
+        ;lsr                             ;
+        ;sta MMC1Reg0                    ;
+        ;lsr                             ;
+        ;sta MMC1Reg0                    ;
+        ;lsr                             ;Load new configuration data serially-->
+        ;sta MMC1Reg0                    ;into MMC1Reg0.
+        ;lsr                             ;
+        ;sta MMC1Reg0                    ;
+        
+        sta MMC3_MIRRORING
+        rts                             ;
+        
+Jmp00:
+    jmp ($00)   ; Jump to routine pointed to by $00
+    
+.PATCH 1F:C5D9
+    PerformInitialPpuLoad:
+        ; Load extended game engine bank
+        ldx #MMC3SLOT_PRGA000
+        ldy #Bank_GameEngineExpanded
+        jsr SelectMMC3Bank
+       
+        ; Load first frame of CHR
+        jsr LoadNextFrame
+        
+        jmp RestoreLevelBank
+        ;rts
+        
+; ================================
+; Updated Pointers
+; ================================
+
+; Pointers to structures and combos
+.PATCH 01:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+.PATCH 02:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+.PATCH 03:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+.PATCH 04:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+.PATCH 05:959C
+		.DW	$8400	; Structure table
+		.DW $8000	; Combo table
+
+
+
+; ================================
+; New code
+; ================================
+
+.PATCH 1F:E0C1
+    ; "DisplayBar" routine relocated to another bank to make space
+
+        ; Trampoline to new DisplayBar (i.e. DisplayBar_New)
+        ldx #MMC3SLOT_PRGA000
+        ldy #Bank_GameEngineExpanded
+    
+        jsr SelectMMC3Bank
+        jsr DisplayBar_New
+        jmp RestoreLevelBank
+
+        
+    ; SO MUCH SPAAAAAACE !
+    
+    LoadRoomPointer:
+        ;Loads a 3-byte room pointer in the format of bank ptrLow ptrHi
+        ;from the table at RoomPtrTable. Bank is stored in RoomPointer and
+        ;the pointer is stored in RoomPtr.
+        ;using zp variables RoomPointer, RoomPointerHi
+            ; Return to the code that follows what we're replacing
+            LoadRoomPointer_Return = $EA4C
+
+    
+            ; Multiply RoomNumber by 3, result will end up in A (lo) and Y (hi)
+            ldy #$00                ; ATM we'll store high byte of result in Y
+            lda RoomNumber          ; a = RoomNumber
+            asl                     ;     * 2
+            bcc +
+                iny                 ;     (carry to y)
+                clc
+            *
+            adc RoomNumber          ;     + RoomNumber
+            bcc +
+                iny                 ;     (carry to y)
+                clc
+            *
+            
+            ; Now add (16-bit) the base address of the room pointer table
+            adc RoomPtrTable        ; A += RoomPtrTable.lo
+            sta RoomPointer         ; Store lo byte
+            
+            tya
+            adc RoomPtrTable + 1    ; Add y to RoomPtrTable.hi ( + carry)
+            sta RoomPointer + 1
+    
+            ; Copy a pointer from the screen pointer
+            ldy #$01                ; Lo
+            lda (RoomPointer),y
+            sta RoomPtr
+            iny                     ; Hi
+            lda (RoomPointer),y
+            sta RoomPtr+1
+            ldy #$00                ; Bank
+            lda (RoomPointer),y
+            sta RoomPointer
+            
+            jmp LoadRoomPointer_Return
+    
+    GetTilePhysics:
+        ldy #$00
+        lda ($04),Y
+        tay
+        lda TilePhysicsTable,Y
+        ldy #$00
+        rts
+    
+    EndOfE0C1:
+    ; space ends at E193
+    
+    .if EndOfE0C1 >= $E192
+        .error Too much at $E0C1
+    .endif
+
+;.PATCH 1F:EA3F
+.PATCH 1F:EA3F
+    ; Patch to use new 3-byte-room-pointer loading routine below
+    jmp LoadRoomPointer
+
+; ================================================================
+; Extended Game Engine Bank
+; ================================================================       
+    
+
+.PATCH 1E:A000      ; MMC3 3D:A000
+
+        GoBankInit_Ex:
+            pha                                 ; Need bank num for later
+            
+            ;Calculate address of tile physics table to copy from ROM
+            clc                                 ; A contains bank number (brin = 1, norfair = 2, tourian = 3, etc)
+            adc #(>TilePhysicsRomAddr - 1)      ; Address of physics table = address of first table + $100 * (bank - 1) (brin = $BB00, norfair = $BC00, tourian = $BD00, etc)
+            sta TilePhysPtrHi
+            ldy #<TilePhysicsRomAddr
+            sty TilePhysPtr
+            
+             ; Copy tile physics table ($100 bytes)
+            ldy #$00
+            *
+                lda (TilePhysPtr),Y             ; Read from ROM
+                sta TilePhysicsTable,Y          ; Write to RAM
+                iny
+            bne -   
+            
+            pla
+            ; Original routine
+            asl                          ;$C510;*2 For proper table offset below.
+            tay                          ;$C511;
+            lda BankInitTable_New,y      ;$C512;
+            sta $0A                      ;$C515;Load appropriate subroutine address into $0A and $0B.
+            lda BankInitTable_New+1,y    ;$C517;
+            sta $0B                      ;$C51A;
+            
+            rts
+
+        BankInitTable_New:
+            LC51F:      .word InitBank0                 ;($C531)Initialize bank 0.
+            LC521:      .word InitBank1                 ;($C552)Initialize bank 1.
+            LC523:      .word InitBank2                 ;($C583)Initialize bank 2.
+            LC525:      .word InitBank3                 ;($C590)Initialize bank 3.
+            LC527:      .word InitBank4                 ;($C5B6)Initialize bank 4.
+            LC529:      .word InitBank5                 ;($C5C3)Initialize bank 5.
+            LC52B:      .word $C45C                     ;($C45C)Rts
+            LC52D:      .word $C45C                     ;($C45C)Rts
+            LC52F:      .word $C45C                     ;($C45C)Rts
+            
+        ; Chr cycling routine -----------------------------------------------------------    
+        LoadNextFrame:
+            ldx Chr_BgLoopIndex
+            
+            ; Todo: we should be able to set SPR CHR once and forget about it instead of re-setting it each time bg CHR changes
+            ldy #MMC3SLOT_CHR0000                    ; Upper half of sprite CHR
+            sty MMC3_SLOT
+            lda Chr_Spr1
+            sta MMC3_BANK
+
+            iny                                     ; Lower half of sprite CHR
+            sty MMC3_SLOT
+            lda Chr_Spr2
+            sta MMC3_BANK
+            
+            iny                                     ; Four bg banks are loaded from CHR animation tables
+            sty MMC3_SLOT
+            lda Anim_Bank0,X
+            sta MMC3_BANK
+
+            iny
+            sty MMC3_SLOT
+            lda Anim_Bank1,X
+            sta MMC3_BANK
+
+            iny
+            sty MMC3_SLOT
+            lda Anim_Bank2,X
+            sta MMC3_BANK
+
+            iny
+            sty MMC3_SLOT
+            lda Anim_Bank3,X
+            sta MMC3_BANK
+            
+            lda Anim_FrameTime,X                    ; Get frame counter value
+            tay                                     ; (Save for later)
+            and #$7F
+            sta Chr_FrameCounter                    ; Set frame counter to lower 7 bits
+            
+            inx                                     ; Increment frame index
+            tya                                     ; If the high bit of the frame counter value is set, it's the last frame            
+            bpl +
+                ldx Chr_BgLoopStart                 ;   Reset frame index to first frame
+            *
+            stx Chr_BgLoopIndex
+            rts            
+            
+    ;TilePhysicsTable    :=  $7F00
+    ;TilePhysicsRomBank  =   $3D     ; (extended game engine bank)
+    ;TilePhysicsRomAddr  =   $BB00   ; $500 bytes at end of bank
+    ;TilePhysPtr     =   $CE ;Pointer used to write tile physics table
+    ;TilePhysPtrHi   =   $CF ;Pointer used to write tile physics table
+    ;    
+        DisplayBar_New:
+            LE0C1:  ldy #$00                        ;Reset data index.
+            LE0C3:  lda SpritePagePos               ;Load current sprite index.
+            LE0C5:  pha                             ;save sprite page pos.
+            LE0C6:  tax                             ;
+            LE0C7:* lda DataDisplayTbl,y            ;
+            LE0CA:  sta Sprite00RAM,x               ;Stor contents of DataDisplayTbl in sprite RAM.
+            LE0CD:  inx                             ;
+            LE0CE:  iny                             ;
+            LE0CF:  cpy #$28                        ;10*4. At end of DataDisplayTbl? If not, loop to-->
+            LE0D1:  bne -                           ;load next byte from table.
+
+            ;Display 2-digit health count.
+            LE0D3:  stx SpritePagePos               ;Save new location in sprite RAM.
+            LE0D5:  pla                             ;Restore initial sprite page pos.
+            LE0D6:  tax                             ;
+            LE0D7:  lda HealthHi                    ;
+            LE0DA:  and #$0F                        ;Extract upper health digit.
+            LE0DC:  jsr SPRWriteDigit_New               ;($E173)Display digit on screen.
+            LE0DF:  lda HealthLo                    ;
+            LE0E2:  jsr Adiv16                      ;($C2BF)Move lower health digit to 4 LSBs.
+            LE0E5:  jsr SPRWriteDigit_New               ;($E173)Display digit on screen.
+            LE0E8:  ldy EndTimerHi                  ;
+            LE0EB:  iny                             ;Is Samus in escape sequence?-->
+            LE0EC:  bne ++                          ;If so, branch.
+            LE0EE:  ldy MaxMissiles                 ;
+            LE0F1:  beq +                           ;Don't show missile count if Samus has no missile containers.
+
+            ;Display 3-digit missile count.
+            LE0F3:  lda MissileCount                ;
+            LE0F6:  jsr HexToDec                    ;($E198)Convert missile hex count to decimal cout.
+            LE0F9:  lda $02                         ;Upper digit.
+            LE0FB:  jsr SPRWriteDigit_New               ;($E173)Display digit on screen.
+            LE0FE:  lda $01                         ;Middle digit.
+            LE100:  jsr SPRWriteDigit_New               ;($E173)Display digit on screen.
+            LE103:  lda $00                         ;Lower digit.
+            LE105:  jsr SPRWriteDigit_New               ;($E173)Display digit on screen.
+            LE108:  bne +++                         ;Branch always.
+    
+            ;Samus has no missiles, erase missile sprite.
+            LE10A:* lda #$FF                        ;"Blank" tile.
+            LE10C:  cpx #$F4                        ;If at last 3 sprites, branch to skip.
+            LE10E:  bcs ++                          ;
+            LE110:  sta Sprite03RAM+1,x             ;Erase left half of missile.
+            LE113:  cpx #$F0                        ;If at last 4 sprites, branch to skip.
+            LE115:  bcs ++                          ;
+            LE117:  sta Sprite04RAM+1,x             ;Erase right half of missile.
+            LE11A:  bne ++                          ;Branch always.
+    
+            ;Display 3-digit end sequence timer.
+            LE11C:* lda EndTimerHi                  ;
+            LE11F:  jsr Adiv16                      ;($C2BF)Upper timer digit.
+            LE122:  jsr SPRWriteDigit_New               ;($E173)Display digit on screen.
+            LE125:  lda EndTimerHi                  ;
+            LE128:  and #$0F                        ;Middle timer digit.
+            LE12A:  jsr SPRWriteDigit_New               ;($E173)Display digit on screen.
+            LE12D:  lda EndTimerLo                  ;
+            LE130:  jsr Adiv16                      ;($C2BF)Lower timer digit.
+            LE133:  jsr SPRWriteDigit_New               ;($E173)Display digit on screen.
+            LE136:  lda #$58                        ;"TI" sprite(left half of "TIME").
+            LE138:  sta Sprite00RAM+1,x             ;
+            LE13B:  inc Sprite00RAM+2,x             ;Change color of sprite.
+            LE13E:  cpx #$FC                        ;If at last sprite, branch to skip.
+            LE140:  bcs +                           ;
+            LE142:  lda #$59                        ;"ME" sprite(right half of "TIME").
+            LE144:  sta Sprite01RAM+1,x             ;
+            LE147:  inc Sprite01RAM+2,x             ;Change color of sprite.
+    
+            LE14A:* ldx SpritePagePos               ;Restore initial sprite page pos.
+            LE14C:  lda TankCount                   ;
+            LE14F:  beq ++                          ;Branch to exit if Samus has no energy tanks.
+    
+            ;Display full/empty energy tanks.
+            LE151:  sta $03                         ;Temp store tank count.
+            LE153:  lda #$40                        ;X coord of right-most energy tank.
+            LE155:  sta $00                         ;Energy tanks are drawn from right to left.
+            LE157:  ldy #$6F                        ;"Full energy tank" tile.
+            LE159:  lda HealthHi                    ;
+            LE15C:  jsr Adiv16                      ;($C2BF)/16. A contains # of full energy tanks.
+            LE15F:  sta $01                         ;Storage of full tanks.
+            LE161:  bne AddTanks_New                ;Branch if at least 1 tank is full.
+            LE163:  dey                             ;Else switch to "empty energy tank" tile.
+
+        AddTanks_New:
+            LE164:  jsr AddOneTank_New                  ;($E17B)Add energy tank to display.
+            LE167:  dec $01                         ;Any more full energy tanks left?-->
+            LE169:  bne +                           ;If so, then branch.-->
+            LE16B:  dey                             ;Otherwise, switch to "empty energy tank" tile.
+            LE16C:* dec $03                         ;done all tanks?-->
+            LE16E:  bne AddTanks_New                ;if not, loop to do another.
+    
+            LE170:  stx SpritePagePos               ;Store new sprite page position.
+            LE172:* rts                             ;
+
+        ;----------------------------------------[Sprite write digit ]---------------------------------------
+
+        ;A=value in range 0..9. #$A0 is added to A(the number sprites begin at $A0), and the result is stored
+        ;as the tile # for the sprite indexed by X.
+
+        SPRWriteDigit_New:
+            LE173:  ora #$A0                        ;#$A0 is index into pattern table for numbers.
+            LE175:  sta Sprite00RAM+1,x             ;Store proper nametable pattern in sprite RAM.
+            LE178:  jmp Xplus4                      ;Find next sprite pattern table byte.
+    
+        ;----------------------------------[ Add energy tank to display ]------------------------------------
+
+        ;Add energy tank to Samus' data display.
+
+        AddOneTank_New:
+            LE17B:  lda #$17                        ;Y coord-1.
+            LE17D:  sta Sprite00RAM,x               ;
+            LE180:  tya                             ;Tile value.
+            LE181:  sta Sprite00RAM+1,x             ;
+            LE184:  lda #$01                        ;Palette #.
+            LE186:  sta Sprite00RAM+2,x             ;
+            LE189:  lda $00                         ;X coord.
+            LE18B:  sta Sprite00RAM+3,x             ;
+            LE18E:  sec                             ;
+            LE18F:  sbc #$0A                        ;Find x coord of next energy tank.
+            LE191:  sta $00                         ;
+ 
+        ; Add 4 to X
+        New_Xplus4:
+            LE193:	inx				;
+            LE194:	inx				;
+            LE195:	inx				;Add 4 to value stored in X.
+            LE196:	inx				;
+            LE197:	rts				;
+    
+            
+
+            
+.PATCH 1F:CA35
+; Overwrites unused save-file code
+
+
+LoadRoomDataBank: ;---------------
+         ;LDA CurrentBank
+         ;CLC
+	     ;   ADC #$07				
+	     ;   JSR MMCWriteReg3
+         ;RTS
+            ; Select struct and screen data banks
+            lda CurrentBank             ; Struct data bank = level bank + 7
+            clc
+            adc #$07
+            asl                         ; << to get MMC3 bank # from MMC1 bank #
+            tay
+            ldx #MMC3SLOT_PRG8000
+            jsr SelectMMC3Bank
+            ldy RoomPointer             ; 'RoomPointer' contains screen data bank number
+            jmp SelectMMC3Bank
+
+         
+RestoreLevelBank: ;---------------
+         ; Swap out room data bank
+         LDA CurrentBank
+         JSR MMCWriteReg3
+         rts
+
+OnBeforeRoomLoad: ;---------------
+    JSR LoadRoomDataBank
+	
+	LDY #$00				;Displaced code
+	LDA (RoomPtr),Y
+	
+	RTS
+	
+OnAfterRoomLoad: ;----------------
+    ; The pointer to the end of room data will be stored in RAM at either $00 or $33, depending on
+    ; whether there was any data in the room besides background objects.
+    
+    ; Ugly hack: The game uses $00 to hold ptr to wram screen buffer while drawing background.
+    ;            If there is non-bg data, then the room pointer is copied to $00. If not, $00
+    ;            will still contain the pointer to wram, which is < $8000, so this is how we
+    ;            can determine whether we need to copy the ptr from $33 to $00
+    lda $01
+    bmi +                   ; skip this code if $00-$01 contains a value >= $8000
+        ; Copy room data ptr to $00
+        ; (only necessary if there are no non-bg objects. otherwise, the non-bg-object-loading-routine already copies the pointer to $00)
+        lda RoomPtr
+        sta $00
+        lda RoomPtr + 1
+        sta $01
+    *
+    ; Increment pointer at $0000
+    inc $00
+    bne +
+        inc $01
+    *
+    
+    ; Execute code at pointer
+    
+    ; <<<<
+    ; This call to execute the screen load routine will be replaced with NOP NOP NOP when expanding a ROM
+    ; because the routines are only present after a project build
+    
+    jsr Jmp00
+    
+    ; >>>>
+    
+    JSR RestoreLevelBank
+
+	LDX #$F0				; Displaced code
+	STX RoomNumber
+	
+	RTS
+
+
+InitEnemy: ;---------------------
+        ; 1F:EB20: jsr LEB4D                                             ; (In GetEnemyData)
+        PHA                         ; RestoreLevelBank affects A
+        TXA
+        PHA                         ; We also need to preserve enemy index
+        JSR RestoreLevelBank
+        PLA
+        TAX
+        PLA
+        JSR $EB4D                   ; This routine requires level-bank to be loaded
+        JMP LoadRoomDataBank
+
+NewSqueeptHandler: ;-------------
+        ;; SqueeptHandler:
+        ;; LEDF8:        jsr GetEnemyData                ;($EB0C)Load Squeept data.
+        ;; LEDFB:*        jmp ChooseHandlerRoutine        ;($EDD6)Exit handler routines.
+; This is an enemy loading routine for enemies stored in item data. The problem is that we've
+; modified the enemy-loading routine to swap in the room-data bank when it is done, but this
+; shouldn't happen when processing item data. The fix is to run the same code, but to restore 
+; the level bank before returning;
+
+        GetEnemyData := $EB0C
+        ChooseHandlerRoutine := $EDD6
+        JSR GetEnemyData
+        PHA                     ; Preserve A!
+        JSR RestoreLevelBank
+        PLA        
+        JMP ChooseHandlerRoutine
+        
+
+                
+CalculateMacroPtr: ;-------------
+        ;LEF45:        asl                                ;
+        ;LEF46:        asl                                ;A=macro number * 4. Each macro is 4 bytes long.
+        ;LEF47:        sta $11                                ;Store macro index.
+; This modified routine calculates a 16-bit macro pointer, ignoring the high byte of the 
+; macro pointer specified by the level's pointer table. This hack is necessary to allow
+; more than $40 combos, because without modifying the pointer you can only access $100
+; bytes with an indexed instructon.
+        ;A *= 4 (overflow stored in 'MacroPtr + 1') [12 extra cycles]
+LEF45:  asl                                ;
+        ROL MacroPtr + 1
+LEF46:  asl                                ;A=macro number * 4. Each macro is 4 bytes long.
+        ROL MacroPtr + 1
+LEF47:  sta $11                                ;Store macro index.
+
+        ;Calculate high byte of MacroPtr [12 extra cycles]
+        LDA MacroPtr + 1
+        AND #$03              ; Keep only lower 2 bits (the rest is leftover junk)
+        ORA #$80              ; Or with $80 to produce pointer from $8000 to $8300
+        STA MacroPtr + 1
+
+        ;Return from hijack [JMP to and from = extra 6 cycles, 3 per JMP]
+        JMP $EF49
+        
+
+GetStructPointer: ;--------------
+; I'm a bastard and I'm hardcoding the location of the struct pointer table.
+; Wanna fight about it?
+        LDA $8400,Y
+        STA StructPtr
+        LDA $8401,Y
+        STA StructPtr + 1
+        JMP $EAA2
+GetHighStructPointer: ;----------
+        LDA $8500,Y
+        STA StructPtr
+        LDA $8501,Y
+        STA StructPtr + 1
+        JMP $EAA2
+
+SafeNMI: ;---------------------
+        ; This routine wraps the original NMI routine, and ensures that
+        ; the correct bank is loaded for the NMI routine.
+        ; SEE NewNMI
+
+        PHP
+        PHA
+        TXA
+        PHA
+        TYA
+        PHA
+
+        ; Ensure normal level bank is loaded during NMI
+;        BIT RoomDataBanked      ; V is set if room data is banked
+;        BVC +                   ; Skip bank swap if not necessary
+            ; Swap level bank
+            ldx #MMC3SLOT_PRG8000
+            LDA CurrentBank
+            asl
+            tay
+            JSR SelectTwoBanks
+
+;            LDA CurrentBank
+;            JSR MMCWriteReg3
+        
+    *   
+        JSR NMI
+
+        ; Restore room-data-bank if it was loaded
+;        BIT RoomDataBanked      ; V is set if room data is banked
+;        BVC +                   ; Skip bank swap if not necessary
+            ldy MMC3MR_LoadedBanks + MMC3SLOT_PRG8000
+            ldx #MMC3SLOT_PRG8000
+            jsr WriteMMC3Reg_NMI
+            ldy MMC3MR_LoadedBanks + MMC3SLOT_PRGA000
+            jsr WriteMMC3Reg_NMI
+            ; Swap room-data-bank
+;            LDA CurrentBank         ; room-data-bank = level bank + 7
+;            CLC
+;            ADC #$07
+;            JSR MMCWriteReg3
+        LDA MMC3MR_SLOTSELECT
+        STA MMC3_SLOT
+        LDA MMC3MR_BANKSELECT
+        LDA MMC3_BANK
+            
+    *   PLA
+        TAY
+        PLA
+        TAX
+        PLA
+        PLP
+IRQ:
+        RTI ;RTS
+
+
+
+
+
+
+    endOfBlock:
+    
+    .if endOfBlock >= $CAF5
+        .error TOO MUCH STUFF At ca35
+    .endif
+
+.PATCH 1F:CB1C    
+    startof_cb1c:
+    
+    SelectTwoBanks:
+        ; select bank Y in slot X
+        jsr WriteMMC3Reg_NMI
+        iny
+        ; fall thru to select bank (Y+1) in slot (X+1)
+    WriteMMC3Reg_NMI:
+        stx MMC3_SLOT
+        inx
+        sty MMC3_BANK
+        rts
+        
+    endof_cb1c:
+        .if endof_cb1c - startof_cb1c > $D
+            .error too much at cb1c
+        .endif
+; Modify NMI to RTS instead of RTI (it is JSR'd from new NMI)
+.PATCH 1F:C113
+        ;LC113:        rti                                ;Return from NMI.
+        RTS
+; ================================================================
+; Tile Physics Customization
+; ================================================================       
+
+.PATCH 1F:C510
+
+    GoBankInit_New:
+        ldx #MMC3SLOT_PRGA000               ; Load bank containing new area init code
+        ldy #$3D
+        jsr SelectMMC3Bank
+        jsr GoBankInit_Ex                   ; New extended init routine
+        jsr RestoreLevelBank                ; Revert banks
+        
+        jmp ($0A)                           ; Back to business as usual
+
+.PATCH 1F:E7E9
+        ;Samus collision detection
+        jsr GetTilePhysics
+        nop
+.PATCH 1F:D60C
+        
+        jsr GetTilePhysics
+        nop
+
+.PATCH 1F:D76C
+        jsr GetTilePhysics
+        nop
+        
+.PATCH 1F:DB61
+        jsr GetTilePhysics
+        nop
+.PATCH 1F:FA2D
+        jsr GetTilePhysics
+        nop
+
+        
+.PATCH 1F:C0D9
+; ================================
+; Fancy new streamlined NMI
+; ================================       
+;  Really, just register preserving is removed (done in new nmi anyways)
+OriginalNMI:
+      lda #$00                        ;
+      sta SPRAddress                  ;Sprite RAM address = 0.
+      lda #$02                        ;
+      sta SPRDMAReg                   ;Transfer page 2 ($200-$2FF) to Sprite RAM.
+      lda NMIStatus                   ;
+      bne ++                          ;Skip if the frame couldn't finish in time.
+      lda GameMode                    ;
+      beq +                           ;Branch if mode=Play.
+      jsr $9A07                       ;(NMIScreenWrite/$9A07)Write end message on screen(If appropriate).
+    * jsr CheckPalWrite               ;($C1E0)Check if palette data pending.
+      jsr CheckPPUWrite               ;($C2CA)check if data needs to be written to PPU.
+      jsr WritePPUCtrl                ;($C44D)Update $2000 & $2001.
+      jsr WriteScroll                 ;($C29A)Update h/v scroll reg.
+      jsr ReadJoyPads                 ;($C215)Read both joypads.
+    * jsr $B3B4                       ;(SoundEngine/$B3B4)Update music and SFX.
+      ;jsr UpdateAge                   ;($C97E)Update Samus' age.
+;                                      ; (hacky move: hardcoding address within a previously applied ASM patch)
+;          PpuCycle = $C672            ;From Enhanco PpuLoader.txt (see ROM\Enhanced\EnhancerResources.resx)
+      jmp PpuCycle
+  PpuCycleReturn:
+      ldy #$01                        ; NMI = finished.
+      sty NMIStatus                   ;
+      rts                             ;Return from NMI.
+; original routine ends @ C113
+
+; Update PpuCycle hijack return address
+; (hacky move: hardcoding address within a previously applied ASM patch)
+
+.PATCH 1F:C672
+    PpuCycle:
+        jsr UpdateAge                   ; Displaced by hijack
+        
+        dec Chr_FrameCounter            ; Reduce frame counter
+        beq PpuCycle_NextFrame          ; Exit, unless we need to load next frame
+        jmp PpuCycleReturn
+        
+    PpuCycle_NextFrame:
+        ldx #MMC3SLOT_PRGA000           ; Load extended game engine bank
+        stx MMC3_SLOT
+        ldx #Bank_GameEngineExpanded
+        stx MMC3_BANK
+        
+        jsr LoadNextFrame
+        jmp PpuCycleReturn
+        
+
+;.Patch 1F:C69D    
+;      jmp PpuCycleReturn
+        
+; ================================
+; Hijacks
+; ================================
+
+.PATCH 1F:EA4C
+		;; LEA4C:        ldy #$00								;
+		;; LEA4E:        lda (RoomPtr),y						;First byte of room data.
+		JSR OnBeforeRoomLoad
+		NOP
+		
+.PATCH 1F:EAF4
+		;LEAF4:			ldx #$F0                        ;Prepare for PPU attribute table write.
+		;				stx RoomNumber                  ;
+		JSR OnAfterRoomLoad
+		NOP
+		
+.PATCH 1F:EB20
+        ;; 1F:EB20: jsr LEB4D                                             ; (In GetEnemyData)
+        JSR InitEnemy
+        
+.PATCH 1F:EDE4
+        ;; LEDE4:        .word SqueeptHandler                ;($EDF8)Some squeepts.
+        .word NewSqueeptHandler
+
+.PATCH 1F:EF45
+        ;DrawMacro hijack
+        JMP CalculateMacroPtr
+        
+.PATCH 1F:EA97
+        ;;LEA97:        asl                                ;*2. Structure pointers are two bytes in size.
+        ;;LEA98:        tay                                ;
+        ;;LEA99: <--    lda (StructPtrTable),y                ;Low byte of 16-bit structure ptr.
+        ;;LEA9B:        sta StructPtr                        ;
+        ;;LEA9D:        iny                                ;
+        ;;LEA9E:        lda (StructPtrTable),y                ;High byte of 16-bit structure ptr.
+        ;;LEAA0:        sta StructPtr+1                        ;
+        ;;LEAA2: <--    jsr DrawStruct                        ;($EF8C)Draw one structure.
+        ;;LEAA5:        lda #$03                        ;Move to next set of structure data.
+        ;;LEAA7:        jsr AddToRoomPtr                ;($EAC0)Add A to room data pointer.
+        ;; return to EAA2
+        ASL
+        TAY
+        BCS structAbove80
+        JMP GetStructPointer
+    structAbove80:
+        JMP GetHighStructPointer
+        
+
+
+;SetupRoom:
+;LEA2B:        lda RoomNumber                        ;Room number.
+;LEA2D:        cmp #$FF								;
+;LEA2F:        beq -									;Branch to exit if room is undefined.
+;LEA31:        cmp #$FE								;
+;LEA33:        beq +									;Branch if empty place holder byte found in room data.
+;LEA35:        cmp #$F0								;
+;LEA37:        bcs --                                ;Branch if time to write PPU attribute table data.
+;LEA39:        jsr UpdateRoomSpriteInfo				;($EC9B)Update which sprite belongs on which name table.
+;
+;LEA3C:        jsr ScanForItems						;($ED98)Set up any special items.
+;LEA3F:        lda RoomNumber                        ;Room number to load.
+;LEA41:        asl									;*2(for loading address of room pointer).
+;LEA42:        tay									;
+;LEA43:        lda (RoomPtrTable),y					;Low byte of 16-bit room pointer.-->
+;LEA45:        sta RoomPtr							;Base copied from $959A to $3B.
+;LEA47:        iny									;
+;LEA48:        lda (RoomPtrTable),y					;High byte of 16-bit room pointer.-->
+;LEA4A:        sta RoomPtr+1							;Base copied from $959B to $3C.
+;LEA4C:        ldy #$00								;
+;LEA4E:        lda (RoomPtr),y						;First byte of room data.
+;LEA50:        sta RoomPal							;store initial palette # to fill attrib table with.
+;LEA52:        lda #$01								;
+;LEA54:        jsr AddToRoomPtr						;($EAC0)Increment room data pointer.
+;LEA57:        jsr SelectRoomRAM						;($EA05)Determine where to draw room in RAM, $6000 or $6400.
+;LEA5A:        jsr InitTables                        ;($EFF8)clear Name Table & do initial Attrib table setup.
+;LEA5D:*        jmp DrawRoom                         ;($EAAA)Load room contents into room RAM;.
+
+;EndOfRoom:
+;LEAF4:			ldx #$F0                        ;Prepare for PPU attribute table write.
+;				stx RoomNumber                  ;
+;				lda ScrollDir                   ;
+;				sta TempScrollDir               ;Make temp copy of ScrollDir.
+;				and #$02                        ;Check if scrolling left or right.
+;				bne +                           ;
+;				jmp LE57C
+;    *			jmp LE70C

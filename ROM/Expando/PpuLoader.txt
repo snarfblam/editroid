@@ -1,0 +1,139 @@
+;   Updates the code that loads patterns into memory
+; to work with the re-located patterns in the expanded 
+; metroid ROM. In order for this patch to work, 
+; the BankingHack.txt ASM patch must also be applied.
+
+LoadGFX        EQU     $C7AB
+JustInBailey   EQU     $69B3   
+
+.org $C5D7
+
+LC5D7:
+InitTitleGFX:
+    ldy #$0E		
+    jsr LoadGFX		
+    ldy #$00		
+    jsr LoadGFX	
+	
+    lda JustInBailey ; If player has justin bailey
+    beq +			
+    ldy #$11	     ; then load that shit	
+    jsr LoadGFX		
+
++   ldy #$0D		
+    jsr LoadGFX		
+    ldy #$0F		
+    jsr LoadGFX		
+    ldy #$10		
+    jmp LoadGFX		
+
+LC5FA:
+InitBrinstarGFX:
+    ldy #$03		
+    jsr LoadGFX		
+    ldy #$08
+    jmp LoadGFX		
+
+LC604:
+InitNorfairGFX:
+    ldy #$04		
+    jsr LoadGFX		
+    ldy #$09		
+    jmp LoadGFX		
+
+LC60E:
+InitTourianGFX:
+    ldy #$07	
+    jsr LoadGFX	
+    ldy #$0C
+    jmp LoadGFX	
+
+LC618:
+InitKraidGFX:
+    ldy #$06	
+    jsr LoadGFX	
+    ldy #$0B
+    jmp LoadGFX	
+
+LC622:
+InitRidleyGFX:
+    ldy #$05	
+    jsr LoadGFX	
+    ldy #$0A	
+    jmp LoadGFX	
+
+LC62C:
+InitGFX6:
+    ldy #$01
+    jsr LoadGFX
+    ldy #$02
+    jmp LoadGFX
+
+LC636:
+InitGfx7:
+    ldy #$0F
+    jmp LoadGFX
+
+
+
+; Data that specifies for groups of patterns: source (bank and offset), target address in ppu, and number of bytes to load
+; Data is banked in @ 0x8000, so ROM offset, including header, is (Bank * $4000 + 10 + Offset - $8000)
+; Ppu address space: $0000-$0FFF = sprite patterns, $1000-1FFF = bg patterns
+LC63B:
+GFXInfo:
+
+;      Bank    CPU Offset    PPU Offset    Byte Count
+
+.byte   $08
+.word           $A400,        $0000,        $09A0     ;(0) Normal sprites (Samus, items, projectiles)
+
+.byte   $09
+.word           $8400,        $0000,        $0520     ;(1) Ending Sequence Sprites
+
+.byte   $09
+.word           $8000,        $1000,        $0400     ;(2) "The End" graphics and credits font
+
+.byte   $07     
+.word           $8000,        $1000,        $1000     ;(3) Brinstar bg patterns
+
+.byte   $07     
+.word           $9000,        $1000,        $1000     ;(4) Norfair bg patterns
+
+.byte   $07     
+.word           $A000,        $1000,        $1000     ;(5) Ridley bg patterns
+
+.byte   $07     
+.word           $B000,        $1000,        $1000     ;(6) Kraid bg patterns
+
+.byte   $08     
+.word           $8000,        $1000,        $1000     ;(7) Tourian bg patterns
+
+.byte   $08     
+.word           $9000,        $0C00,        $0400     ;(8) Brinstar sprites
+
+.byte   $08     
+.word           $9400,        $0C00,        $0400     ;(9) Norfair sprites
+
+.byte   $08     
+.word           $9C00,        $0C00,        $0400     ;(A) Ridley sprites
+
+.byte   $08     
+.word           $A000,        $0C00,        $0400     ;(B) Kraid sprites
+
+.byte   $08     
+.word           $9800,        $0C00,        $0400     ;(C) Tourian sprites
+
+.byte   $08
+.word           $ADA0,        $0C00,        $0100     ;(D) Title screen sprites
+
+.byte   $08
+.word           $AF00,        $1400,        $0500     ;(E) "Metroid" logo
+
+.byte   $08
+.word           $B400,        $1000,        $0400     ;(F) Font at top of bg pattern page
+
+.byte   $08
+.word           $B400,        $0A00,        $00A0     ;(10) Digit sprites (from same data as font, but this can change)
+
+.byte   $08
+.word           $B800,        $0000,        $07B0     ;(11) Suitless samus sprites

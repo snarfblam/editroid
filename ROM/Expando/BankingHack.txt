@@ -1,0 +1,19 @@
+SwitchUpperBits	EQU  $28	;Used to store bits 3 and 4 for MMC1 register 3.  Bits-->
+
+.org $C4EF
+
+ROMSwitch:
+
+LC4EF:	tya				;
+LC4F0:	sta $00				;Bank to switch to is stored at location $00.
+LC4F2:	lda SwitchUpperBits		;Load upper two bits for Reg 3 (they should always be 0).
+LC4F4:	and #$18			;Extract bits 3 and 4 and add them to the current-->
+LC4F6:	ora $00				;bank to switch to.
+
+nop ; replaces below line
+nop 
+
+; Otherwise the value of SwitchUpperBits will cause bits to be set on MMC1 register
+; 3 when they shouldn't be if we access a bank > #7.
+
+;LC4F8:	sta SwitchUpperBits		;Store any new bits set in 3 or 4(there should be none).

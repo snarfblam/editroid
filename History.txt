@@ -1,0 +1,591 @@
+5/10/2006
+
+	-Finished PatternTable class
+	-Added PatternTableRange struct with data for Brinstar
+	-Added PatternTable property to Level class that loads level's pattern table
+	-Added Blitter class to speed up rendering (Graphics.DrawImage much too slow).
+	
+5/11/2006
+
+	-Drafted basic UI
+	-Created MapControl control class and MapRoom enum
+	-Added DefaultMap resource and graphic resources for MapControl
+	
+5/12/2006
+
+	-Deleted MapControl.cs by accident. Recovered with .Net reflector.
+	
+5/14/2006
+
+	-Added most basic editing functions (toolbar/mouse operations and keyboard shortcuts
+	 for moving objects/changing palettes/struct types/screens)
+	-Added loading and saving
+	-Implemented status bar (except for map editor)
+	-Started adding data for more levels
+	
+5/15/2006
+
+	-Finished finding data offsets for all levels palettes/tiles/combos
+	-Added feature to refresh map with door data
+	
+5/16/2006
+
+	-Added palette editing feature (sprite offsets still need to be added)
+		-Added designed usercontrol PalTableEditor.cs
+		-Added designed usercontrol PaletteEditor.cs
+		-Added class PaletteSelectionInfo (PalTableEditor)
+		-Added delegate PalTableEditr.PaletteSelectionEvent
+		-Added designed form frmPalette.cs
+	-Found sprite graphic offsets
+		-added to MetroidFormat.txt
+		-added fields to PatternTableRange class with offsets to create PatternTable objects
+		
+5/17/2006
+
+	-Added sprite patterns to level class
+	-Added transparent blit and transparent/flipped blit functions to Blitter class (should
+		cover any NES graphics)
+		
+5/23/2006
+
+	-Added sprite/door drawing to ScreenDisplay.Render.
+	-Added properties to get data for ScreenEnemy class
+	-Added XML comments for all uncommented publicly visible types/members.
+	-Added designer attributes/functions for better serialization of UserControls
+	-Began working on combo editing classes
+	
+5/24/2006
+
+	-Worked on tile selector/combo editor/frmComboEdit
+		-Shows combos/tiles for brinstar and allows palette selection
+		-combo editor scrolls
+		
+5/25/2006
+
+	-Added tile painting to combo editor (still can't choose which tiles)
+	-Added alternate palette support to combo editor
+	-Added ability to select tile for combo editor
+	-Added feature to define entire combo (shift+click)
+	-Added support for all levels
+
+5/28/2006
+
+	-Added width/height properties to Sprite class/constructor/level sprite definitions
+
+7/29/2007
+
+	- Modified Struct class to account for combos with rows that don't start at left edge of combo (in ExtractTiles())
+	- Modified ScreenDisplay class to properly render structs with rows that dont start at left edge of struct
+	- Added rectangle drawing function to blitter
+	- Added enemy selection	(selection only, sans editing features)
+	- Added enemy editing: palette, movement
+	- Added Sprite.DrawAlt, which properly renders sprites with offset tiles
+	
+7/30/2007
+	- Added enemy type changing
+	- Added ability to swap which side a door is on in rooms with only one door
+	- Corrected palette "bleeding" (when an object is behind a second object whose palette is the screen default, the first object's palette will override the second objects on tiles where they overlap).
+
+7/31/2007
+	-Added frmStruct to edit background object definitions
+	-Added GDI+ struct renderer, combo palette, combo painting
+	
+8/1/2007
+	-Added ability to shift rows left and right in struct editor and move tiles between rows
+	-struct editor changes now save back to ROM data upon closing
+	-Fixed ScreenControl.ObjectAt to work with structs with shifted rows
+	
+8/2/2007
+	-Improved behavior when moving tiles between rows
+    -Added feature to split/join rows of a struct in the struct editor
+    -Fixed bug where user could paint "empty tiles" onto a struct in the struct editor
+    -Fixed bug where user could paint normal tiles over "empty tiles" in the struct editor.
+	-Added map saving with option to save to ROM or to save to external file
+	
+8/3/2007
+	-Struct editor is now shown as a dialog.
+	
+8/4/2007
+	-Modified screen renderer (ScreenDisplay.cs) to limit range of displayed combos from 0 to 64.
+	-Added "Display Physics" feature (required updates to ScreenDisplay, ScreenControl, Blitter, frmMain).
+	-Updated frmMain to display screen index and map coordinates when they change	
+
+8/7/2007
+	-Added help form, including about, "gettings started" and began writing help topics
+	-Discovered that physics are based on tile # rather than combo #. This is now reflected in the ScreenDisplay by maintaining a physics buffer in addition to tile and palette buffers. ScreenDisplay.DrawScreenPhysics and ScreenDisplay.DrawObjectPhysics are now obsolete.	
+
+8/12/2007
+	-Added GameItem.cs. Items are now shown in the screen editor (editing isnt supported).		
+
+8/14/2007
+	-Fixed some bugs with struct editor (limited row length to 16, corrected when certain context menu items are available and when they arent)
+	-Added pointer explorer (incomplete)
+	-If a structure is selected when the structure editor is opened, that structure will now be brought up in the editor.	
+
+8/15/2007
+	-Added feature to toggle when enemies will respawn	
+	
+8/18/2007
+	-Updated default map so that every screen belongs to a level. Updated map editor to filter out screens marked as empty (screen# 0xFF). These two changes essentially allow the screen editor to "guess" what levels each screen belongs to when opening a hacked rom, and ensures that all screens will be marked on the map.
+
+9/2/2007
+	-Added title screen text editor
+9/3/2007
+	-Added map viewer: supports various options (scale, level filtering etc) and is multithreaded.	
+	-Updated Sprite class to properly render vertically flipped tiles.	
+	-Added all missing XML commentation
+	-Added map viewer option to fill blank screens with solid screens (it guesses which levels an empty screen belong to)
+
+9/6/2007
+	-Added Level.FreeRoomData to determine if there is free space to add objects to rooms.
+	-Added Union_16.
+	-Added Mandle struct (metroid handle, ala mointer)
+	
+9/7/2007
+	-Added feature to remove object from room
+	-Added feature to add enemy/object
+	
+9/9/2007
+	-Deciphered item data. Horray! Added ItemTable, ItemEntry, ItemSeeker, ItemType, PowerUpType, ElevatorDestination, ScreenCoordinate.
+	-Removed GameItem class	
+	
+9/11/2007
+	-Added ItemEditor.cs. Can currently display most item data (data for zebetites and some unknown objects in norfair are simply displayed as "unknown").
+
+9/13/2007
+	-Finished ItemEditor and password data editor.
+	
+9/15/2007
+	-Implemented "Easy Mode" for item editing. Items and entries can not be dragged past eachother anymore in item editor, becuase it would cause items to be skipped when the game parses item data.
+
+9/16/2007
+	-Item entries can now be dragged past eachother. Added ItemTable.ResortEntries() which swaps pointers around so that the order of item data corresponds to the order they appear on the map. (Items within an entry still can't be dragged past eachother).
+	-Items can not occupy edge map locations because their coordinates correspond to special values that would cause parsing errors.	
+	-Item edit can now handle enemies and rooms with multiple items	
+
+9/17/2007
+	-Fixed a bug with the map editor where rooms set to a level but not assigned a number would appear blank when the ROM is re-loaded (when a room is set to a level it is now automatically set to screen # 0). Map editor "painting" behavior was also changed to prevent this sort of problem.
+
+9/22/2007
+	-Fixed problem where, when an enemy or door was added, data would be inserted after screen data when there wasn't a segment for enemy data. Now this segment is created when needed.
+
+9/23/2007
+	-Fixed bug where Kraid combos were loaded from wrong location (they appeared in editor properly, but changes werent reflected in game). dont know what previously referenced combos are for, but they are identical to kraid combos and in ridley bank
+
+9/29/2007
+	-Redesigned map controls on item editor
+9/30/2007
+	Moved some information from status bar to screen editor	
+	
+10/2/2007
+	Minor misc bug fixes
+
+10/3/2007
+	-Items are no longer displayed in "Preview Physics"
+	
+10/6/2007
+	-Implemented Bitmap/Jpeg map image saving
+	
+10/7/2007
+	-Implemented paletted bmp/gif map image saving using third party code.
+	-Fixed bug: ScreenEditor.ShowScreen called LoadData() which reset which object was selected each time the screen editor was updated.
+
+10/12/2007
+	-Completed most of help system
+	
+10/13/2007	
+	-Implemented feedback system
+	
+10/14/2007
+	-Finished feedback system
+	-Added ToStrings to many classes
+	-Added web-based help start page
+
+10/15/2007
+	-Touched up help window
+	
+10/16/2007
+	-Fixed bug with CTRL+TAB when there are zero structs or zero enemies
+	-Fixed bug when pressing tab and there is no current selection or structs
+	
+Version 1.1
+	
+11/3/2007
+	-Created IpsFile class
+
+11/4/2007
+	-Created IpsForm class and added Ips menu item to main form
+	
+
+VERSION 1.2	
+	
+10/11/2008
+	-Added following methods to ScreenControl.cs for increased modularization:
+		-RemoveSelectedItem
+		-ToggleRespawn
+	-Created ScreenGrid class: integrates MapControl and an arbitrary number of ScreenControls.
+	-Replaces ScreenControl and MapControl on frmMain with ScreenGrid
+		-Menu items were added to select grid size
+		-Toolbar buttons were fixed to work with new control
+		-Keyboard shortcuts and possibly some other features do not work.
+10/12/2008
+	-Removed stale code from frmMain.cs and ScreenControl.cs
+	-Refactored ScreenControl.cs
+	-Refactored frmMain.cs
+	-Moved editing methods from frmMain.cs to ScreenControl.cs
+	-Fixed keyboard shortcuts
+	-Updated ScreenGrid so that changes made to a screen would be reflected on any other instances of that screen being displayed
+	-Updated ScreenGrid so that changes made to the map would be reflected within the grid immediately.
+	-Updated splash screen
+10/13/2008
+	-Fixed keyboard shortcuts (again) and tooltips
+	-Map display window is now non-modal, can be maximized
+	-Escape now closes map-maker and map-display windows
+	-Fixed selection bugs in palette editor
+	-Password item text is now updated when an item is dragged around on the map
+	-Did some refactoring on frmStruct.cs
+	-Added 50% of missing XML comments listed in warnings (43 of 86)
+	-Created GlobalEventManager.cs
+	-Changes frmStruct to a non-modal window
+10/14/2008
+	-Removed "Display Doors On Map" Button
+	-Fixed bug where doors were not removed from map after showing frmDisplayMap. The only time doors are displayed on the
+		map editor is when the user is making a selection to create a map
+	-Added PatternTableRange.GetRanges() and PatternTableRange.GetSpriteRanges().
+	-Added a selection feature to ComboEditor.cs
+	-In frmStruct, replaced combo selector panel with a ComboEditor control, added a tile selector. frmStruct can now edit 
+		combos. Combo editor menu item is hidden and the combo editor form is no longer accessible. Level/palette/structure
+		is now selected by selecting an object in the main window.
+10/15/2008
+	-Refactored code in frmStruct.cs, removed 2 extra redraws of struct, much faster
+	-Added alternate palette support to frmStruct.cs
+	-Alternate palette display no longer effects kraid/ridley/Tourian levels in frmMain
+	-ScreenGrid now updates editors when an object is added/removed from a screen (including doors) to prevent screen editors
+		in the grid from displaying corrupt data from old pointers
+	-Fixed bug where selected structure was not displayed when the structure editor was opened
+10/18/2008
+	-Changes made to the selected object in a screen editor are now reflected in struct editor
+	-Selection on map editor may be dragged now
+	-When clicking the map editor, the view is centered in the point clicked instead of making that point the top-left screen
+		of the view
+	
+11/22/2008
+	-Fixed bug causing crash then palette key is hit and there are no items in screen
+	-Fixed bug where right-clicking on map would move selection rectangle
+	-Right clicking an object now deletes it
+	-Fixed a bug where the first object selected in a different screen editor was not displayed in the struct editor
+	
+11/23/2008
+	-Fixed bug where the "IPS Patch" text in the IPS Utility did not change from red to black when a patch was created or loaded
+	-Feedback tab removed
+	-Moved help menu items from settings menu to new help menu
+	-Removed "fill empty screens" from map maker - this feature depends on the user having a solid screen at the right indecies
+	
+
+VERSION 1.3
+
+3/22/2009
+	-Fixed bug where shift+right-click one screen to right of map selection with a 1x1 grid throws an exception
+	
+
+Version 2.0
+
+Changes in Alpha 4:
+	-Expando support (with major bugs)
+	
+Version 2.1
+	-Fixed bug with deleting rooms
+	-Fixed bug with item data in pointer explorer
+	-Added some data to pointer explorer
+	-Ponter explorer now shows level data in order
+	-Added item data disassembler
+	-Fixed bug with adding bridge to room with no enemies/doors
+	-Can now click on default palette icon in screen status panel to change default palette
+	-Re-did "show physics"
+		-Solid objects outlined (shows invisible walls)
+		-Breakable objects outlined in red
+		-Doorways shown	in color indicative of type
+	-Fixed bug in Door Expansion Patch
+	-Added advanced pal/item editors
+
+Version 2.2
+	-Bug fix: For some levels, Editroid accessed wrong level's data when selecting rooms with item music.
+	
+Version 3.0
+	-Added support for further expanding ROMs
+		-Converts ROM to use CHR ROM instead of CHR RAM, allowing background graphic animation
+		-Increased memory available for level data:
+		    -Combos (from 64 combos up to 256 combos)
+		    -Structures and rooms (15 KB available per level, 128 rooms, 256 structures)
+		    -Secondary level palettes (every level now has a secondary bg and sprite palette)
+		    -Rooms with item music (from max. 7 per level to max. 32 per level)
+		    -Item data (~2 KB per level, more than you can possibly use)
+	-Added "NARPASSWORD" (invincibility/infinite missilse) option to room test feature
+	-Changes in the editor map (corner map in the program):
+	    -Map appears twice as large
+	    -Map now auto-hides
+	    -Moving items by dragging them on the map is disabled (use advanced item editor instead)
+	    -Items blink on the map
+	    -Larger map is used with the advanced item editor and map generator
+	-Fixed bug where palette editing can potentially corrupt other palettes (never actually seen it happen)
+    -View can be scrolled by Shift+Drag or Alt+Drag in addition of Middle-button-drag
+    -The cursor now stays still while scrolling so you don't need to worry about the cursor hitting the edge of the screen.
+	-Removed "Pattern Source Editor", "Get Level Item Disassembly", and "Patches" menu items
+    -Added "CHR usage editor" to edit which CHR pages are used for which levels (and to set animation rate)
+    -The "about" window is no longer automatically shown the first time a version is run.
+    
+Version 3.1
+    -Did some things that I don't remember because I didn't put them here
+        -I know I started working on some sort of simple plugin framework
+    -Added tile re-arranger. Only works on enhanced ROMs.
+        -Moves background CHR and updates combo definitions
+        -Does not perform any "error checking", e.g. tiles omitted from final arrangement, tiles that have changed physics, etc
+        
+Version 3.5
+    5/24/2013
+        - Added "Project" menu, started Project and Builder classes
+        - Screen asm insertion is working (inserting hand-assembled code), does not assemble code yet (other than main/standard ASM file)
+    5/25/2013
+        - Added support to Builder to insert screen-specific routines via include directives
+            -Screen-load ASM is provided via a custom snarfblasm.IFileSystem (Project.Builder.FileProvider)
+    5/28/2013
+        - Added EditorData class to store additional editor-related data in the ROM (bank E)
+        - Added saving/loading code to Project class
+    ????
+        - Whole lot of stuff related to projects
+    6/7/2013
+        - Added support for defines file
+        - Added error window to show build errors
+            - This includes errors reported by assembler as well the builder (e.g. asm produced code that does not fit in bank)
+    6/8/2013
+        - Changed build process:
+            - Rather than .including all files into expansion file, a new master build file is created that .includes defines, expansion, screens, and general
+            - This makes it easier to accurately determing source of error because line numbers aren't offset by added .includes, .patches, and .bases
+        - Selecting an error in the error window opens the document and hilites the line with the error
+        - Improved handling of errors during project file load
+        - ROM/project are now saved on build
+        - DEBUG and PASS symbols added
+        - Code editor now closes when opening another ROM
+    6/9/2013
+        - Added "Build and Launch" menu item. Normal "Build" item no longer launches ROM after building.
+        - Changed the way editor map/screen indecies are dealt with on ROM open
+            - If screen index is out of bounds for the level specified by the editor map, a different level is used if possible
+            - This hasn't been tested extensively, but appears to fix the map corruption issue with Metroid Origin
+            
+Version 3.6
+	?
+		- Fixed ASM linking code to properly link all levels correctly (previously each level used Brinstar's code)
+		
+Version 3.7 (?)
+    *   Asterisk indicates a bug that was corrected due to an error report by a user :D
+	1/25/2014
+		- Added "Previous CHR" and "Next CHR" menu items and keyboard shortcuts to cycle background CHR to:
+			-support ROMs that use CHR bank swapping (e.g. different graphics for different parts of level) instead of the default CHR cycling
+			-display different frames of animation for ROMs that support CHR swapping
+    8/12/2014
+        - Added support for additional asm files
+    8/13/2014
+        - Implemented feature to import/export, rename, delete asm files
+    8/14/2014
+        * Disabled DPI scaling (AutoScaleMode) on all UI elements.
+            -Proper scaling would be ideal, but controls were all designed to work at fixed resolution due to dealing with NES graphics and would require extensive work to fix
+        * Fixed bug where if the last screen defined in a level is empty:
+            -When the ROM is saved and loaded, the screen will be filled with as many objects as can fit in the bank
+            -When building a project, an error due to insufficient ROM space will occur due to the above\
+    8/15/2014
+        - Updated embedded snarfblasm to newer version        
+    8/16/2014
+        - Temporary files are now saved in %appdata% for these reasons:
+            - Any extra files generated by emulator in the same folder as the rom can be deleted (savestates/sram/debug/etc). There was no way to track this when using %temp%
+            - ROMs will have the same filename. That means that if the emu generates savestates/sram/debug files somewhere else, they /may/ still work between multiple tests
+        - Disabled storing settings to the registry (they are already saved to %appdata%, registry is no longer consider cool)
+    8/17/2014
+        - Modified Test Room feature to use cmd instead of shell to allow custom commands
+    9/19/2014
+        * Fixed structure saving code to properly encode 16-block-wide rows. Previously stuctures would become corrupted in a way that couldn't be fixed via Editroid.
+        * Added door bubble tile to physics. There was previously no indication that this was a special tile. 
+            - It now displays as "DoorBubble" in structure editor, and is highlighted in light blue when physics are shown.
+        * Fixed bug that caused errors when editing items in-screen, then using the Item Editor dialog, then attempting to further edit in-screen
+            - Added UnloadScreen it ItemDataEditor
+        - Window caption is updated when a ROM is modified outside the environment and reloaded by the "File Has Changed" dialog
+            - This fixes a bug where the "rom format" (standard, 1/2 expanded, expanded) can be shown incorrectly after reload 
+        - Removed title screen editor and tile re-arranger from menu
+            - These are still accessible by holding shift while opening the menu
+    9/21/2014
+        - Fixed bug where "Create Project" menu item was enabled for non-fully-expanded ROMs
+        - Fixed bug in project file saving: final EOF entry was written with length prefix even if there was no extended section
+            - This was introduced in this version when adding extended project file format
+            
+Version 4.0
+        At some point...
+            -Added MMC3 expander
+                -Applies ASM patches to ROM, expands, and updates screen pointers
+            -Added MMC3RomFormat class stub
+        1/1/2015
+            -Updated PointerTable class to accomodate BB:AAAA pointers
+            -Added LevelFormat.Uses24BitScreenPointers
+            -Updated ScreenCollection to check LevelFormat.Uses24BitScreenPointers and set up PointerTable accordingly
+        1/2/2015
+            -...something...
+        1/22/2015
+            -Moved DisplayStatusBar routines to MMC3 Bank 3D (game engine extended)
+                -Moved assembler step of expander to after bank relocation, so that ASM can target banks above MMC1 bank 0F
+                -Changed all ASM .PATCHes from bank 0F to 1F
+            -Fixed bug in free space calculation for MMC3
+            -Embiggened free space label in the selected item panel to properly show all the free space
+        1/31/2015
+            -New splash image for 4.0
+            -Updated form captions as based on ROM format
+        2/2/2015
+            -Fixed a bug in the MMC3 expansion ASM
+                -DisplayStatusBar had a routine that tail-fell-through to a following routine with an RTS. The following routine was omitted, causing issues.
+            -New toolbar icons!
+            -Minor toolbar tweaks
+    Pre 1
+        2/3/2015
+            -Enabled "Expand Rom" for enhanced ROMs (oops)
+    Pre 2
+        2/6/2015
+            -Fixed bug: user-reserved banks were set to 1 free byte instead of zero during screen data serialization
+            -Fixed bug: 0x10 for header was not added to screen data offset for screen data serialization (in Level.ILevelDataSerializer.SerializeRoomData when
+                calculating offset using rom.ScreenWritePointers.AllocateSpace), producing incorrect pointers, e.g. 0B:BFF0 instead of 0C:A000
+            -Fixed bug: MMC3.GetAddress8000 was truncating offsets to 0x1FFFF instead of 0x1FFF, resulting in pointers that the editor would read correctly
+                but not the game engine, resulting in glitched rooms in-game
+            -Updated the code editor toolbar icon
+            -Fixed bug: CHR cycling wasn't working. CHR cycling worked by hijacking NMI. When NMI was re-written for MMC3, the hijack was undone. This was corrected in expansion ASM.
+    Pre 3
+        2/7/2015
+            -Some new toolbar/menu icons
+        2/16/2015
+            -Fixed bug in expansion ASM that prevented enemies from loading
+                -New bank swapping routine does not preserve X register, which is used to index the current enemy slot when loading enemies.
+                -Fixed by pushing X register on to stack before calling bank swapping routine
+    Pre 4
+        3/1/2015
+            -Added checkboxes to ROM expansion dialog to update project expansion file and references to fixed bank (only visible if a project is loaded)
+                -Began implementing project updating in MMC3 expander
+            -Added debug menu (will not normally be accessible)
+        3/2/2015
+            -Finished implementing MMC3 expansion project updating (updating expansion file and updating references to fixed bank)
+                -Added additional access to these features via debug menu
+        3/3/2015
+            -Updated ASM patching code for MMC3
+                -General code patched to end of 0x2000-byte structure bank (previously 0x4000-byte structure/screen bank)
+            -Implemented debug menu feature to update expansion file to newest version
+        3/4/2015
+            -Added separate expansion file to be used for projects
+                -The MMC3 expansion file used during expansion does not execute screen-load routines since they are only present if the ROM has an associated project and a build process is used
+        3/8/2015
+            -Removed "Build Rom" save dialog. Built ROM is just saved with the extension ".build.nes" now.
+            -Added tile physics provisions to RomFormat, LevelFormat, and Level
+            -Added frmTilePhysics and menu item in editors menu
+        3/11/2015
+            -Tile physics editor complete
+                -Breakable block button is disabled. These need to set with specific values so the "custom" option needs to be used.
+                -Will look for a more user-friendly solution
+            -Tile physics customization ASM for expansion file complete
+        3/21/2015  
+            -Started work on CHR cycling ASM
+        3/22/2015
+            -CHR cycling ASM complete
+            -Wrote Animation table deserialization code
+            -Added routine to convert MMC1 CHR usage table to MMC3 CHR animation table
+                -To be used by expander/debug menu
+        3/23/2015
+            -Worked on CHR animation editor
+        3/24/2015
+            -Worked on CHR animation editor
+        3/25/2015
+            -Worked on CHR animation editor
+        3/26/2015
+            -Worked on CHR animation editor
+        3/29/2015
+            -Finished CHR animation editor
+            -Added CHR bank selection dialog
+        3/30/2015
+            -Fixed bug in ChrUsage.cs
+                -Chr usage class was hardcoded to use bank F, whereas in an MMC3 ROM, chr usage table is in bank 1F
+            -Added methods to MetroidRom.cs/ChrAnimationTable.cs to serialize edited CHR animation tables
+            -Added debug menu option to update ROM to apply most recent expansion patch
+        3/31/2015
+            -Added ChrRomOffset to RomFormat
+            -Updated Mmc3RomFormat to load patterns using Chr animation tables (previously loaded wrong graphics by misinterpreting chr usage table)
+            -ChrAnimationLevelData objects are now stored in a collection in the MetroidRom object (previously stored each ChrAnimationLevelData object in a Level object)
+            -Fixed bug with chr animation editor
+                -Hovering over animations in the animations combo box while the "animate" checkbox is checked could potentially crash the application
+            -Updated ASM builder to insert declarations for animation names
+            -Added functionality for "Previous CHR" and "Next CHR" to cycle between animations in MMC3 ROMs
+            -Fixed bug in routine that initializes CHR when an area is loading, that caused a crash when tourian tried to run area specific routines
+    Pre 5
+        4/3/2015
+            -Fixed MMC3 gfx offsets for "File Has Changed" dialog so that "Reload Patterns" works correctly
+        4/4/2015
+            -Chr Animation Editor: Sprite selection controls now move by increments of 2 instead of 1, since low bit of sprite bank number is ignored
+            -Separate expansion file for project (vs. expansion file patched to ROM upon expansion) removed. 
+                -Two separate files were used to allow the expansion to work without a project/build by omitting the call to screenload routines
+                -This problem is now solved by NOP'ing out the JMP to the screenload routine with a regex when applying the expansion ASM during the ROM expansion
+            -Added ProgramDialogs class to Program.cs
+                -Tracks open dialog windows and provides a method to close them all
+                -Only current use is that when a ROM is reloaded, all dialogs are closed. This solves the problem of modal dialogs remaining open when a file is modified externally and then reloaded via prompt
+            -Fixed bug where the editor would erroneously carry over project data from a previously opened ROM+project when:
+                -A ROM is opened that has a project
+                -A second ROM is opened that is supposed to have a project but the project file is missing
+            -You can now double-click to make a selection and dismiss the dialog in the CHR selection dialog for the CHR animation editor
+            -Added range checking to PatternTable class
+                -If, for any reason, an attempt is made to load graphics from beyond the end of the ROM, rather than crashing, "X" tiles will be loaded in their place to indicate the erroneous condition.
+        4/5/2015
+            -Fixed bug where an attempt was made to dereference the pointer for a new structure before the pointer was written, throwing up a Debug.Assert window on debug builds
+                -(This is the issue reported by Grimlock as an error when adding a new structure in Kraid/Ridley)
+            -Reverted frmFileChangedWarning to default fonts, and change AutoScaleMode to Font since there is no reason this form can't support DPI scaling.
+                -In response to Grimlock's issue with scaled fonts extending beyond bounds of labels
+            -Fixed bug where in the structure and screen picker dialogs a user could select beyond the last item in the last pages of items by clicking on a blank space
+            -Fixed minor graphical glitch in toolbar where screen picker button stays highlighted after dialog is dismissed
+    Pre 6
+        4/21/2015
+            -Fixed Test ROM patcher to work with MMC3 ROMs
+            -Started working on new item editing toolbar implementation
+        4/22/2015
+            -Started over on item editing toolbar implementation
+        4/23/2015
+            -Finished writing ItemUiElement class/objects (defines getters/setters/valid ranges for item editing toolbar controls)
+            -Finished writing ItemUiScheme class/objects (defines sets of controls to be associated with different item types)
+        4/24/2015
+            -Updated ItemUiElement class/objects to implement setters in a way that would work with undo/redo system
+        4/25/2015
+            -Implemented most of ItemEditUI (populating combo boxes, displaying schemes, combobox input)
+        4/26/2015
+            -Finished ItemEditUI (textbox input, button used as checkbox, creating and invoking undoable actions)
+            -Removed image margins from undo/redo menus and item toolbar combos that don't need images
+            -Moved create/delete menu items for screens/structures into a submenu
+            -Finished structure picker
+            -Removed item data editor
+            -Fine tuned displaying/docking behavior of item editing toolbar and structure picker
+        4/27/2015
+            -Structure picker now refreshes when a new structure type is created or a structure type is deleted
+            -Alternate palette support added to structure picker
+            -Structure picker now inserts objects with the same palette as selected in the picker
+            
+    Pre 7
+        5/19/2015
+            -Added .nl file generation to building (FCEUX debug data)
+        5/25/2015   
+            -Added (hacky) slope support to physics view
+                -Always enabled, regardless of whether or not the hack supports slopes
+        6/18/2015
+            -Fixed bug where project stream is not explicitly closed (exception is thrown if project is saved before GC finalizes stream object)
+        7/26/2015
+            -Fixed problem with temporary files not being cleaned up properly
+        8/30/2015
+            -Fixed debug issue where an assertion would fail in Editroid.Rom.Bank when attempting to convert a pointer to an offset using a pointer in the $C000-$FFFF range
+        
+        11/1/2015
+            -Fixed bug where test rom patcher wrote a pointer to ($4000-byte) bank F instead of bank 1F
+        12/13/2015
+            -Tweaked test rom patcher to work with Rogue Dawn (should not interfere with a normal MMC3 ROM)
+            
+    Pre 8
+        1/10/2016
+            -Fixed bug where .hex directive does not advance program counter (screws up any following labels!)
+            
+    Pre 9
+            

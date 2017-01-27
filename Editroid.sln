@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C# Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editroid", "Editroid.csproj", "{E1A66CBB-A558-49BC-A6B7-914896715C2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsAPI", "..\..\WindowsAPI\WindowsAPI.csproj", "{E50AE09D-CFC2-4285-B978-12CFFDC07D7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditroidPlug", "..\EditroidPlug\EditroidPlug.csproj", "{D14B09A8-9D8C-4742-AC41-082E591D760B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TitleScreenEditor", "..\TitleScreenEditor\TitleScreenEditor.csproj", "{A4C80EFA-B82B-401C-B88F-1D15E502E951}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1A66CBB-A558-49BC-A6B7-914896715C2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1A66CBB-A558-49BC-A6B7-914896715C2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1A66CBB-A558-49BC-A6B7-914896715C2B}.Debug|x86.ActiveCfg = Debug|x86
+		{E1A66CBB-A558-49BC-A6B7-914896715C2B}.Debug|x86.Build.0 = Debug|x86
+		{E1A66CBB-A558-49BC-A6B7-914896715C2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1A66CBB-A558-49BC-A6B7-914896715C2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1A66CBB-A558-49BC-A6B7-914896715C2B}.Release|x86.ActiveCfg = Release|x86
+		{E1A66CBB-A558-49BC-A6B7-914896715C2B}.Release|x86.Build.0 = Release|x86
+		{E50AE09D-CFC2-4285-B978-12CFFDC07D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E50AE09D-CFC2-4285-B978-12CFFDC07D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E50AE09D-CFC2-4285-B978-12CFFDC07D7F}.Debug|x86.ActiveCfg = Debug|x86
+		{E50AE09D-CFC2-4285-B978-12CFFDC07D7F}.Debug|x86.Build.0 = Debug|x86
+		{E50AE09D-CFC2-4285-B978-12CFFDC07D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E50AE09D-CFC2-4285-B978-12CFFDC07D7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E50AE09D-CFC2-4285-B978-12CFFDC07D7F}.Release|x86.ActiveCfg = Release|x86
+		{D14B09A8-9D8C-4742-AC41-082E591D760B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D14B09A8-9D8C-4742-AC41-082E591D760B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D14B09A8-9D8C-4742-AC41-082E591D760B}.Debug|x86.ActiveCfg = Debug|x86
+		{D14B09A8-9D8C-4742-AC41-082E591D760B}.Debug|x86.Build.0 = Debug|x86
+		{D14B09A8-9D8C-4742-AC41-082E591D760B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D14B09A8-9D8C-4742-AC41-082E591D760B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D14B09A8-9D8C-4742-AC41-082E591D760B}.Release|x86.ActiveCfg = Release|x86
+		{A4C80EFA-B82B-401C-B88F-1D15E502E951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4C80EFA-B82B-401C-B88F-1D15E502E951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4C80EFA-B82B-401C-B88F-1D15E502E951}.Debug|x86.ActiveCfg = Debug|x86
+		{A4C80EFA-B82B-401C-B88F-1D15E502E951}.Debug|x86.Build.0 = Debug|x86
+		{A4C80EFA-B82B-401C-B88F-1D15E502E951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4C80EFA-B82B-401C-B88F-1D15E502E951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4C80EFA-B82B-401C-B88F-1D15E502E951}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Bombs" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAAAAAA
+        AAAAoOT8oOT8oOT8oOT8oOT8oOT8oOT8oOT8oOT8oOT8AAAAAAAAAAAAAAAAoOT8oOT8oOT8oOT8oOT8
+        oOT8oOT8oOT8oOT8oOT8oOT8oOT8oOT8oOT8AAAAAAAA////AAAAAAAAAAAAAAAAAAAA/Lw8/Lw8AAAA
+        AAAAAAAAAAAAAAAA////AAAAAAAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        ////AAAAAAAA////AAAAAAAAAAAAAAAAWADkWADkWADkWADkAAAAAAAAAAAAAAAA////AAAAAAAA////
+        AAAAAAAAAAAAWADkoOT8WADkWADkWADkWADkAAAAAAAAAAAA////AAAAAAAA////AAAAAAAAWADkWADk
+        WADkWADkAAAAAAAAWADkWADkAAAAAAAA////AAAAAAAA////AAAAAAAAWADkWADkAAAAAAAAAP8AAP8A
+        AAAAWADkAAAAAAAA////AAAAAAAA////AAAAAAAAWADkWADkAAAAAAAAAP8AAP8AAAAAWADkAAAAAAAA
+        ////AAAAAAAA////AAAAAAAAWADkWADkWADkWADkAAAAAAAAWADkWADkAAAAAAAA////AAAAAAAA////
+        AAAAAAAAAAAAWADkoOT8WADkWADkWADkWADkAAAAAAAAAAAA////AAAAAAAA////AAAAAAAAAAAAAAAA
+        WADkWADkWADkWADkAAAAAAAAAAAAAAAA////AAAAAAAA////AAAA////AAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAA////AAAAAAAAAAAA////AAAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////
+        AAAAAAAAAAAAAAAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AAAAAAAAAAAAAAAA
+        AAAA////////////////////////////////////////AAAAAAAAAAAA
+</value>
+  </data>
+  <data name="Boot" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAJcAAJcA
+        AJcAAJcAAJcAAJcAAAAAAAAAAJcAAJcAAJcAAJcAAAAAAAAAAAAAAAAAACvbACvbACvbACvbACvbACvb
+        AJcAAAAAAJcAACvbACvbACvbAAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbACvbACvbAAAAACvbACvb
+        ACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbAAAAAAAAACvbACvbACvbAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAACvbACvbAAAAAAAAO5v/AAAAACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAO5v/AAAAO5v/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvb
+        AAAAO5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbAAAAO5v/O5v/AJcA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbAAAAO5v/O5v/O5v/O5v/O5v/O5v/O5v/
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbAAAAO5v/O5v/O5v/AJcAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAACvbAAAAO5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAAAAAAAAAACvb
+        ACvbAAAAO5v/O5v/O5v/AJcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbAAAAO5v/
+        O5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbACvbACvbACvbAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</value>
+  </data>
+  <data name="Door" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAA////////
+        ////////////////////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAA7zsj7zsjAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAA////////AAAA7zsj7zsjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAA////////AAAA7zsj7zsj7zsjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAA
+        7zsj7zsj7zsjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAA7zsj7zsj7zsjAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAA7zsj7zsj7zsjAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAA////////AAAA7zsj7zsj7zsjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAA////////AAAA7zsj7zsj////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAA
+        7zsj7zsj7zsjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAA7zsj////7zsjAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAA7zsj7zsjAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAA////////AAAA7zsj7zsjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAA////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////////
+        ////////////////////////////////////////////////////////
+</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Door1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Door.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\down.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="downPal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\downPal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Elevator" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAFFJREFUOE9j/P//
+        PwNFAGQAJZgizWDXU2L7qAGQ2BsEgQhMhf9vazP8Z5hOGgbrAeplADEowZQb0AB0Bgj/n20NdwmITYgP
+        00cdF5AbBiBXAACPx23DBmZ86AAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="Enemy" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS99PAAAA
+        8/+fAAAAAAAA8/+fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS99PAAAA8/+fAAAAAAAAAAAAAAAA
+        8/+fAAAAAAAAS99PS99PAAAAS99PAAAAAAAAS99PAAAAAAAAAAAAAAAAS99PAAAAAAAAAAAAS99PAAAA
+        AAAAAAAAS99PAAAAAAAAO5v/O5v/AAAAAAAAO5v/S99PAAAAAAAAO5v/O5v/AAAAAAAAAAAAAAAAS99P
+        O5v/AAAAAAAA8/+f8/+fAAAAAAAA8/+f8/+fAAAAAAAAO5v/S99PAAAAAAAAO5v/O5v/AAAAAAAA8/+f
+        AAAAO5v/O5v/AAAA8/+fAAAAAAAA8/+fAAAAS99PAAAAAAAAO5v/O5v/AAAAAAAAO5v/O5v/O5v/O5v/
+        AAAAAAAAO5v/AAAAAAAAAAAAAAAAO5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAAAAAAAAAO5v/O5v/O5v/
+        AAAAAAAAO5v/O5v/8/+fO5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/8/+fO5v/AAAA8/+fAAAA
+        AAAAO5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAA8/+fAAAAAAAAAAAAAAAAO5v/O5v/O5v/
+        O5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAAAAAAAAAO5v/O5v/8/+fAAAAO5v/O5v/O5v/AAAA
+        8/+fO5v/O5v/AAAAAAAAAAAAAAAAAAAAO5v/8/+fAAAAAAAA8/+fO5v/8/+fAAAAAAAA8/+fO5v/AAAA
+        AAAAAAAAAAAAAAAA8/+fAAAAAAAAAAAAAAAAO5v/AAAAAAAAAAAAAAAA8/+fAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAA8/+fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</value>
+  </data>
+  <data name="Energy" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAA////
+        ////////////////////////////////////////////////////AAAAAAAAAAAA/4AAAAAAAAAA/4AA
+        AAAAAAAAAAAAAAAA/4AAAAAAAAAA/4AAAAAAAAAAAAAAAAAA//8AAAAAAAAA//8AAAAAAAAAAAAAAAAA
+        //8AAAAAAAAA//8AAAAAAAAAAAAAAAAA//8AAAAAAAAA//8AAAAAAAAAAAAAAAAA//8AAAAAAAAA//8A
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        //8AAAAA/4AA/4AA/4AA/4AA/4AA/4AA/4AA/4AAAAAA//8AAAAAAAAAAAAA//8A//8AAAAA/4AA/4AA
+        /4AA/4AA/4AA/4AA/4AA/4AAAAAA//8A//8AAAAA//8A//8A//8AAAAA/4AAAAAAAAAAAAAAAAAAAAAA
+        AAAA/4AAAAAA//8A//8A//8A//8A//8A//8AAAAA/4AA//+A//+A//+A//+A//+A//+A/4AAAAAA//8A
+        //8A//8A//8A//8A//8AAAAA/4AA//+AAAAAAAAAAAAAAAAA/4AA/4AAAAAA//8A//8A//8A//8A//8A
+        //8AAAAA/4AA//+A//+A//+A//+A//+A/4AA/4AAAAAA//8A//8A//8A//8A//8A//8AAAAA/4AA//+A
+        AAAAAAAAAAAAAAAAAAAA/4AAAAAA//8A//8A//8A//8A//8A//8AAAAA/4AA//+A//+A//+A//+A//+A
+        //+A/4AAAAAA//8A//8A//8A//8A//////8AAAAA/4AA/4AA/4AA/4AA/4AA/4AA/4AA/4AAAAAA//8A
+        //////8AAAAA//8A//8AAAAAAJcAAJcAAJcA/4AA/4AA/4AA/4AA/4AAAAAA//8A//8AAAAAAAAAAAAA
+        //8AAAAA/4AA/4AA/4AA/4AA/4AA/4AA/4AA/4AAAAAA//8AAAAAAAAA
+</value>
+  </data>
+  <data name="Ice" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAAAAAA
+        AAAAACvbACvbAAAAACvbAAAAAAAAACvbACvbACvbAAAAACvbAAAAAAAAAAAAACvbACvbACvbACvbACvb
+        AAAAAAAAAAAAACvbAAAAAAAAACvbAAAAAAAAAAAAACvbAAAAO5v/ACvbACvbAAAAACvbACvbAAAAACvb
+        ACvbAAAAAAAAAAAAAAAAACvbACvbAAAAAAAAACvbACvbACvbACvbACvbACvbACvbACvbACvbAAAAACvb
+        AAAAACvbAAAAACvbAAAAAAAAO5v/ACvbACvbACvbO5v/AAAAACvbACvbAAAAACvbACvbAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAO5v/AAAAAAAAACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbAAAA
+        AAAAACvbACvbACvbACvbACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbAAAAACvbAAAAACvbACvbAAAA
+        AAAAAAAAAAAAACvbAAAAAAAAACvbAAAAACvbACvbACvbAAAAACvbACvbAAAAAAAAAAAA/4AA/4AA/4AA
+        AAAAAAAAAAAAACvbACvbACvbACvbACvbACvbAAAAAAAAAAAA/4AA/4AA/4AA/4AA/4AAAAAAAAAAAAAA
+        ACvbAAAAAAAAACvbACvbAAAAAAAA/4AA/4AA/4AA/4AA/4AA/4AA/4AAACvbAAAAACvbAAAAAAAAAAAA
+        ACvbAAAAAAAA/4AA/4AA/4AA/4AA/4AA/4AA/4AAAAAAACvbACvbACvbO5v/AAAAACvbAAAAAAAA/4AA
+        /4AA/4AA/4AA/4AA/4AA/4AAAAAAAAAAAAAAACvbACvbAAAAACvbAAAAAAAA/4AA/////4AA/4AA/4AA
+        /4AA/4AAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbAAAAAAAA/4AA/////4AA/4AA/4AAAAAAAAAAAAAA
+        AAAAAAAAAAAAACvbACvbACvbAAAAAAAAAAAA/4AA/4AA/4AAAAAAAAAA
+</value>
+  </data>
+  <data name="Long" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAAAAAA
+        AAAAACvbACvbAAAAACvbAAAAAAAAACvbACvbACvbAAAAACvbAAAAAAAAAAAAACvbACvbACvbACvbACvb
+        AAAAAAAAAAAAACvbAAAAAAAAACvbAAAAAAAAAAAAACvbAAAAO5v/ACvbACvbAAAAACvbACvbAAAAACvb
+        ACvbAAAAAAAAAAAAAAAAACvbACvbAAAAAAAAACvbACvbACvbACvbACvbACvbACvbACvbACvbAAAAACvb
+        AAAAACvbAAAAACvbAAAAAAAAO5v/ACvbACvbACvbO5v/AAAAACvbACvbAAAAACvbACvbAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAO5v/AAAAAAAAACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbAAAA
+        AAAAACvbACvbACvbACvbACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbAAAAACvbAAAAACvbACvbAAAA
+        AAAAAAAAAAAAACvbAAAAAAAAACvbAAAAACvbACvbACvbAAAAACvbACvbAAAAAAAAAJcAAJcAAJcAAJcA
+        AAAAAAAAAAAAACvbACvbACvbACvbACvbACvbAAAAAAAAAJcAAJcAAJcAAJcAAJcAAJcAAAAAAAAAAAAA
+        ACvbAAAAAAAAACvbACvbAAAAAJcAAJcAAAAAAAAAAAAAAAAAAJcAAJcAACvbAAAAACvbAAAAAAAAAAAA
+        ACvbAAAAAJcAAJcAAAAAAJcAAJcAAJcAAJcAAJcAAAAAACvbACvbACvbO5v/AAAAACvbAAAAAJcAAJcA
+        AAAAAJcAAJcAAJcAAJcAAJcAAAAAAAAAAAAAACvbACvbAAAAACvbAAAAAJcAAJcAAAAAAJcAAJcAAJcA
+        AJcAAJcAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbAAAAO5v/AJcAAJcAAJcAAJcAAJcAAAAAAAAAAAAA
+        AAAAAAAAAAAAACvbACvbACvbAAAAAAAAO5v/AJcAAJcAAJcAAAAAAAAA
+</value>
+  </data>
+  <data name="MaruMari" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO5v/O5v/O5v/O5v/
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO5v/O5v/O5v/AAAAAAAAAAAAO5v/O5v/AAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAO5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAAO5v/O5v/AAAAAAAAAAAAAAAAAAAA
+        AAAAO5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/AAAAO5v/AAAAAAAAAAAAAAAAAAAAO5v/O5v/O5v/O5v/
+        O5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAO5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/
+        O5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAO5v/ACvbO5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/
+        AAAAAAAAAAAAAAAAO5v/ACvbO5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAA
+        O5v/O5v/ACvbACvbO5v/O5v/O5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAAAAAO5v/ACvbACvb
+        ACvbO5v/O5v/O5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAAAAAAAAAO5v/O5v/ACvbACvbO5v/O5v/O5v/
+        O5v/O5v/O5v/AAAAAAAAAAAAAAAAAAAAAAAAAAAAO5v/O5v/O5v/ACvbACvbO5v/O5v/O5v/AAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO5v/O5v/O5v/O5v/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</value>
+  </data>
+  <data name="Mella" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAo+f/o+f/AAAAAAAA/78//78/AAAAAAAA/78//78/AAAAAAAAo+f/
+        o+f/AAAAAAAAo+f/o+f/o+f/AAAA/78/AAAAAAAAAAAAAAAA/78/AAAAo+f/o+f/o+f/AAAAAAAA/78/
+        o+f/o+f//78//78//78/AAAAAAAA/78//78//78/o+f/o+f//78/AAAA/78/AAAAAAAAo+f/WwDnWwDn
+        AAAA/78//78/AAAAWwDnWwDno+f/AAAAAAAA/78//78/AAAAAAAAAAAAWwDnAAAA/78//78//78//78/
+        AAAAWwDnAAAAAAAAAAAA/78/AAAAAAAAAAAAAAAAAAAA/78//78//78//78//78//78/AAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/78/WwDnWwDn/78/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAA/78/AAAAAAAA/78/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</value>
+  </data>
+  <data name="Misc" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAA////////
+        ////////////////////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAAAAAAAAAAAAAAAAAAAAAAAAAA////////
+        AAAAAAAAAAAAAAAAAAAA////////AAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAAAAAAAAAAAAAA
+        AAAA////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAA
+        AAAAAAAAAAAAAAAAAAAAAAAA////////AAAAAAAAAAAAAAAAAAAA////////AAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAA////////AAAAAAAAAAAAAAAA////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        ////////AAAAAAAAAAAA////////AAAAAAAAAAAA////////AAAAAAAAAAAAAAAAAAAA////////AAAA
+        AAAA////////AAAAAAAA////////////AAAAAAAAAAAAAAAAAAAA////////AAAAAAAA////////AAAA
+        AAAA////////AAAAAAAAAAAAAAAAAAAAAAAA////////AAAAAAAA////////AAAAAAAA////////AAAA
+        AAAAAAAAAAAAAAAAAAAA////////AAAAAAAA////////AAAAAAAAAAAA////////AAAAAAAAAAAAAAAA
+        ////////AAAAAAAAAAAA////////AAAAAAAAAAAAAAAA////////////////////////AAAAAAAAAAAA
+        AAAA////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////////
+        ////////////////////////////////////////////////////////
+</value>
+  </data>
+  <data name="Missile" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAACvbACvb
+        ACvbACvbACvbACvbACvbACvbACvbACvbACvbACvbACvbACvbACvbACvbACvbAAAAAAAAO5v/AAAAAAAA
+        ACvbO5v/O5v/ACvbAAAAAAAAO5v/AAAAAAAAACvbACvbAAAAAAAAO5v/O5v/O5v/O5v/O5v/O5v/O5v/
+        O5v/O5v/O5v/AAAAAAAAACvbACvbAAAAAAAAO5v/AAAAO5v/AJcAO5v/O5v/AJcAO5v/AAAAO5v/AAAA
+        AAAAACvbACvbAAAAAAAAO5v/AAAAAAAAACvbO5v/O5v/ACvbAAAAAAAAO5v/AAAAAAAAACvbACvbAAAA
+        AAAAO5v/AAAAAAAAACvbO5v/O5v/ACvbAAAAAAAAO5v/AAAAAAAAACvbACvbAAAAAAAAAAAAAAAAAAAA
+        ACvbACvbACvbACvbAAAAAAAAAAAAAAAAAAAAACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbAAAA
+        AAAAAAAAAAAAAAAAAAAAACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAO5v/O5v/AAAAAAAAAAAAAAAAAAAA
+        AAAAACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbAAAA
+        O5v/AAAAAAAAO5v/ACvbO5v/O5v/ACvbO5v/AAAAAAAAO5v/AAAAACvbACvbAAAAO5v/AAAAAAAAAAAA
+        ACvbO5v/O5v/ACvbAAAAAAAAAAAAO5v/AAAAACvbACvbAAAAO5v/AAAAAAAAAAAAACvbACvbACvbACvb
+        AAAAAAAAAAAAO5v/AAAAACvbACvbAAAAAAAAO5v/AAAAAAAAAAAAO5v/O5v/AAAAAAAAAAAAO5v/AAAA
+        AAAAACvbAAAAACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbAAAAAAAAAAAA
+        AAAAACvbACvbACvbACvbACvbACvbACvbACvbACvbACvbAAAAAAAAAAAA
+</value>
+  </data>
+  <data name="Pal" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAA////////
+        ////////////////////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////AAAAAAD/AAD/AAD/AAD/AAD/AAAAAAAAAACA
+        AACAAACAAACAAACAAAAA////////AAAAAAD/AAD/AAD/AAD/AAD/AAAAAAAAAACAAACAAACAAACAAACA
+        AAAA////////AAAAAAD/AAD/AAD/AAD/AAD/AAAAAAAAAACAAACAAACAAACAAACAAAAA////////AAAA
+        AAD/AAD/AAD/AAD/AAD/AAAAAAAAAACAAACAAACAAACAAACAAAAA////////AAAAAAD/AAD/AAD/AAD/
+        AAD/AAAAAAAAAACAAACAAACAAACAAACAAAAA////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAA////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAA////////AAAA//8A//8A//8A//8A//8AAAAAAAAA/wAA/wAA/wAA/wAA/wAAAAAA////////AAAA
+        //8A//8A//8A//8A//8AAAAAAAAA/wAA/wAA/wAA/wAA/wAAAAAA////////AAAA//8A//8A//8A//8A
+        //8AAAAAAAAA/wAA/wAA/wAA/wAA/wAAAAAA////////AAAA//8A//8A//8A//8A//8AAAAAAAAA/wAA
+        /wAA/wAA/wAA/wAAAAAA////////AAAA//8A//8A//8A//8A//8AAAAAAAAA/wAA/wAA/wAA/wAA/wAA
+        AAAA////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////////
+        ////////////////////////////////////////////////////////
+</value>
+  </data>
+  <data name="Rinka" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbACvbACvbAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAACvbACvbO5v/O5v/O5v/O5v/ACvbACvbAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAACvbACvbO5v/ACvbACvbACvbACvbO5v/ACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbO5v/ACvb
+        ACvbAAAAAAAAACvbACvbO5v/ACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbO5v/ACvbAAAAAAAAAAAAAAAA
+        ACvbO5v/ACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbO5v/ACvbAAAAAAAAAAAAAAAAACvbO5v/ACvbAAAA
+        AAAAAAAAAAAAAAAAAAAAACvbO5v/ACvbACvbAAAAAAAAACvbACvbO5v/ACvbAAAAAAAAAAAAAAAAAAAA
+        AAAAACvbACvbO5v/ACvbACvbACvbACvbO5v/ACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbACvb
+        O5v/O5v/O5v/O5v/ACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbACvb
+        ACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</value>
+  </data>
+  <data name="Screw" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAACvbO5v/
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbO5v/ACvbAAAAAAAA
+        AJcAAJcAAJcAAJcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvbO5v/ACvbACvbAAAAAAAAAJcAAJcA
+        AJcAAJcAAAAAAAAAAAAAAAAAAAAAAAAAAJcAACvbO5v/O5v/ACvbACvbAAAAAAAAAJcAAJcAAJcAAAAA
+        AAAAAAAAAAAAAAAAAJcAAJcAACvbO5v/O5v/O5v/ACvbACvbAAAAAJcAAJcAAAAAAAAAAAAAAAAAAJcA
+        AJcAAJcAAJcAACvbO5v/O5v/O5v/O5v/ACvbAAAAAJcAAJcAAAAAAAAAAAAAAJcAAJcAAJcAAJcAAJcA
+        ACvbO5v/O5v/O5v/O5v/ACvbAAAAAJcAAAAAAAAAAAAAAJcAAJcAAJcAAJcAAJcAAJcAO5v/O5v/O5v/
+        ACvbAAAAAAAAAJcAAAAAAAAAAAAAAJcAAJcAAJcAAJcAACvbO5v/O5v/O5v/ACvbAAAAAJcAAJcAAJcA
+        AAAAAAAAAAAAAJcAO5v/AJcAACvbO5v/O5v/O5v/O5v/ACvbAAAAAJcAAJcAAJcAAAAAAAAAAAAAAAAA
+        AJcAAJcAAJcAACvbO5v/O5v/O5v/O5v/ACvbAAAAAJcAAAAAAAAAAAAAAAAAAAAAAJcAO5v/AJcAAJcA
+        ACvbACvbO5v/O5v/O5v/ACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJcAAJcAAJcAAJcAAJcAACvbACvb
+        O5v/O5v/ACvbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJcAAJcAAJcAAJcAAJcAACvbACvbO5v/ACvb
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO5v/ACvbAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO5v/ACvb
+</value>
+  </data>
+  <data name="up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\up.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="upPal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\upPal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Varia" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAAO5v/
+        AJcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJcAO5v/AAAAO5v/AAAAAAAAAJcAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAJcAAAAAAAAAO5v/AJcAAAAAAAAAAAAAAJcAAAAAAAAAAAAAAAAAAAAA
+        AAAAAJcAAAAAAAAAAAAAAJcAAAAAAJcAAAAAAAAAAAAAAJcAACvbACvbACvbACvbAJcAAAAAAAAAAAAA
+        AJcAAAAAAAAAAAAAAJcAAAAAAAAAACvbAAAAACvbACvbACvbACvbAAAAAAAAAJcAAAAAAAAAAAAAAAAA
+        AAAAAAAAACvbACvbACvbAAAAACvbACvbACvbACvbAJcAAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvb
+        ACvbACvbAAAAACvbACvbAAAAACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbACvbACvbAAAA
+        AAAAACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbO5v/ACvbACvbACvbACvbAAAAAAAAACvbACvbAAAA
+        AAAAAAAAAAAAAAAAAAAAACvbO5v/O5v/ACvbACvbAAAAACvbACvbAAAAACvbAAAAAAAAAAAAAAAAAAAA
+        AAAAAJcAACvbO5v/ACvbAAAAACvbACvbACvbACvbAJcAAAAAAAAAAAAAAAAAAAAAAJcAAAAAAAAAACvb
+        AAAAO5v/ACvbACvbACvbAAAAAAAAAJcAAAAAAAAAAAAAAJcAAAAAAAAAAAAAAJcAACvbACvbACvbACvb
+        AAAAAAAAAAAAAAAAAJcAAAAAAJcAAAAAAAAAAAAAAJcAAAAAAAAAAAAAAAAAAAAAAAAAAJcAAAAAAAAA
+        AAAAAJcAO5v/AAAAAAAAAJcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJcAAAAAAAAAO5v/AAAAO5v/
+        AJcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJcAO5v/AAAA
+</value>
+  </data>
+  <data name="Wave" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAAAAAAAAAA
+        AAAAACvbACvbAAAAACvbAAAAAAAAACvbACvbACvbAAAAACvbAAAAAAAAAAAAACvbACvbACvbACvbACvb
+        AAAAAAAAAAAAACvbAAAAAAAAACvbAAAAAAAAAAAAACvbAAAAO5v/ACvbACvbAAAAACvbACvbAAAAACvb
+        ACvbAAAAAAAAAAAAAAAAACvbACvbAAAAAAAAACvbACvbACvbACvbACvbACvbACvbACvbACvbAAAAACvb
+        AAAAACvbAAAAACvbAAAAAAAAO5v/ACvbACvbACvbO5v/AAAAACvbACvbAAAAACvbACvbAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAO5v/AAAAAAAAACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbACvbACvbACvbAAAA
+        AAAAACvbACvbACvbACvbACvbACvbAAAAAAAAAAAAAAAAAAAAAAAAACvbAAAAACvbAAAAACvbACvbAAAA
+        AAAAAAAAAAAAACvbAAAAAAAAACvbAAAAACvbACvbACvbAAAAACvbACvbAAAAAAAAACvbACvbACvbACvb
+        AAAAAAAAAAAAACvbACvbACvbACvbACvbACvbAAAAAAAAACvbACvbACvbACvbACvbACvbAAAAAAAAAAAA
+        ACvbAAAAAAAAACvbACvbAAAAACvbACvbACvbAAAAAAAAACvbACvbACvbACvbAAAAACvbAAAAAAAAAAAA
+        ACvbAAAAACvbACvbAAAAO5v/O5v/AAAAACvbACvbAAAAACvbACvbACvbO5v/AAAAACvbAAAAACvbACvb
+        AAAAO5v/O5v/AAAAACvbACvbAAAAAAAAAAAAACvbACvbAAAAACvbAAAAACvbACvbACvbAAAAAAAAACvb
+        ACvbACvbAAAAAAAAAAAAAAAAAAAAACvbACvbACvbAAAAACvbACvbACvbACvbACvbACvbAAAAAAAAAAAA
+        AAAAAAAAAAAAACvbACvbACvbAAAAAAAAACvbACvbACvbACvbAAAAAAAA
+</value>
+  </data>
+</root>

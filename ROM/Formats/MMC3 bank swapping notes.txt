@@ -1,0 +1,38 @@
+How to use banking in MMC3 expansion:
+
+Swapping PRG banks:
+    During NMI:
+        -Directly write registers (MMC3 slot select, then MMC3 bank select)
+    Non-NMI:
+        -There are bank selection variables and register mirrors used so that the NMI can properly restore mapper state upon completion and avoid corruption
+        -For this reason, bank swapping requires the use of these routines:
+            -SelectMMC3Bank: Used to change which bank is loaded at $8000 or $A000
+                -X: Slot number. Upon return this value is incremented.
+                    -MMC3SLOT_PRG8000 (6) for $8000
+                    -MMC3SLOT_PRGA000 (7) for $A000
+                -Y: Bank number
+            -RestoreLevelBank:  Used to restore the current level's bank so the game engine can resume business as usual
+                -All registers destroyed
+            -If you need to get the currently loaded bank numbers (does not work for NMI):
+                -$8000: lda (MMC3MR_LoadedBanks + MMC3SLOT_PRG8000)
+                -$A000: lda (MMC3MR_LoadedBanks + MMC3SLOT_PRGA000)
+        -Example of calling a routine in bank 7
+            ;Need to be sure not to pull the rug out from under your feet. Can't swap in the same address range you're currently running in!
+            .org $ABCD
+            ldx #MMC3SLOT_PRG8000       ; Load bank 7 into $8000
+            ldy #$07
+            jsr SelectMMC3Bank
+            jsr Some_bank_7_routine     ; Do what needs doing
+            jsr RestoreLevelBank        ; Undo our banking deed
+            rts                         ; resume the vanilla game program
+Other banking info and considerations:        
+    -"General" code and "Area general" code is banked into $8000
+    -Screen load code is banked into $A000
+    -Screen load routines may safely swap $8000, but will lose access to any general code/data
+        -$8000 may be restored to the general bank like so:
+            lda InArea                  ; Struct bank = (level# + 7) * 2
+            clc
+            adc #$07
+            tay
+            ldx #MMC3SLOT_PRG8000
+            jsr SelectMMC3Bank

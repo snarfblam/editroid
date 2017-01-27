@@ -1,0 +1,2 @@
+﻿-Pointer tables:
+    -screen/struct Pointer tables expand into the area where the structs/screens used to be stored, so there is no issue with them overflowing into used memory

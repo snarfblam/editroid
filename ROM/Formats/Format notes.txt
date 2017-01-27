@@ -1,0 +1,155 @@
+﻿Bank E usage:
+    -0E:8000 (0x38010) = map (expando and up)
+    -0E:8440 (0x38450) = Editor Data
+    -0E:8900 (0x38910) = bank usage (128 bytes reserved, fewer used) (mmc3 and up)
+    -0E:BFFE (0x3C00E) = ptr to chr usage table (2 bytes) (enhanco and up)
+    -anything else?
+Bank 1E:A000 usage (Extended game engine bank)
+    -1E:A000 (0x7A010) = New code (via expansion file)
+    -1E:B600 (0x7B610) = CHR animation table
+        -B600:  Slot 0 bank index
+        -B700:  Slot 1 bank index
+        -B800:  Slot 2 bank index
+        -B900:  Slot 3 bank index
+        -BA00:  Lower 7 bits: frame delay / High bit: if set, last frame
+    -1E:BB00 (0x7BB10) = Tile physics tables (0x100 bytes each)
+    
+Normal Rom format notes:
+    -Editroid will not add or remove rooms, therefore:
+        -Pointer table locations and sizes are fixed
+        -Struct and room data locations are fixed
+        -Advanced item editor is not available, so item data location/size/structure never changes
+
+Expando Rom format:
+    -Patterns from $8D60-9560 are relocated to new banks
+    -Level data is partitioned into two "stores".
+        -Various pieces of data are relocated into either one of the two stores (it varies between levels), including data Editroid does not edit
+        -"Expando store" is the section of memory freed by moving the patterns.
+            -The last data in the expando store is the struct table/data
+                -Struct table/data expands toward the end of the store as data is added
+                -Struct table location varies between levels, but the location never changes.
+        -"Standard store" is the section of memory that all relocated data originally occupied.
+            -Beginnig varies between levels. Ends at $AFFF
+            -The last data in the standard store is the room table/data
+                -Room table/data expands toward the end of the store as data is added
+                -Room table location varies between levels, but the location never changes
+        -Item data appears at the very end of one of the stores (the store varies between levels)
+            -Item data effectively subtracts space from the end of the data store it occupies
+            -As item data is added, it expands backwards, effectively reducing the size of the store it occupies
+    -Each level is now provided an entire page of backrgound patterns
+    -Each level is now provided $100 bytes for combo data
+    -Bank E is reserved for editor purposes
+        -Editor map is now stored at beginning of bank E
+    
+Enhanced Rom format:
+    -Expands upon expando
+    -Converts from CHR RAM to CHR ROM
+        -Each level gets its own dedicated CHR banks:
+            -Two for sprites (with and without justin bailey)
+            -Four for animated backgrounds
+        -Moving patterns to CHR ROM frees up the PRG banks added by Expando
+    -Each level gets a new bank dedicated to Combo data, struct table/data, and room data
+        -Combo data is expanded to $400 bytes, always appears at $8000
+        -Struct table always appears at $8400
+        -Struct data and room data follow struct table
+    -Item data relocated to where the struct table or combo data used to be (which ever comes first)
+        -This gives the item data effectively unlimited space (up until end of expando store, $955F)
+    -Room table is not moved, because every level now has more than enough free space to allow room table to expand to maximum size.
+    -Alternate music list is located at the end of standard store, increased to 32 rooms
+    -(* not implemented yet)Alternate palettes were relocated to immediately before alternate music list, and now include an alternate sprite palette.
+    -Struct ptable and combo data addresses are now hardcoded in ASM patch in the fixed bank. Relocating this data would require new code.
+    -Last two bytes in bank E = pointer to bg animation table (address should be C000-FFFF, refers to bank F)
+    
+Project ROM format:
+    -Uses a build process that works on top of Enhanced ROM
+
+MMC3 Rom format:
+    -Changes are described relative to "Enhanced" format
+    -Uses project files (chiefly updates to expansion file) to make necessary modifications to ROM aside from simple expansion
+    -Because of changes to pointer table formats, relocation of data, and expansion, this expansion is not compatible w/ previous
+        version of Editroid. 4.0 is required.
+    -Banking:
+        -MMC3 uses 8k banks instead of 16k.
+        -Banks are still generally refered to by 16k bank number. When referring to 8k banks, they are typically refered to as the upper or lower half of a 16k bank.
+        -When referring to the nth 8k bank, this is generally identified as the "nth MMC3 bank" or "nth 8k bank).
+        -"Same bank as before" would refer to same file offset, i.e. same 16k bank.
+    -Screen pointers
+        -Screen pointers are now three bytes: bank, address low, address high
+        -This permits screen data from any level to appear in any bank
+    -Bank usage:
+        -General level banks and title screen banks are in same (16k) banks
+        -Structures are still stored in (lower half of) same banks as before
+        -Game engine is moved from bank F to bank 1F (MMC3 banks 3E, 3F)
+        -Bank E is still reserved for editor purposes.
+        -Remaining banks (including upper half of "enhanced" format level data banks) are usable for screen data from any level
+            -User can 'reserve' banks. Reserved banks are not elligible for placement of screen data
+            -MMC3 bank $3D is the "extended" game engine bank (reserved for game engine code that doesn't fit in game engine bank)
+        -During screen loading, structures and general code are loaded at $8000, screen and screenload code are loaded at $A000
+    -Tile Physics table is stored at $1E:BB00 (0x7BB10)
+    -Assembler changes
+        -General code is now placed at end of 8k structure banks. (In other words, fills from $9FFF downward instead of $BFFF downward).
+            -This makes general code available to screen load code regardless of which bank screen data/code is in
+        -Level-specific general code to be supported
+            -This was previsouly possible simply by appending a general use routine to the end of a screen-load routine, but this no longer works since screen load routines can be spread across multiple banks
+            -Allows for better organization.
+            -Prepended to [seem to have left off writing notes here...]
+       
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            How to use banking in MMC3 expansion:
+
+Swapping PRG banks:
+    During NMI:
+        -Directly write registers (MMC3 slot select, then MMC3 bank select)
+    Non-NMI:
+        -There are bank selection variables and register mirrors used so that the NMI can properly restore mapper state upon completion and avoid corruption
+        -For this reason, bank swapping requires the use of these routines:
+            -SelectMMC3Bank: Used to change which bank is loaded at $8000 or $A000
+                -X: Slot number. Upon return this value is incremented.
+                    -MMC3SLOT_PRG8000 (6) for $8000
+                    -MMC3SLOT_PRGA000 (7) for $A000
+                -Y: Bank number
+            -RestoreLevelBank:  Used to restore the current level's bank so the game engine can resume business as usual
+                -All registers destroyed
+            -If you need to get the currently loaded bank numbers (does not work for NMI):
+                -$8000: lda (MMC3MR_LoadedBanks + MMC3SLOT_PRG8000)
+                -$A000: lda (MMC3MR_LoadedBanks + MMC3SLOT_PRGA000)
+        -Example of calling a routine in bank 7
+            ;Need to be sure not to pull the rug out from under your feet. Can't swap in the same address range you're currently running in!
+            .org $ABCD
+            ldx #MMC3SLOT_PRG8000       ; Load bank 7 into $8000
+            ldy #$07
+            jsr SelectMMC3Bank
+            jsr Some_bank_7_routine     ; Do what needs doing
+            jsr RestoreLevelBank        ; Undo our banking deed
+            rts                         ; resume the vanilla game program
+Other banking info and considerations:        
+    -"General" code and "Area general" code is banked into $8000
+    -Screen load code is banked into $A000
+    -Screen load routines may safely swap $8000, but will lose access to any general code/data
+        -$8000 may be restored to the general bank like so:
+            lda InArea                  ; Struct bank = (level# + 7) * 2
+            clc
+            adc #$07
+            tay
+            ldx #MMC3SLOT_PRG8000
+            jsr SelectMMC3Bank
+            

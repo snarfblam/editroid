@@ -1,0 +1,248 @@
+; ===============================================================
+; Enable 4kb CHR bank swapping (separate SPR and BGR)
+; ===============================================================
+.PATCH 0F:C06D
+
+;LC06D:	lda #%00001110			;Verticle mirroring.
+        LDA #%00011110                  ;Verticle mirroring + 4kb swapping 
+
+
+;            const byte ChrSwapMode_4k = 0x10;
+;            const int ChrSwapSize_Offset = 0x3C07E;
+;            
+;            enhancedRomData[ChrSwapSize_Offset] |= ChrSwapMode_4k;
+
+; ===============================================================
+; Password Glitch Fix
+; ===============================================================
+.PATCH 00:9314
+
+; The new PPU Loader causes a problem with password entry, because the from-password game init
+; routine tries to run code that is no longer present nor needed, so we NOP it out.
+
+; Original Code -- L9314:	JSR LoadSamusGFX		;($C5DC)Load Samus GFX into pattern table.
+; This code is not needed since all patterns have been compiled to whole pattern tables that include samus gfx
+        NOP
+        NOP
+        NOP
+
+
+; ===============================================================
+; PPU Loader hijack
+; ===============================================================
+.PATCH 0F:C106
+
+; Simple one-liner that hijacks the NMI routine to perform CHR bank swapping during NMI
+
+JMP PpuCycle
+
+; ===============================================================
+; PPU Loader replacement
+; ===============================================================
+.PATCH 0F:C5D0
+; Replaces CHR-RAM loading with CHR-ROM swapping
+
+
+SprBankIndex	:=	$7800
+BgCycleStart	:=	$7801
+BgCycleEnd		:=	$7802
+BgBankIndex		:=	$7803
+BgCycleLength	:=	$7804
+BgCycleFrame	:=	$7805
+
+InitEndGFX: ;------------------------
+; This routine is adapted from the original code, which updated the game mode in addition to loading graphics.
+; We need to change it to properly call the new PPU Loader
+        GameMode := $1D
+        LDA #$01
+        STA GameMode
+        LDA #$00
+        JMP InitLevelGfx
+
+ChrBankSwap:
+; Pass Sprite CHR bank number in A, Bg CHR bank number in Y
+; Spr Bank Swap
+       
+       STA $A000 ; Write bank number to MMC1 (SPR)
+       LSR
+       STA $A000
+       LSR
+       STA $A000 
+       LSR
+       STA $A000
+       LSR
+       STA $A000
+
+; Bg Bank Swap
+       TYA          ; Load bg CHR bank number
+
+       STA $C000    ; Write bank number to MMC1 (BG)
+       LSR
+       STA $C000
+       LSR
+       STA $C000
+       LSR
+       STA $C000
+       LSR
+       STA $C000 
+ 
+       RTS
+       
+InitTitleGFX:
+       LDA #$00
+       JMP InitLevelGfx
+InitBrinstarGFX:
+       LDA #$01
+       JMP InitLevelGfx
+InitNorfairGFX:
+       LDA #$02
+       JMP InitLevelGfx
+InitTourianGFX:
+       LDA #$03
+       JMP InitLevelGfx
+InitKraidGFX:
+       LDA #$04
+       JMP InitLevelGfx
+InitRidleyGFX:
+       LDA #$05
+       JMP InitLevelGfx
+
+
+; Specify level number in A (0 = title, 1 = brinstar, ect)
+InitLevelGfx:
+    ASL        ; A = A * 4 (each entry is four bytes)
+    ASL
+    TAX        ; Use this value as an index into the table
+
+
+    ; Load data table
+    LDA ChrBankTable_Spr,X
+    STA SprBankIndex
+    LDA ChrBankTable_BgStart,X
+    STA BgCycleStart
+    STA BgBankIndex              ; Set current bank to first bank
+    LDA ChrBankTable_BgEnd,X
+    STA BgCycleEnd
+    LDA ChrBankTable_BgFrames,X
+    STA BgCycleLength
+    STA BgCycleFrame             ; Reset frame countdown
+
+    CPX #$00                     ; If this is the title screen, skip the justin bailey check
+    BEQ NoJustinBailey
+    LDA $69B3                    ; Justin Bailey?
+    BEQ NoJustinBailey
+
+    INC SprBankIndex			 ; Increment the sprite bank index (the follow bank has justin bailey sprites)
+
+NoJustinBailey:
+
+     ; Load current level's bank (this was done in the original LoadGFX routine
+     ; --we aren't preserving $00 via the stack anymore because this code has been moved from an NMI routine to a normal routine
+     ;;LDA $00             ; We need to preserve ZP pointers because
+     ;;PHA                 ;   this code runs in NMI and non-NMI code
+                         ;   may rely on it.
+     LDY $23             ; Load current level's bank index
+     JSR $C4EF           ; ("RomSwitch") Swap to bank specified by Y
+       
+     ;;PLA
+     ;;STA $00
+
+    LDY $7803
+    LDA SprBankIndex
+    JMP ChrBankSwap              ; We need to call the bank swap function to get the level's PRG bank loaded
+
+
+; CHR cycle data
+; (read by above routine)
+
+; Title screen (labels are mixed in for asm)
+
+ChrBankTable_Spr:
+    .db $01 ; Spr Bank
+ChrBankTable_BgStart:
+    .db $00 ; First Bg bank
+ChrBankTable_BgEnd:
+    .db $00 ; Last bg bank
+ChrBankTable_BgFrames:
+    .db $10 ; Frames per bank
+
+; Brinstar
+    .db $02 ; Spr Bank
+    .db $04 ; First Bg bank
+    .db $07 ; Last bg bank
+    .db $10 ; Frames per bank
+
+; Norfair
+    .db $08 ; Spr Bank
+    .db $0A ; First Bg bank
+    .db $0D ; Last bg bank
+    .db $10 ; Frames per bank
+
+; Tourian
+    .db $0E ; Spr Bank
+    .db $10 ; First Bg bank
+    .db $13 ; Last bg bank
+    .db $10 ; Frames per bank
+
+; Kraid
+    .db $14 ; Spr Bank
+    .db $16 ; First Bg bank
+    .db $19 ; Last bg bank
+    .db $10 ; Frames per bank
+
+; Ridley
+.db $1A ; Spr Bank
+.db $1C ; First Bg bank
+.db $1F ; Last bg bank
+.db $10 ; Frames per bank
+
+
+
+
+
+
+; 7800 - Spr Bank index
+; 7801 - Bg first bank index
+; 7802 - Bg last bank index
+; 7803 - Bg current bank index
+; 7804 - Frames per iteration
+; 7805 - Frames left for current iteration
+
+
+
+; LAST CALCULATED OFFSET FOR THIS ROUTINE - C669
+PpuCycle:
+ 
+    ; We've hijacked the NMI routine to get here, and we need to do the
+    ; run the line of code we replaced with the hijack.
+    JSR $C97E         ; Update samus's age. 
+
+    DEC BgCycleFrame    
+    BEQ NextFrame     ; Is it time to switch to next CHR bank?
+    JMP ExitPpuCycle
+
+NextFrame:
+    LDA BgCycleLength ; Reset counter
+    STA BgCycleFrame
+
+    LDA BgBankIndex
+    INC BgBankIndex   ; Next bank
+    CMP BgCycleEnd    ; Was it the last bank in the loop?
+    BNE UpdateMMC     ;   If no, update the MMC register
+
+    LDA BgCycleStart  ;   If yes, reset the bank loop
+    STA BgBankIndex
+
+UpdateMMC:
+    LDY BgBankIndex   ; Y specifies bg bank number
+    LDA SprBankIndex  ; A specifies spr bank number
+DoSwap:
+    JSR ChrBankSwap
+
+ExitPpuCycle:
+    JMP $C109         ; Return to the normal NMI routine
+    
+
+; Pointer to CHR usage table (for editor purposes)
+.PATCH 0E:BFFE
+.DW ChrBankTable_Spr

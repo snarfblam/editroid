@@ -1,0 +1,66 @@
+; General Code File
+; ------- ---- ----
+; Put any routines/data here that is used by your 
+; screen-load ASM. The general code file is assembled
+; and copied to every level data bank.
+
+
+; READ BELOW FOR HANDY INFO ON EDITROID PROJECTS!
+
+; Note that your ROM and project will be saved each
+; time you build the project. The project (ASM and
+; related settings) will be saved in a .nes.proj file.
+
+; The "Save & Play" feature will launch your ROM without 
+; applying any ASM. If you want to test the ROM with ASM 
+; applied, use the "Build and Launch" feature in the 
+; project menu, or enable "Build on Test Room" in the 
+; project menu.
+
+; For your convenience, you will have access to all 
+; routines in the game engine bank as listed in
+; the Metroid disassebly created by SnowBro/Dirty
+; McDingus, as well as all variables declared in
+; the same document.
+;
+; Below is a routine that will add 25
+; to a players health.
+;
+;     HealthBonusAmount = #$0250 ; (025.0)
+;
+;     HealthBonus:
+;        lda #<HealthBonusAmount
+;        sta HealthLo
+;        lda #>HealthBonusAmount
+;        sta HealthHi
+;        jmp AddHealth
+
+; Use .PATCH, .ORG, and .BASE directives with care. Only Code that
+; comes before any .PATCH directives will be copied to each level 
+; data bank. Code that comes after a .PATCH will be inserted in
+; the location specificied by the .PATCH directive.
+
+; Special symbols: The DEBUG symbol will be defined if "DEBUG"
+; is checked in the project menu. This allows you to easily 
+; include/exclude debug code.
+;
+;     ; Play a beep sound if DEBUG is enabled
+;     .ifdef DEBUG
+;         jsr SFX_EnergyPickup
+;     .endif
+;
+; The PASS symbol identifies which pass the assembler is making.
+; Editroid assembles the code twice. On the first pass, addresses
+; have not yet been calculated, and can not be depended upon. On
+; the final pass, PASS will have a value of zero. Otherwise, PASS
+; will have a non-zero value. You will almost certainly never need
+; to use this.
+; 
+;     SomeLabel:
+;     .if PASS == 0
+;         ; Final pass! Now we can examine an address
+;         .if SomeLabel > $9FFF
+;             ; Show an error based on an arbitrary condition
+;             .error Why would this ever be useful
+;         .endif
+;     .endif

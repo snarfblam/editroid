@@ -1,0 +1,1062 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E1A66CBB-A558-49BC-A6B7-914896715C2B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Editroid</RootNamespace>
+    <AssemblyName>Editroid</AssemblyName>
+    <ApplicationIcon>Editroid.ico</ApplicationIcon>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.2.0.0</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Editroid.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Editroid.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Editroid.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionGenerator.cs" />
+    <Compile Include="ActionScope.cs" />
+    <Compile Include="Actions\AddOrRemoveBridge.cs" />
+    <Compile Include="Actions\AddOrRemoveObject.cs" />
+    <Compile Include="Actions\EditStructTile.cs" />
+    <Compile Include="Actions\AddTileToStructure.cs" />
+    <Compile Include="Actions\AdvancedPaletteEdit.cs" />
+    <Compile Include="Actions\ChangeColorAttributeTable.cs" />
+    <Compile Include="Actions\ChangeDoor.cs" />
+    <Compile Include="Actions\ChangeMapRoomLevel.cs" />
+    <Compile Include="Actions\EditItemProperty.cs" />
+    <Compile Include="Actions\ModifyCombo.cs" />
+    <Compile Include="Actions\ModifyObject.cs" />
+    <Compile Include="Actions\OverwritePasswordData.cs" />
+    <Compile Include="Actions\ReorderObjects.cs" />
+    <Compile Include="Actions\SetItemRowPosititon.cs" />
+    <Compile Include="Actions\SetItemTilePosition.cs" />
+    <Compile Include="Actions\SetPaletteColor.cs" />
+    <Compile Include="Actions\SetScreenIndex.cs" />
+    <Compile Include="Actions\StructureAction.cs" />
+    <Compile Include="Actions\ToggleAlternateMusic.cs" />
+    <Compile Include="Controls\AsmEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asm\Opcodes.cs" />
+    <Compile Include="Asm\Ops.cs" />
+    <Compile Include="Controls\AdvancedPalControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AsmEditor.Designer.cs">
+      <DependentUpon>AsmEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BuildErrorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BuildErrorControl.Designer.cs">
+      <DependentUpon>BuildErrorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ColorSelector.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ExplorerTreeView\ExplorerTreeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ExplorerTreeView\ExplorerTreeView.designer.cs">
+      <DependentUpon>ExplorerTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ExplorerTreeView\ExplorerTreeViewWnd.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ExplorerTreeView\ShellAPI.cs" />
+    <Compile Include="Controls\ExplorerTreeView\ShellItem.cs" />
+    <Compile Include="Controls\ExplorerTreeView\SystemImageList.cs" />
+    <Compile Include="Controls\PalControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SplitButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\StructurePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EditroidSettings.cs" />
+    <Compile Include="Enum.cs" />
+    <Compile Include="ExpandoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExpandoDialog.Designer.cs">
+      <DependentUpon>ExpandoDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExtensionAttribute.cs" />
+    <Compile Include="Extension\ExtensionAttribute.cs" />
+    <Compile Include="Extension\NumberExtensions.cs" />
+    <Compile Include="FastColoredTextBox\AutocompleteItem.cs" />
+    <Compile Include="FastColoredTextBox\AutocompleteMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\Char.cs" />
+    <Compile Include="FastColoredTextBox\CommandManager.cs" />
+    <Compile Include="FastColoredTextBox\Commands.cs" />
+    <Compile Include="FastColoredTextBox\Export.cs" />
+    <Compile Include="FastColoredTextBox\FastColoredTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\FindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\FindForm.designer.cs">
+      <DependentUpon>FindForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FastColoredTextBox\LimitedStack.cs" />
+    <Compile Include="FastColoredTextBox\Line.cs" />
+    <Compile Include="FastColoredTextBox\Place.cs" />
+    <Compile Include="FastColoredTextBox\Range.cs" />
+    <Compile Include="FastColoredTextBox\ReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\ReplaceForm.designer.cs">
+      <DependentUpon>ReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FastColoredTextBox\Style.cs" />
+    <Compile Include="FastColoredTextBox\SyntaxDescriptor.cs" />
+    <Compile Include="FastColoredTextBox\SyntaxHighlighter.cs" />
+    <Compile Include="FastColoredTextBox\VisualMarker.cs" />
+    <Compile Include="FeedbackComponent.cs" />
+    <Compile Include="frmFileChangeWarning.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFileChangeWarning.Designer.cs">
+      <DependentUpon>frmFileChangeWarning.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FilenameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FilenameForm.Designer.cs">
+      <DependentUpon>FilenameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms.cs" />
+    <Compile Include="frmAdvancedItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdvancedItems.Designer.cs">
+      <DependentUpon>frmAdvancedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdvancedPalette.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdvancedPalette.Designer.cs">
+      <DependentUpon>frmAdvancedPalette.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBankAllocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBankAllocation.Designer.cs">
+      <DependentUpon>frmBankAllocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBuildErrors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBuildErrors.Designer.cs">
+      <DependentUpon>frmBuildErrors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmChrAnimation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChrAnimation.Designer.cs">
+      <DependentUpon>frmChrAnimation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmChrSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChrSelect.Designer.cs">
+      <DependentUpon>frmChrSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmChrTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChrTable.Designer.cs">
+      <DependentUpon>frmChrTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCodeEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCodeEditor.Designer.cs">
+      <DependentUpon>frmCodeEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmExportAsm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmExportAsm.Designer.cs">
+      <DependentUpon>frmExportAsm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmIntro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmIntro.Designer.cs">
+      <DependentUpon>frmIntro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRearrageTiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRearrageTiles.Designer.cs">
+      <DependentUpon>frmRearrageTiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmScreenBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScreenBrowser.Designer.cs">
+      <DependentUpon>frmScreenBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmStructBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStructBrowser.Designer.cs">
+      <DependentUpon>frmStructBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTilePhysics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTilePhysics.Designer.cs">
+      <DependentUpon>frmTilePhysics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmUnexpandedRom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUnexpandedRom.Designer.cs">
+      <DependentUpon>frmUnexpandedRom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graphic\Sprites\DoorSprites.cs" />
+    <Compile Include="Graphic\Sprites\LevelSprites.cs" />
+    <Compile Include="Graphic\Sprites\PowerupSprites.cs" />
+    <Compile Include="HighlightEffect.cs">
+    </Compile>
+    <Compile Include="IRomDataObject.cs" />
+    <Compile Include="Controls\ItemDataEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ItemDataEditor.Designer.cs">
+      <DependentUpon>ItemDataEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemEditUI.cs" />
+    <Compile Include="ItemRowControl.cs">
+    </Compile>
+    <Compile Include="Controls\LevelPaletteEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MagicForms.cs" />
+    <Compile Include="Patches\DoorExpansionPatch.cs" />
+    <Compile Include="Patches\DoorScrollPatch.cs" />
+    <Compile Include="Patches\PatchSegment.cs" />
+    <Compile Include="Patches\RomPatch.cs" />
+    <Compile Include="Patches\SmetDoorPatch.cs" />
+    <Compile Include="PatchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PatchForm.Designer.cs">
+      <DependentUpon>PatchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Plugin.cs" />
+    <Compile Include="PpuMacroForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PpuMacroForm.Designer.cs">
+      <DependentUpon>PpuMacroForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ROM\Bank.cs" />
+    <Compile Include="ROM\ChrAnimationTable.cs" />
+    <Compile Include="ROM\ChrUsageTable.cs" />
+    <Compile Include="ROM\EditorData.cs" />
+    <Compile Include="ROM\MMC3.cs" />
+    <Compile Include="ROM\PatternOffsets.cs" />
+    <Compile Include="ROM\Enhanced\BankLabelList.cs" />
+    <Compile Include="ROM\Enhanced\Enhancer.cs" />
+    <Compile Include="ROM\Enhanced\EnhancerException.cs" />
+    <Compile Include="ROM\Enhanced\EnhancerResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnhancerResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ROM\Formats\LevelFormat.cs" />
+    <Compile Include="ROM\Formats\RomFormat.cs" />
+    <Compile Include="ROM\Formats\RomRange.cs" />
+    <Compile Include="ROM\ItemCollection.cs" />
+    <Compile Include="ROM\LevelDataIndexers.cs" />
+    <Compile Include="ROM\ExpandoPatternOffsets.cs" />
+    <Compile Include="ROM\Expando\Expander.cs" />
+    <Compile Include="ROM\Expando\PrecompiledAsm.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrecompiledAsm.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ROM\ItemDataDisassembler.cs" />
+    <Compile Include="ROM\ItemType.cs" />
+    <Compile Include="ROM\MMC3\MMC3Expander.cs" />
+    <Compile Include="ROM\MMC3\Mmc3Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mmc3Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ROM\NesHeader.cs" />
+    <Compile Include="ROM\NewStructure.cs" />
+    <Compile Include="NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ROM\Projects\BankAllocation.cs" />
+    <Compile Include="ROM\Projects\Builder.cs" />
+    <Compile Include="ROM\Projects\Project.cs" />
+    <Compile Include="ROM\Projects\ProjectResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProjectResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ROM\RoomObjects2.cs" />
+    <Compile Include="ROM\Screen.cs" />
+    <Compile Include="ROM\SpriteData.cs" />
+    <Compile Include="Rtf.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rtf.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ROM\Equipment.cs" />
+    <Compile Include="ROM\LevelCollection.cs" />
+    <Compile Include="ROM\LevelPointerTable.cs" />
+    <Compile Include="ROM\PatternGroupIndexTable.cs" />
+    <Compile Include="ROM\PatternGroupOffsetTable.cs" />
+    <Compile Include="ROM\PpuMacro.cs" />
+    <Compile Include="ROM\RomObjectBase.cs" />
+    <Compile Include="ROM\ScreenCollection.cs" />
+    <Compile Include="ROM\StructureCollection.cs" />
+    <Compile Include="ROM\TitleText.cs" />
+    <Compile Include="SamusDropForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SamusDropForm.Designer.cs">
+      <DependentUpon>SamusDropForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SplashBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="snarfblasm\AnonymousLabelCollection.cs" />
+    <Compile Include="snarfblasm\Assembler.cs" />
+    <Compile Include="snarfblasm\AssemblyData.cs" />
+    <Compile Include="snarfblasm\BankLabels.cs" />
+    <Compile Include="snarfblasm\Directive.cs" />
+    <Compile Include="snarfblasm\Error.cs" />
+    <Compile Include="snarfblasm\ErrorDetail.cs" />
+    <Compile Include="snarfblasm\EventArgs.cs" />
+    <Compile Include="snarfblasm\Expression.cs" />
+    <Compile Include="snarfblasm\ExpressionEvaluator %28old%29.cs" />
+    <Compile Include="snarfblasm\ExpressionEvaluator.cs" />
+    <Compile Include="snarfblasm\ExpressionOperators.cs" />
+    <Compile Include="snarfblasm\Extension_EventHandler.cs" />
+    <Compile Include="snarfblasm\Hex.cs" />
+    <Compile Include="snarfblasm\IBankLabels.cs" />
+    <Compile Include="snarfblasm\LineManager.cs" />
+    <Compile Include="snarfblasm\LinqStub.cs" />
+    <Compile Include="snarfblasm\Opcode.cs" />
+    <Compile Include="snarfblasm\ParseException.cs" />
+    <Compile Include="snarfblasm\Parser.cs" />
+    <Compile Include="snarfblasm\Pass.cs" />
+    <Compile Include="snarfblasm\PreProcessor.cs" />
+    <Compile Include="snarfblasm\StandardFileSystem.cs" />
+    <Compile Include="snarfblasm\StringSection.cs" />
+    <Compile Include="SplashImages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SplashImages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StructAnalizer.cs" />
+    <Compile Include="TestRomPatcher.cs" />
+    <Compile Include="TextForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextForm.Designer.cs">
+      <DependentUpon>TextForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TileSourceEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TileSourceEditor.Designer.cs">
+      <DependentUpon>TileSourceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToggleBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OkIndicatorControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PasswordDataDisplay.cs" />
+    <Compile Include="PasswordDataEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PasswordDataEditor.Designer.cs">
+      <DependentUpon>PasswordDataEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PasswordDataGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PasswordDataGenerator.Designer.cs">
+      <DependentUpon>PasswordDataGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PasswordDetailEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PasswordDetailEditor.Designer.cs">
+      <DependentUpon>PasswordDetailEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RenderThread.cs" />
+    <Compile Include="ROM\AlternateMusicRooms.cs" />
+    <Compile Include="ROM\pHRom.cs" />
+    <Compile Include="ROM\TileEditor.cs" />
+    <Compile Include="ScreenImageGenerator.cs" />
+    <Compile Include="LayoutIndex.cs" />
+    <Compile Include="SpriteList.cs" />
+    <Compile Include="Controls\StructOkIndicator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TileEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Tools.cs" />
+    <Compile Include="UndoRedo\Action.cs" />
+    <Compile Include="UndoRedo\ActionStack.cs" />
+    <Compile Include="UndoRedo\EditroidAction.cs" />
+    <Compile Include="UndoRedo\EditroidUndoRedoQueue.cs" />
+    <Compile Include="UndoRedo\ItemAction.cs" />
+    <Compile Include="UndoRedo\LevelAction.cs" />
+    <Compile Include="UndoRedo\MapLocationAction.cs" />
+    <Compile Include="Actions\PasswordDataAction.cs" />
+    <Compile Include="UndoRedo\ScreenAction.cs" />
+    <Compile Include="UndoRedo\ScreenItemAction.cs" />
+    <Compile Include="UndoRedo\TransparentStack.cs" />
+    <Compile Include="UndoRedo\UndoAction.cs" />
+    <Compile Include="UndoRedo\UndoRedoQueue.cs" />
+    <Compile Include="Controls\ComboEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ComboEditor.Designer.cs">
+      <DependentUpon>ComboEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FeederBacker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="frmHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHelp.Designer.cs">
+      <DependentUpon>frmHelp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMap.Designer.cs">
+      <DependentUpon>frmMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMapArea.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMapArea.Designer.cs">
+      <DependentUpon>frmMapArea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMapStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMapStatus.Designer.cs">
+      <DependentUpon>frmMapStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPassword.Designer.cs">
+      <DependentUpon>frmPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPointers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPointers.Designer.cs">
+      <DependentUpon>frmPointers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmStruct.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStruct.Designer.cs">
+      <DependentUpon>frmStruct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTitleText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTitleText.Designer.cs">
+      <DependentUpon>frmTitleText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalEventManager.cs" />
+    <Compile Include="Graphic\Sprites\ItemSprites.cs" />
+    <Compile Include="IpsFile.cs" />
+    <Compile Include="IpsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IpsForm.Designer.cs">
+      <DependentUpon>IpsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IScreenEditorHost.cs" />
+    <Compile Include="ItemEditTool.cs" />
+    <Compile Include="ItemEntryEditor.cs">
+    </Compile>
+    <Compile Include="ItemImages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ItemImages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MapControlSelection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MapMaker.cs" />
+    <Compile Include="Physics.cs" />
+    <Compile Include="Quantization\GrayscaleQuantizer.cs" />
+    <Compile Include="Quantization\OctreeQuantizer.cs" />
+    <Compile Include="Quantization\PaletteQuantizer.cs" />
+    <Compile Include="Quantization\Quantizer.cs" />
+    <Compile Include="RomViewport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ROM\ItemLoader.cs" />
+    <Compile Include="ROM\PasswordData.cs" />
+    <Compile Include="SblObjects.cs" />
+    <Compile Include="ScreenEditor.cs" />
+    <Compile Include="ScreenEditorManager.cs">
+    </Compile>
+    <Compile Include="Controls\SelectedItemPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SelectedItemPanel.Designer.cs">
+      <DependentUpon>SelectedItemPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="Controls\TileSelector.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\DoubleBufferedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="frmPalette.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPalette.Designer.cs">
+      <DependentUpon>frmPalette.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPointer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPointer.Designer.cs">
+      <DependentUpon>frmPointer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graphic\SpriteDefinition.cs" />
+    <Compile Include="Controls\MapControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PaletteEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PaletteEditor.Designer.cs">
+      <DependentUpon>PaletteEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PalTableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PalTableEditor.Designer.cs">
+      <DependentUpon>PalTableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ROM\NesPalette.cs" />
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\AsmEditor.resx">
+      <DependentUpon>AsmEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BuildErrorControl.resx">
+      <DependentUpon>BuildErrorControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ComboEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ComboEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ExplorerTreeView\ExplorerTreeView.resx">
+      <DependentUpon>ExplorerTreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExpandoDialog.resx">
+      <DependentUpon>ExpandoDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FastColoredTextBox\FastColoredTextBox.resx">
+      <DependentUpon>FastColoredTextBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FastColoredTextBox\FindForm.resx">
+      <DependentUpon>FindForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FastColoredTextBox\ReplaceForm.resx">
+      <DependentUpon>ReplaceForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFileChangeWarning.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmFileChangeWarning.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilenameForm.resx">
+      <DependentUpon>FilenameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAdvancedItems.resx">
+      <DependentUpon>frmAdvancedItems.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAdvancedPalette.resx">
+      <DependentUpon>frmAdvancedPalette.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBankAllocation.resx">
+      <DependentUpon>frmBankAllocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBuildErrors.resx">
+      <DependentUpon>frmBuildErrors.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChrAnimation.resx">
+      <DependentUpon>frmChrAnimation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChrSelect.resx">
+      <DependentUpon>frmChrSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChrTable.resx">
+      <DependentUpon>frmChrTable.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCodeEditor.resx">
+      <DependentUpon>frmCodeEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmExportAsm.resx">
+      <DependentUpon>frmExportAsm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHelp.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmHelp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmIntro.resx">
+      <DependentUpon>frmIntro.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMap.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMapArea.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMapArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMapStatus.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMapStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPalette.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPalette.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPassword.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPointer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPointer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPointers.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPointers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRearrageTiles.resx">
+      <DependentUpon>frmRearrageTiles.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmScreenBrowser.resx">
+      <DependentUpon>frmScreenBrowser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStruct.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmStruct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStructBrowser.resx">
+      <DependentUpon>frmStructBrowser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTilePhysics.resx">
+      <DependentUpon>frmTilePhysics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTitleText.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmTitleText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUnexpandedRom.resx">
+      <DependentUpon>frmUnexpandedRom.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IpsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>IpsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ItemDataEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ItemDataEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemImages.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ItemImages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PaletteEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PaletteEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PalTableEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PalTableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PasswordDataGenerator.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PasswordDataGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PasswordDetailEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PasswordDetailEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PatchForm.resx">
+      <DependentUpon>PatchForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PpuMacroForm.resx">
+      <DependentUpon>PpuMacroForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ROM\Enhanced\EnhancerResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EnhancerResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ROM\MMC3\Mmc3Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Mmc3Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ROM\Projects\ProjectResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rtf.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Rtf.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ROM\Expando\PrecompiledAsm.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PrecompiledAsm.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SamusDropForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SamusDropForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SelectedItemPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SelectedItemPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashImages.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SplashImages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextForm.resx">
+      <DependentUpon>TextForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TileSourceEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TileSourceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="MetroidRom.cs" />
+    <Compile Include="ROM\ComboTable.cs" />
+    <Compile Include="ROM\Level.cs" />
+    <Compile Include="ROM\LevelPointers.cs" />
+    <Compile Include="ROM\LevelIndex.cs" />
+    <Compile Include="ROM\pCpu.cs" />
+    <Compile Include="ROM\PatternTable.cs" />
+    <Compile Include="ROM\PointerTable.cs" />
+    <Compile Include="ROM\RomValues.cs" />
+    <Compile Include="ROM\Room Objects.cs" />
+    <Compile Include="ROM\Screen_old.cs" />
+    <Compile Include="ROM\Struct.cs" />
+    <Compile Include="Graphic\Blitter.cs" />
+    <Compile Include="Graphic\ScreenRenderer.cs" />
+    <Compile Include="UpdateScoper.cs" />
+    <Compile Include="VirtualCollection.cs" />
+    <Compile Include="Win32\API.cs" />
+    <Compile Include="Win32\BOOL.cs" />
+    <Compile Include="Win32\Enum\BitmapColorUsage.cs" />
+    <Compile Include="Win32\Enum\BitmapCompression.cs" />
+    <Compile Include="Win32\Enum\BrushStyle.cs" />
+    <Compile Include="Win32\Enum\ColorAdjustmentFlags.cs" />
+    <Compile Include="Win32\Enum\ColorSpace.cs" />
+    <Compile Include="Win32\Enum\ColorSpaceGammaIntent.cs" />
+    <Compile Include="Win32\Enum\ContextBitmap.cs" />
+    <Compile Include="Win32\Enum\FloodFill.cs" />
+    <Compile Include="Win32\Enum\GradientFill.cs" />
+    <Compile Include="Win32\Enum\GraphicsMode.cs" />
+    <Compile Include="Win32\Enum\HatchStyle.cs" />
+    <Compile Include="Win32\Enum\Illuminant.cs" />
+    <Compile Include="Win32\Enum\MappingMode.cs" />
+    <Compile Include="Win32\Enum\ModWorldTransform.cs" />
+    <Compile Include="Win32\Enum\PaletteEntryFlags.cs" />
+    <Compile Include="Win32\Enum\RasterOperation.cs" />
+    <Compile Include="Win32\Enum\RegionCombination.cs" />
+    <Compile Include="Win32\Enum\RegionDataType.cs" />
+    <Compile Include="Win32\Enum\RegionResult.cs" />
+    <Compile Include="Win32\Enum\RegionType.cs" />
+    <Compile Include="Win32\Enum\ShowWindow.cs" />
+    <Compile Include="Win32\Enum\StretchMode.cs" />
+    <Compile Include="Win32\Enum\SysPal.cs" />
+    <Compile Include="Win32\Enum\SystemColor.cs" />
+    <Compile Include="Win32\GDI.cs" />
+    <Compile Include="Win32\GDI\Bitmap.cs" />
+    <Compile Include="Win32\GDI\BitmapInfo.cs" />
+    <Compile Include="Win32\GDI\CIEXYZ.cs" />
+    <Compile Include="Win32\GDI\ColorAdjustment.cs" />
+    <Compile Include="Win32\GDI\ColorRef.cs" />
+    <Compile Include="Win32\GDI\GradientRectangle.cs" />
+    <Compile Include="Win32\GDI\GradientTriangle.cs" />
+    <Compile Include="Win32\GDI\Handles.cs" />
+    <Compile Include="Win32\GDI\HDc.cs" />
+    <Compile Include="Win32\GDI\LogBrush.cs" />
+    <Compile Include="Win32\GDI\LogPalette.cs" />
+    <Compile Include="Win32\GDI\PaletteEntry.cs" />
+    <Compile Include="Win32\GDI\PlgBltPoints.cs" />
+    <Compile Include="Win32\GDI\Point.cs" />
+    <Compile Include="Win32\GDI\RegionData.cs" />
+    <Compile Include="Win32\GDI\RgbQuad.cs" />
+    <Compile Include="Win32\GDI\SIZE.cs" />
+    <Compile Include="Win32\GDI\TriVertex.cs" />
+    <Compile Include="Win32\GDI\XForm.cs" />
+    <Compile Include="Win32\GetWindowsLong.cs" />
+    <Compile Include="Win32\Handles.cs" />
+    <Compile Include="Win32\IconSize.cs" />
+    <Compile Include="Win32\Kernel32.cs" />
+    <Compile Include="Win32\Kernel\ProcessInformation.cs" />
+    <Compile Include="Win32\Kernel\StartupInfo.cs" />
+    <Compile Include="Win32\RECT.cs" />
+    <Compile Include="Win32\User32.cs" />
+    <Compile Include="Win32\Utility.cs" />
+    <Compile Include="Win32\WindowInfo.cs" />
+    <Compile Include="Win32\WindowsMessage.cs" />
+    <Compile Include="Win32\WindowStyle.cs" />
+    <Compile Include="WindowlessControl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editroid.png" />
+    <Content Include="Editroid.ico" />
+    <None Include="elevator.png" />
+    <Content Include="History.txt" />
+    <None Include="EnhancoNotes.rtf" />
+    <None Include="Quick Tips\Editing.rtf" />
+    <None Include="Quick Tips\Expando.rtf" />
+    <None Include="Quick Tips\ExternalChanges.rtf" />
+    <None Include="Quick Tips\Intro.rtf" />
+    <None Include="Quick Tips\Navigation.rtf" />
+    <None Include="Quick Tips\Testing.rtf" />
+    <None Include="Resources\chr.nes" />
+    <None Include="Resources\metmap.map" />
+    <None Include="Resources\Binary16.gif" />
+    <None Include="Resources\Enum16.png" />
+    <None Include="Resources\Delegate16_Yellow.png" />
+    <None Include="Resources\NMI Hijack.asm" />
+    <None Include="Resources\NMI Hijack.bin" />
+    <None Include="Resources\Polygon.gif" />
+    <None Include="Resources\Image.png" />
+    <None Include="Resources\PPU Loader.bin" />
+    <None Include="Resources\StructBG.bmp" />
+    <None Include="Resources\tos.rtf" />
+    <None Include="Resources\X.png" />
+    <None Include="Resources\Check.png" />
+    <None Include="Resources\gnome-computer.ico" />
+    <None Include="Resources\Forward.gif" />
+    <None Include="Resources\gnome-irc.ico" />
+    <None Include="ROM\Expando\BankingHack.bin" />
+    <None Include="ROM\Expando\PpuLoader.bin" />
+    <None Include="Resources\splasha.png" />
+    <None Include="Resources\splashb.png" />
+    <None Include="Resources\splashc.png" />
+    <None Include="Resources\splashd.png" />
+    <None Include="Resources\redo_16.png" />
+    <None Include="Resources\add_16.png" />
+    <None Include="Resources\PpuLoader.txt" />
+    <None Include="Resources\NmiHijack_ASM.txt" />
+    <None Include="Resources\RoomDataHack.txt" />
+    <None Include="Resources\EnhancoNotes.txt" />
+    <None Include="Resources\AltPal.png" />
+    <None Include="Resources\DefaultMainFile.txt" />
+    <None Include="Resources\DefaultDefinesFile.txt" />
+    <None Include="Resources\DefaultDefinesFile1.txt" />
+    <None Include="Resources\Editroid 3.5 copy.png" />
+    <None Include="PSD\Editroid Splash.png" />
+    <None Include="PSD\Editroid 4.0.png" />
+    <Content Include="Release Checklist.txt" />
+    <None Include="Resources\DefaultGeneralFile.txt" />
+    <None Include="Resources\CodeFile.png" />
+    <None Include="Resources\CodeFileAsterisk.png" />
+    <None Include="Resources\ExpansionASM.txt" />
+    <None Include="Resources\Tiles.png" />
+    <None Include="Resources\ExpansionASM1.txt" />
+    <None Include="Resources\ExpansionASM2.txt" />
+    <None Include="Resources\Door.png" />
+    <None Include="Resources\down.png" />
+    <None Include="Resources\downPal.png" />
+    <None Include="Resources\up.png" />
+    <None Include="Resources\upPal.png" />
+    <Content Include="ROM\Formats\Format notes.txt" />
+    <Content Include="ROM\MMC3\Format notes.txt" />
+    <None Include="Resources\Namespace.png" />
+    <None Include="Resources\Structure.png" />
+    <None Include="Resources\VariableArray.png" />
+    <None Include="Resources\Missile.png" />
+    <None Include="Resources\Grid.png" />
+    <None Include="Resources\Object.bmp" />
+    <None Include="Resources\test.rtf" />
+    <None Include="Resources\VariableStruct.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EditroidPlug\EditroidPlug.csproj">
+      <Project>{D14B09A8-9D8C-4742-AC41-082E591D760B}</Project>
+      <Name>EditroidPlug</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

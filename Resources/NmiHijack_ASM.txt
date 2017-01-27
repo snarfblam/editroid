@@ -1,0 +1,19 @@
+; NO LONGER USED
+; NO LONGER USED
+; NO LONGER USED
+; NO LONGER USED
+; NO LONGER USED
+; NO LONGER USED
+; NO LONGER USED
+; NO LONGER USED
+; NO LONGER USED
+; NO LONGER USED
+
+; This code has been included in a single ASM file to avoid issues with syncing multiple files.
+
+; Simple one-liner that hijacks the NMI routine to perform CHR bank swapping during NMI
+
+; .org $C106
+
+.PATCH 0F:C106
+JMP $C669   ; If the location of the bank cycling code changes, this needs to be updated.
