@@ -588,4 +588,7 @@ Version 4.0
             -Fixed bug where .hex directive does not advance program counter (screws up any following labels!)
             
     Pre 9
-            
+		2/10/2017
+			-Integrated seach window into code editor window (does not apply to search and replace)
+	    2/12/2017
+			-

@@ -41,6 +41,7 @@
             this.txtPpuPointer = new Editroid.NumericTextBox();
             this.PaletteControl = new Editroid.Controls.AdvancedPalControl();
             this.colorPicker = new Editroid.ColorSelector();
+            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // LevelLabel
@@ -63,13 +64,14 @@
             this.columnHeader5,
             this.columnHeader2,
             this.columnHeader3,
-            this.columnHeader4});
+            this.columnHeader4,
+            this.columnHeader6});
             this.PaletteList.FullRowSelect = true;
             this.PaletteList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.PaletteList.Location = new System.Drawing.Point(15, 25);
             this.PaletteList.MultiSelect = false;
             this.PaletteList.Name = "PaletteList";
-            this.PaletteList.Size = new System.Drawing.Size(543, 206);
+            this.PaletteList.Size = new System.Drawing.Size(673, 206);
             this.PaletteList.TabIndex = 1;
             this.PaletteList.UseCompatibleStateImageBehavior = false;
             this.PaletteList.View = System.Windows.Forms.View.Details;
@@ -97,6 +99,7 @@
             // 
             // columnHeader4
             // 
+            this.columnHeader4.DisplayIndex = 5;
             this.columnHeader4.Text = "Data";
             this.columnHeader4.Width = 293;
             // 
@@ -104,7 +107,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(367, 237);
+            this.label2.Location = new System.Drawing.Point(497, 237);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 13;
@@ -114,7 +117,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(457, 237);
+            this.label3.Location = new System.Drawing.Point(587, 237);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 13);
             this.label3.TabIndex = 15;
@@ -124,7 +127,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(277, 237);
+            this.label5.Location = new System.Drawing.Point(407, 237);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(43, 13);
             this.label5.TabIndex = 17;
@@ -135,7 +138,7 @@
             this.txtPointer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPointer.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPointer.Hexadecimal = true;
-            this.txtPointer.Location = new System.Drawing.Point(277, 253);
+            this.txtPointer.Location = new System.Drawing.Point(407, 253);
             this.txtPointer.Maximum = 65535;
             this.txtPointer.Name = "txtPointer";
             this.txtPointer.Size = new System.Drawing.Size(84, 20);
@@ -148,7 +151,7 @@
             // 
             this.txtMacroBytes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMacroBytes.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMacroBytes.Location = new System.Drawing.Point(457, 253);
+            this.txtMacroBytes.Location = new System.Drawing.Point(587, 253);
             this.txtMacroBytes.Maximum = 255;
             this.txtMacroBytes.Name = "txtMacroBytes";
             this.txtMacroBytes.Size = new System.Drawing.Size(83, 20);
@@ -162,7 +165,7 @@
             this.txtPpuPointer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPpuPointer.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPpuPointer.Hexadecimal = true;
-            this.txtPpuPointer.Location = new System.Drawing.Point(367, 253);
+            this.txtPpuPointer.Location = new System.Drawing.Point(497, 253);
             this.txtPpuPointer.Maximum = 65535;
             this.txtPpuPointer.Name = "txtPpuPointer";
             this.txtPpuPointer.Size = new System.Drawing.Size(84, 20);
@@ -178,7 +181,7 @@
             this.PaletteControl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.PaletteControl.Location = new System.Drawing.Point(12, 307);
             this.PaletteControl.Name = "PaletteControl";
-            this.PaletteControl.Size = new System.Drawing.Size(543, 16);
+            this.PaletteControl.Size = new System.Drawing.Size(673, 16);
             this.PaletteControl.TabIndex = 12;
             // 
             // colorPicker
@@ -192,12 +195,17 @@
             this.colorPicker.TabIndex = 11;
             this.colorPicker.Text = "colorSelector1";
             // 
+            // columnHeader6
+            // 
+            this.columnHeader6.DisplayIndex = 4;
+            this.columnHeader6.Text = "Desc.";
+            this.columnHeader6.Width = 132;
+            // 
             // frmAdvancedPalette
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(570, 335);
+            this.ClientSize = new System.Drawing.Size(700, 335);
             this.Controls.Add(this.txtPointer);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtMacroBytes);
@@ -234,5 +242,6 @@
         private NumericTextBox txtPointer;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
     }
 }

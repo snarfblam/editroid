@@ -41,7 +41,8 @@ namespace FastColoredTextBoxNS
         WordWrapMode wordWrapMode = WordWrapMode.WordWrapControlWidth;
         int wordWrapLinesCount;
         Range selection;
-        FindForm findForm;
+        FindControl findForm;
+        public FindControl FindControl { get { return findForm; } }
         ReplaceForm replaceForm;
         int charHeight;
         int startFoldingLine = -1;
@@ -332,6 +333,9 @@ namespace FastColoredTextBoxNS
         [DefaultValue("//")]
         [Description("Comment line prefix.")]
         public string CommentPrefix { get; set; }
+
+        public event EventHandler FindFormShow;
+        public event EventHandler FindFormClose;
         /// <summary>
         /// TextChanged event.
         /// It occurs after insert, delete, clear, undo and redo operations.
@@ -904,10 +908,11 @@ namespace FastColoredTextBoxNS
         public void ShowFindDialog()
         {
             if (findForm == null)
-                findForm = new FindForm(this);
+                findForm = new FindControl(this);
             if (Selection.Start != Selection.End && Selection.Start.iLine == Selection.End.iLine)
                 findForm.tbFind.Text = Selection.Text;
-            findForm.Show();
+            //findForm.Show();
+            FindFormShow.Raise(this);
         }
 
         /// <summary>

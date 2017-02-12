@@ -20,6 +20,36 @@ namespace Editroid
             PaletteControl.ColorGrabbed += new EventHandler<EventArgs<int>>(PaletteControl_ColorGrabbed);
         }
 
+        static string[] Descriptions = new string[]{
+            "Base Palette",
+            "Samus",
+            "Samus Varia",
+            "Samus Missile",
+            "Samus M+V",
+            "Alternate Palette",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "Fade-in 0",
+            "Fade-in 1",
+            "Fade-in 2",
+            "Fade-in 3",
+            "-",
+            "Suitless",
+            "Suitless Varia",
+            "Suitless Missile",
+            "Suitless M+V",
+        };
         
         public Level Level { get; private set; }
 
@@ -118,6 +148,7 @@ namespace Editroid
         /// <returns></returns>
         ListViewItem GetEmptyItem(int index) {
             ListViewItem newItem = new ListViewItem(index.ToString());
+            newItem.SubItems.Add("");
             newItem.SubItems.Add("");
             newItem.SubItems.Add("");
             newItem.SubItems.Add("");
@@ -252,6 +283,11 @@ namespace Editroid
             }
 
             newItem.SubItems[4].Text = (itemText.ToString());
+            string desc = "";
+            if (index < Descriptions.Length) {
+                desc = Descriptions[index];
+            }
+            newItem.SubItems[5].Text = desc;
         }
 
         private void UpdateInvalidItem(int index, ListViewItem newItem) {

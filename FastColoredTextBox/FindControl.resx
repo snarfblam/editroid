@@ -117,16 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>248, 17</value>
-  </metadata>
-  <metadata name="cmnEditorMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>109, 17</value>
-  </metadata>
-  <metadata name="EditBox.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="$this.TrayLargeIcon" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btClose.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAF3RFWHRTb2Z0d2FyZQBQYWludC5ORVQg
+        djMuMM0vV0YAAAFwSURBVChTlZK/SwJRAMddgwiaoqFoaCsVcmqJ0Ii2Jm2rKSpNJCLKH6cplaYJIYVQ
+        UUEUpAQNiiREEVK0JBzUaaWhRVqG/8K3e+9enDbVFz7weJ/vl+O4U4hpFNH8A9JX9Al+27gICPmwD28H
+        myhFd/B+FEZxy4+XgJVCeqRPRxmvD7zRgIRlFDd2E3jfPIR1Jx78VvCOKeoIOa8XdaO0Xouf8HYbMp5F
+        CJyd3UD0ul+joBO3w71MS7lbmWMnKcQ/Bh01I/FdrgfVSBrkp9XmakRLfXbVKo/uXWacdzbhpKcd8f4u
+        VpWS0KmQ0LRRLzin5ZHAmZDqaMCpqpVV65NUt1Cf5Yzy6MltAd/dzCpS0mMD7CSF+Ge3WR4VPG4UhpRM
+        A7mZSRQWzCjMTrAbiF6FosdVP8ovWSjFkAvlvTV8HoZQ2Q/gY4NDedlEqRuRL/0a2QWhFI+gchFDNXWG
+        6mUMX4ljVKLblNo/Qimi/zsK5TfMTXtsm4RG/wAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>

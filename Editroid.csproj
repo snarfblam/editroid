@@ -162,6 +162,12 @@
     <Compile Include="FastColoredTextBox\FastColoredTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="FastColoredTextBox\FindControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\FindControl.Designer.cs">
+      <DependentUpon>FindControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="FastColoredTextBox\FindForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -657,6 +663,9 @@
     <EmbeddedResource Include="FastColoredTextBox\FastColoredTextBox.resx">
       <DependentUpon>FastColoredTextBox.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FastColoredTextBox\FindControl.resx">
+      <DependentUpon>FindControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FastColoredTextBox\FindForm.resx">
       <DependentUpon>FindForm.cs</DependentUpon>

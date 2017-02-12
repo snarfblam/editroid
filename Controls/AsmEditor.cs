@@ -43,37 +43,37 @@ namespace MultiMaster.Editors
             EditBox.ClearUndo();
         }
 
-        protected  void OnSaveFile() {
+        protected void OnSaveFile() {
             //base.OnSaveFile();
 
             //System.IO.File.WriteAllText(Filename, EditBox.Text);
         }
-        protected  void OnInitialize() {
+        protected void OnInitialize() {
             //base.OnInitialize();
 
             //Host.UI.Menu = this.menuStrip1;
         }
-        protected  void OnCopy() {
+        protected void OnCopy() {
             //base.OnCopy();
 
             EditBox.Copy();
         }
-        protected  void OnCut() {
+        protected void OnCut() {
             //base.OnCut();
 
             EditBox.Cut();
         }
-        protected  void OnPaste() {
+        protected void OnPaste() {
             //base.OnPaste();
 
             EditBox.Paste();
         }
-        protected  void OnClipboardChanged() {
+        protected void OnClipboardChanged() {
             //base.onclipboardchanged();
 
             //Host.UI.CanPaste = Host.Clipboard.HasText;
         }
-#endregion
+        #endregion
 
         public override string Text {
             get {
@@ -158,7 +158,7 @@ namespace MultiMaster.Editors
         }
 
         private void EditBox_SelectionChanged(object sender, EventArgs e) {
-            
+
         }
 
 
@@ -203,6 +203,7 @@ namespace MultiMaster.Editors
         }
 
         public event EventHandler UndoRedoChanged;
+
 
         #endregion
 
@@ -249,7 +250,7 @@ namespace MultiMaster.Editors
         }
 
 
-        public void ClearUndo(){
+        public void ClearUndo() {
             EditBox.ClearUndo();
         }
         public void ToggleComment() {
@@ -270,7 +271,49 @@ namespace MultiMaster.Editors
 
         internal void ShowReplace() {
             EditBox.ShowReplaceDialog();
-            
+
+        }
+
+        
+        FindControl FindControl;
+        void wireFindControl() {
+            if (FindControl == null) return;
+            FindControl.CloseClicked += new EventHandler(FindControl_CloseClicked);
+        }
+        void unwireFindControl() {
+            if (FindControl == null) return;
+            FindControl.CloseClicked -= new EventHandler(FindControl_CloseClicked);
+        }
+
+        void FindControl_CloseClicked(object sender, EventArgs e) {
+            FindControl.Hide();
+        }
+
+        private void EditBox_FindFormShow(object sender, EventArgs e) {
+            if (EditBox.FindControl != FindControl) {
+                Controls.Remove(FindControl);
+                unwireFindControl();
+                if (FindControl != null) FindControl.Dispose();
+                FindControl = EditBox.FindControl;
+                wireFindControl();
+            }
+
+            if (!Controls.Contains(FindControl)) {
+                SuspendLayout();
+                Controls.Add(FindControl);
+                FindControl.SendToBack();
+                FindControl.Dock = DockStyle.Bottom;
+                ResumeLayout();
+            } else {
+                FindControl.Show();
+                FindControl.Focus();
+            }
+        }
+
+        private void EditBox_FindFormClose(object sender, EventArgs e) {
+            if (FindControl != null && !FindControl.IsDisposed) {
+                FindControl.Hide();
+            }
         }
     }
 }
