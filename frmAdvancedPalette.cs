@@ -271,8 +271,8 @@ namespace Editroid
             var offset = Level.ToPRom(GetPpuMacroPointer(index));
             var macro = GetPpuMacro(index);
 
-            newItem.SubItems[0].Text = index.ToString();
-            newItem.SubItems[1].Text = offset.ToString();
+            newItem.SubItems[0].Text = "$" + index.ToString("X2") + "/" + index.ToString();
+            newItem.SubItems[1].Text = ((int)offset).ToString("X");
             newItem.SubItems[2].Text = macro.PpuDestination.ToString();
             newItem.SubItems[3].Text = (macro.MacroSize.ToString());
 

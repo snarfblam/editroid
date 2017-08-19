@@ -637,15 +637,15 @@ namespace Editroid
 
 
         /// <summary>Applies highlight effect to highlight palettes (colors 0x10-0x1F and 0x30-0x3F, which should mirror 0x00-0x0F and 0x20-0x2F prior to calling this function).</summary>
-        private void ApplyHighlightFilter(ColorPalette p) {
-            ApplyHighlightFilterToRange(p, 16, 31);
-            ApplyHighlightFilterToRange(p, 48, 63);
+        private static void ApplyHighlightFilter(ColorPalette p, HighlightEffect effect) {
+            ApplyHighlightFilterToRange(p, 16, 31, effect);
+            ApplyHighlightFilterToRange(p, 48, 63, effect);
         }
         /// <summary>Applies highlight effect to the specified range within a paletteIndex.</summary>
-        private void ApplyHighlightFilterToRange(ColorPalette p, int start, int end) {
+        private static void ApplyHighlightFilterToRange(ColorPalette p, int start, int end, HighlightEffect effect) {
             int clr;
             for (int i = start; i <= end; i++) {
-                switch (selectionHighlight) {
+                switch (effect) {
                     case HighlightEffect.Invert:
                         clr = p.Entries[i].ToArgb();
                         p.Entries[i] = Color.FromArgb((~clr & 0xFFFFFF) | -16777216);
@@ -763,13 +763,25 @@ namespace Editroid
             if(ScreenLoaded)
                 screenRenderer.Render(screenBlitter, ScreenBitmap, ScreenData.Enemies, ScreenData.Doors, showPhysics);
 
-            ColorPalette bitmapPalette = ScreenBitmap.Palette;
-            NesPalette bgPalette = LevelData.BgPalette;
-            NesPalette spritePalette = LevelData.SpritePalette;
-            if (_host.UseAltPalette && LevelData.Format.SupportsAltBgPalette)
-                bgPalette = LevelData.BgAltPalette;
-            if (_host.UseAltPalette && LevelData.Format.SupportsAltSpritePalette)
-                spritePalette = LevelData.SpriteAltPalette;
+            bool altPalette = _host.GetAltPaletteFlag(mapLocation.X, mapLocation.Y);
+
+            var lvlData = LevelData;
+            Bitmap screenBitmap = ScreenBitmap;
+            ApplyPalette(altPalette, lvlData, screenBitmap, selectionHighlight);
+
+
+            UpdateSelectionStatus();
+        }
+
+        public static void ApplyPalette(bool altPalette, Level lvlData, Bitmap screenBitmap, HighlightEffect selectionHighlight) {
+            ColorPalette bitmapPalette = screenBitmap.Palette;
+            NesPalette bgPalette = lvlData.BgPalette;
+            NesPalette spritePalette = lvlData.SpritePalette;
+
+            if (altPalette && lvlData.Format.SupportsAltBgPalette) //<-- right here look this is where we need to do a thing!!!!!
+                bgPalette = lvlData.BgAltPalette;
+            if (altPalette && lvlData.Format.SupportsAltSpritePalette)
+                spritePalette = lvlData.SpriteAltPalette;
 
             // Load palettes twice
             bgPalette.ApplyTable(bitmapPalette.Entries);
@@ -777,18 +789,15 @@ namespace Editroid
             spritePalette.ApplyTable(bitmapPalette.Entries, 32);
             spritePalette.ApplyTable(bitmapPalette.Entries, 48);
             // Invert second paletteIndex for selections
-            ApplyHighlightFilter(bitmapPalette);
+            ApplyHighlightFilter(bitmapPalette, selectionHighlight);
             //bitmapPalette.Entries[NesPalette.HighlightEntry] = SystemColors.Highlight;
 
             ApplyEditorColors(bitmapPalette);
 
-            ScreenBitmap.Palette = bitmapPalette;
-
-
-            UpdateSelectionStatus();
+            screenBitmap.Palette = bitmapPalette;
         }
 
-        private void ApplyEditorColors(ColorPalette bitmapPalette) {
+        private static void ApplyEditorColors(ColorPalette bitmapPalette) {
             int startOffset = 0xFF - EditorColors.Length;
             for (int i = 0; i < EditorColors.Length; i++) {
                 bitmapPalette.Entries[i + startOffset] = EditorColors[i];
@@ -963,6 +972,7 @@ namespace Editroid
                 LevelData = null;
                 SpriteData = null;
                 SelectedItem = null;
+                ScreenData = null;
             } else {
                 LevelData = Rom.GetLevel(LevelIndex);
                 SpriteData = LevelSprites.GetSprites(LevelIndex);
@@ -1120,13 +1130,27 @@ namespace Editroid
             } else if (buttons == MouseButtons.Right) {
                 if (SelectedItem != null) {
                     bool somethingWasSelected = (clickedEnemy != null || clickedObject != null);
-                    bool canDelete = (SelectedItem is StructInstance || SelectedItem is EnemyInstance);
-                    if (somethingWasSelected && canDelete) {
-                        Program.MainForm.PerformAction(Program.Actions.RemoveSelection());
+                    //bool canDelete = (SelectedItem is StructInstance || SelectedItem is EnemyInstance);
+                    //if (somethingWasSelected && canDelete) {
+                    //    Program.MainForm.PerformAction(Program.Actions.RemoveSelection());
+                    //}
+                    bool canSetPal = (SelectedItem is StructInstance || SelectedItem is EnemyInstance);
+                    var selObj = SelectedItem as StructInstance;
+                    var selEn = SelectedItem as EnemyInstance;
+                    var selDr = SelectedItem as DoorInstance;
+                    var selItm = SelectedItem as ItemInstance;
+
+                    if (selObj != null || selEn != null) { // Cycle palette for structure/enemy
+                        Program.MainForm.PerformAction(Program.Actions.ChangePalette());
+                    }
+                    if (selDr != null) {
+                        Program.MainForm.PerformAction(Program.Actions.ChangeDoor(selDr.Side, (DoorType)(((int)selDr.Type + 1) % 4)));
+                    }
+                    if (selItm != null) {
+                        // Didn't feel like it
                     }
                 }
             }
-
 
         }
 

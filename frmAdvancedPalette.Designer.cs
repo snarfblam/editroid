@@ -33,6 +33,7 @@
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -41,7 +42,6 @@
             this.txtPpuPointer = new Editroid.NumericTextBox();
             this.PaletteControl = new Editroid.Controls.AdvancedPalControl();
             this.colorPicker = new Editroid.ColorSelector();
-            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // LevelLabel
@@ -81,7 +81,7 @@
             // 
             this.columnHeader1.Tag = "Index";
             this.columnHeader1.Text = "";
-            this.columnHeader1.Width = 34;
+            this.columnHeader1.Width = 58;
             // 
             // columnHeader5
             // 
@@ -102,6 +102,12 @@
             this.columnHeader4.DisplayIndex = 5;
             this.columnHeader4.Text = "Data";
             this.columnHeader4.Width = 293;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.DisplayIndex = 4;
+            this.columnHeader6.Text = "Desc.";
+            this.columnHeader6.Width = 132;
             // 
             // label2
             // 
@@ -194,12 +200,6 @@
             this.colorPicker.Size = new System.Drawing.Size(256, 64);
             this.colorPicker.TabIndex = 11;
             this.colorPicker.Text = "colorSelector1";
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.DisplayIndex = 4;
-            this.columnHeader6.Text = "Desc.";
-            this.columnHeader6.Width = 132;
             // 
             // frmAdvancedPalette
             // 

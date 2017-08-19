@@ -13,13 +13,18 @@ namespace Editroid.Patches
     public class RomPatch
     {
         List<PatchSegment> segments = new List<PatchSegment>();
-        
+
         protected const int expandoPrgOffset = 0x20000;
-        protected bool Expando{get; private set;}
+        protected const int mmc3PrgOffset = 0x60000;
+        //protected bool Expando{get; private set;}
+        protected bool Expando { get { return RomFormat == RomFormats.Expando; } }
+        public RomFormats RomFormat { get; private set; }
         public RomPatch() {
+
         }
-        public RomPatch(bool expando) {
-            this.Expando = expando;
+        public RomPatch(RomFormats format) {
+            RomFormat = format;
+            //this.Expando = expando;
         }
         /// <summary>
         /// Automatically adjusts ROM offsets that refer to the main PRG bank if
@@ -27,8 +32,14 @@ namespace Editroid.Patches
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
-        protected int ExpandoAdjust(int offset) {
-            if (offset > 0x1C010) offset += expandoPrgOffset;
+        protected int FormatAdjust(int offset) {
+            if (offset > 0x1C010) {
+                if (RomFormat == RomFormats.Expando) {
+                    offset += expandoPrgOffset;
+                } else {
+                    offset += mmc3PrgOffset;
+                }
+            }
             return offset;
         }
                 /// <summary>
@@ -37,8 +48,14 @@ namespace Editroid.Patches
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
-        protected pRom ExpandoAdjust(pRom offset) {
-            if ((int)offset > 0x1C010) offset += expandoPrgOffset;
+        protected pRom FormatAdjust(pRom offset) {
+            if (offset > 0x1C010) {
+                if (RomFormat == RomFormats.Expando) {
+                    offset += expandoPrgOffset;
+                } else {
+                    offset += mmc3PrgOffset;
+                }
+            }
             return offset;
 
         }

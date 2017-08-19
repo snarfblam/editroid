@@ -20,6 +20,10 @@ namespace Editroid
         /// <summary>The recommended amount of space to allocate in a map file for map data.</summary>
         public const int MapDataBufferSize = 1040;
 
+        const int MapBits_Level = 0x1C;
+        const int MapBits_AltPal = 0x2;
+        const int MapBits_Animation = 0xE1;
+
         /// <summary>
         /// Instantiates this control.
         /// </summary>
@@ -32,7 +36,7 @@ namespace Editroid
 
             for(int i = 0; i < 0x20; i++) {
                 for(int j = 0; j < 0x20; j++) {
-                    this.MapData[i, j] = MapLevel.Blank;
+                    this.MapData[i, j] = MapCellData.Blank; //MapLevel.Blank;
                 }
             }
 
@@ -81,7 +85,7 @@ namespace Editroid
         private Rectangle bltDest = new Rectangle(0, 0, mapTileWidth, mapTileHeight);
         private Rectangle bltSource = new Rectangle(0, 0, mapTileWidth, mapTileHeight);
 
-        private MapLevel[,] MapData = new MapLevel[0x20, 0x20];
+        private MapCellData[,] MapData = new MapCellData[0x20, 0x20];
         private MapLevel pen = MapLevel.Blank;
 
         MapItemDisplay itemDisplay = new MapItemDisplay();
@@ -297,11 +301,26 @@ namespace Editroid
 
 
 
-        
-        
+
+        public bool GetAltPal(int x, int y) {
+            return MapData[x, y].UseAltPalette;
+        }
+        public void SetAltPal(int x, int y, bool pal) {
+            var data = MapData[x, y];
+            data.UseAltPalette = pal;
+            MapData[x, y] = data;
+        }
+        public int GetAnimation(int x, int y) {
+            return MapData[x, y].Animation;
+        }
+        public void SetAnimation(int x, int y, int animation) {
+            var data = MapData[x, y];
+            data.Animation = animation;
+            MapData[x, y] = data;
+        }
         
         public LevelIndex GetLevel(int x, int y) {
-            MapLevel level = this.MapData[x, y] & ((MapLevel)0xfc);
+            MapLevel level = this.MapData[x, y].Area; //this.MapData[x, y] & ((MapLevel)0x1c);
             if(level == MapLevel.Ridley)
                 return LevelIndex.Ridley;
             else if(level == MapLevel.Kraid)
@@ -318,22 +337,22 @@ namespace Editroid
         public void SetLevel(int x, int y, LevelIndex level) {
             switch (level) {
                 case LevelIndex.Brinstar:
-                    SetMapLocationImage(x, y, MapLevel.Brinstar);
+                    SetMapLocationArea(x, y, MapLevel.Brinstar);
                     break;
                 case LevelIndex.Norfair:
-                    SetMapLocationImage(x, y, MapLevel.Norfair);
+                    SetMapLocationArea(x, y, MapLevel.Norfair);
                     break;
                 case LevelIndex.Tourian:
-                    SetMapLocationImage(x, y, MapLevel.Tourian);
+                    SetMapLocationArea(x, y, MapLevel.Tourian);
                     break;
                 case LevelIndex.Kraid:
-                    SetMapLocationImage(x, y, MapLevel.Kraid);
+                    SetMapLocationArea(x, y, MapLevel.Kraid);
                     break;
                 case LevelIndex.Ridley:
-                    SetMapLocationImage(x, y, MapLevel.Ridley);
+                    SetMapLocationArea(x, y, MapLevel.Ridley);
                     break;
                 case LevelIndex.None:
-                    SetMapLocationImage(x, y, MapLevel.Blank);
+                    SetMapLocationArea(x, y, MapLevel.Blank);
                     break;
             }
         }
@@ -343,39 +362,43 @@ namespace Editroid
         /// Gets a MapLevel value representing the image to be drawn for a classic map.
         /// </summary>
         private MapLevel GetMapLocationImage(int x, int y) {
-            return this.MapData[x, y];
+            //return (MapLevel)(MapBits_Level & (int)this.MapData[x, y]);
+            return this.MapData[x, y].Area;
         }
         /// <summary>
         /// Sets the image to be used at a specified map position.
         /// </summary>
-        private void SetMapLocationImage(int x, int y, MapLevel image) {
-            if (image > MapLevel.Blank) {
-                image = MapLevel.Blank;
-            }
-            if (this.MapData[x, y] != image) {
-                this.bltDest.X = x * mapTileWidth;
-                this.bltDest.Y = y * mapTileHeight;
-                this.bltSource.X = (int)image * 8;
-                this.bltSource.Width = this.bltSource.Height = 8;
+        private void SetMapLocationData(int x, int y, MapCellData area) {
+            this.bltDest.X = x * mapTileWidth;
+            this.bltDest.Y = y * mapTileHeight;
+            this.bltSource.X = (int)area.Area * 8;
+            this.bltSource.Width = this.bltSource.Height = 8;
 
-                this._gMapImage.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                this._gMapImage.DrawImage(this.ClassicTiles, this.bltDest, this.bltSource, GraphicsUnit.Pixel);
-                this.MapData[x, y] = image;
-                if (image != MapLevel.Blank && rom != null && rom.GetScreenIndex(x, y) == 0xFF) {
-                }
+            this._gMapImage.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this._gMapImage.DrawImage(this.ClassicTiles, this.bltDest, this.bltSource, GraphicsUnit.Pixel);
 
-                //if(!loading && 
-                //    SelectionX == x && SelectionY == y
-                //    && selectedRoomModified != null)
+            this.MapData[x, y] = area;
 
-                //    selectedRoomModified(this, new EventArgs());
 
-                if (!isLoadingMapData && RoomSet != null) {
-                    RoomSet(this, x, y);
-                }
+            if (!isLoadingMapData && RoomSet != null) {
+                RoomSet(this, x, y);
             }
         }
+        /// <summary>
+        /// Sets the image to be used at a specified map position.
+        /// </summary>
+        private void SetMapLocationArea(int x, int y, MapLevel area) {
+            if (area > MapLevel.Blank) {
+                area = MapLevel.Blank;
+            }
+            if (this.MapData[x, y].Area != area) {
 
+                var newData = this.MapData[x, y];
+                newData.Area = area;
+                if (area == MapLevel.Blank) newData = MapCellData.Blank;
+                SetMapLocationData(x,y, newData);
+            }
+        }
         #region Map loading/saving
         /// <summary>
         /// Indicates whether the control is currently loading data, so that
@@ -417,7 +440,7 @@ namespace Editroid
                 }
                 for(int i = 0; i < 0x20; i++) {
                     for(int j = 0; j < 0x20; j++) {
-                        this.SetMapLocationImage(j, i, (MapLevel)((byte)s.ReadByte()));
+                        this.SetMapLocationData(j, i, MapCellData.FromByte((byte)s.ReadByte()));
                     }
                 }
 
@@ -450,7 +473,7 @@ namespace Editroid
 
             for (int i = 0; i < 0x20; i++) {
                 for (int j = 0; j < 0x20; j++) {
-                    s.WriteByte((byte)this.MapData[j, i]);
+                    s.WriteByte(this.MapData[j, i].ToByte());
                 }
             }
         }
@@ -484,7 +507,7 @@ namespace Editroid
             LayoutIndex index = renderer.RenderedLayout;
             for (int x = 0; x < 32; x++) {
                 for (int y = 0; y < 32; y++) {
-                    if (GetLevel(x, y) == index.Level && rom.GetScreenIndex(x, y) == index.ScreenIndex) {
+                    if (GetLevel(x, y) == index.Level && rom.GetScreenIndex(x, y) == index.ScreenIndex && GetAltPal(x,y) == index.AltPalette) {
                         Rectangle dest = new Rectangle(x * mapTileWidth, y * mapTileHeight, mapTileWidth, mapTileHeight);
                         _gMapImage.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
                         _gMapImage.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
@@ -594,8 +617,10 @@ namespace Editroid
         internal void FilterEmptyLocations() {
             for(int x = 0; x < 32; x++) {
                 for(int y = 0; y < 32; y++) {
-                    if(rom.GetScreenIndex(x, y) == 0xFF)
-                        SetMapLocationImage(x, y, MapLevel.Blank);
+                    if (rom.GetScreenIndex(x, y) == 0xFF) {
+                        //SetMapLocationImage(x, y, MapLevel.Blank);
+                        SetMapLocationData(x, y, MapCellData.Blank);
+                    }
                 }
             }
         }
@@ -663,10 +688,42 @@ namespace Editroid
         Ridley = 0x10,
     }
 
+    
     public interface ILevelMap
     {
         LevelIndex GetLevel(int x, int y) ;
         void SetLevel(int x, int y, LevelIndex level);
     }
+    public struct MapCellData
+    {
+        public static readonly MapCellData Blank;
+        static MapCellData() {
+            Blank.Area = MapLevel.Blank;
+        }
 
+        int _animation;
+
+        public MapLevel Area { get; set; }
+        public bool UseAltPalette { get; set; }
+        public int Animation { get { return _animation; } set { _animation = value & 0xf; } }
+
+        public static MapCellData FromByte(byte b) {
+            MapCellData result = new MapCellData();
+            result.Area = (MapLevel)(b & 0x1C);
+            result.UseAltPalette = (0 != (b & 0x2));
+            int animation = (b >> 4) & 0xe;
+            animation |= (b & 1);
+            result.Animation = animation;
+
+            return result;
+        }
+
+        public byte ToByte() {
+            int result = (int)Area;
+            if (UseAltPalette) result |= 2;
+            result |= (Animation & 1);
+            result |= ((Animation & 0xE) << 4);
+            return (byte)result;
+        }
+    }
 }

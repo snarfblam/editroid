@@ -47,6 +47,7 @@ namespace Editroid
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(299, 213);
             this.panel1.TabIndex = 0;
+            this.panel1.Click += new System.EventHandler(this.panel1_Click);
             // 
             // pictureBox1
             // 
@@ -56,6 +57,7 @@ namespace Editroid
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // btnSave
             // 
@@ -70,8 +72,9 @@ namespace Editroid
             // 
             // dlgSave
             // 
-            this.dlgSave.Filter = "Bitmap (*.bmp)|*.bmp|Paletted Bitmap (*.bmp)|*.bmp|Gif (*.gif)|*.gif|Jpeg (High)(" +
-                "*.jpg)|*.jpg|Jpeg (Normal)(*.jpg)|*.jpg|Jpeg (Low)(*.jpg)|*.jpg";
+            this.dlgSave.Filter = "Bitmap (*.bmp)|*.bmp|Indexed Bitmap (*.bmp)|*.bmp|Gif (*.gif)|*.gif|JPEG (*.jpg)|" +
+                "*.jpg|PNG (*.png)|*.png";
+            this.dlgSave.FilterIndex = 5;
             this.dlgSave.Title = "Save Map";
             // 
             // btnClose

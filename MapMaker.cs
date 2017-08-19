@@ -82,6 +82,7 @@ namespace Editroid
         }
 
 
+
         ScreenRenderer renderer = new ScreenRenderer();
         Blitter b = new Blitter();
         Bitmap screenBitmap = new Bitmap(ScreenWidth, ScreenImageHeight, PixelFormat.Format8bppIndexed);
@@ -118,18 +119,18 @@ namespace Editroid
 
             if(level == LevelIndex.None ||
                 (levelFilter != LevelIndex.None && level != levelFilter)) {
+                return;
+                ////if(!fillEmptySpots) return;
 
-                if(!fillEmptySpots) return;
+                ////if(levelFilter != LevelIndex.None)
+                ////    level = levelFilter;
+                ////else 
+                ////    level = GuessLevel(gameX, gameY);
 
-                if(levelFilter != LevelIndex.None)
-                    level = levelFilter;
-                else 
-                    level = GuessLevel(gameX, gameY);
+                ////if(level == LevelIndex.Tourian)
+                ////    level = LevelIndex.Kraid;
 
-                if(level == LevelIndex.Tourian)
-                    level = LevelIndex.Kraid;
-
-                invalidLevel = true;
+                ////invalidLevel = true;
             }
 
             Level levelData = rom.GetLevel(level);
@@ -146,7 +147,10 @@ namespace Editroid
             renderer.SelectedEnemy = -1;
 
             // Apply paletteIndex
-            screen.ApplyLevelPalette(screenBitmap);
+            //screen.ApplyLevelPalette(screenBitmap); // Sprites
+            //renderer.ApplyPalette(screenBitmap, levelMap.GetAltPal(gameX, gameY)); // Backgrounds
+            ScreenEditor.ApplyPalette(levelMap.GetAltPal(gameX, gameY), levelData, screenBitmap, HighlightEffect.Invert);
+
             // Render Screen
             renderer.DefaultPalette = screen.ColorAttributeTable;
             renderer.Clear();

@@ -250,6 +250,16 @@ namespace Editroid
         }
         #endregion
 
+
+
+        public SetMapRoomDisplay SetAltPal(bool value) {
+            return new SetMapRoomDisplay(queue, editor.MapLocation, value, null);
+        }
+        public SetMapRoomDisplay SetAnimation(int value) {
+            return new SetMapRoomDisplay(queue, editor.MapLocation, null, value);
+        }
+
+
         public ChangeMapRoomLevel ChangeLevel(LevelIndex level) {
             return new ChangeMapRoomLevel(queue, editor.MapLocation, level);
         }

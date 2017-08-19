@@ -35,7 +35,14 @@ namespace Editroid.Actions
         }
 
         public override string GetText() {
-            return "Change location to " + newValue.ToString();
+            //return "Change location to " + newValue.ToString();
+            if (newValue == LevelIndex.None) {
+                return "Disable map location";
+            } else if (oldValue == LevelIndex.None) {
+                return "Enable map location (display as " + newValue.ToString() + ")";
+            } else {
+                return "Set location to display as " + newValue.ToString();
+            }
         }
 
         public override bool IsNullAction {

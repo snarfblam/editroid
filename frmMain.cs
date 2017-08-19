@@ -12,7 +12,7 @@ using Editroid.Actions;
 using System.Threading;
 using System.Diagnostics;
 using Editroid.Patches;
-using EditroidPlug;
+//using EditroidPlug;
 using Editroid.ROM.Projects;
 using System.Text;
 using System.Security;
@@ -21,7 +21,7 @@ namespace Editroid
 {
     internal partial class frmMain:Form, ActionGenerator.IParamSource
     {
-        PluginHost plugins;
+        //PluginHost plugins;
         Image userFileIcon = Resources.CodeFile;
         Image userFileAsterisk = Resources.CodeFileAsterisk;
 
@@ -61,7 +61,7 @@ namespace Editroid
             Application.Idle += new EventHandler(Application_Idle);
             SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
 
-            plugins = new PluginHost(this);
+            //plugins = new PluginHost(this);
 
             ItemEditingUI.AssociateControl(ItemUiRole.DoorTypeCombo, itDoorTypeList, ItemEditUI.ItemUiComboList.DoorList);
             ItemEditingUI.AssociateControl(ItemUiRole.PowerupCombo, itPowerupList, ItemEditUI.ItemUiComboList.PowerupTypeList);
@@ -93,39 +93,39 @@ namespace Editroid
         ItemEditUI ItemEditingUI = new ItemEditUI();
 
         private void InitializePluginMenu() {
-            bool hasEditorSeparator = false;
-            bool hasToolSeparator = false;
+            //bool hasEditorSeparator = false;
+            //bool hasToolSeparator = false;
 
-            var plugins = PluginManager.Plugins;
+            //var plugins = PluginManager.Plugins;
 
-            if (plugins != null) {
-                for (int i = 0; i < plugins.Count; i++) {
-                    ToolStripMenuItem item = new ToolStripMenuItem();
-                    item.Text = plugins[i].Name;
-                    item.Tag = plugins[i];
-                    item.Click += new EventHandler(PluginMenuItem_Click);
+            //if (plugins != null) {
+            //    for (int i = 0; i < plugins.Count; i++) {
+            //        ToolStripMenuItem item = new ToolStripMenuItem();
+            //        item.Text = plugins[i].Name;
+            //        item.Tag = plugins[i];
+            //        item.Click += new EventHandler(PluginMenuItem_Click);
 
-                    if (plugins[i].Category == EditroidPlug.PluginCategory.Editor) {
-                        if (!hasEditorSeparator) {
-                            hasEditorSeparator = true;
+            //        if (plugins[i].Category == EditroidPlug.PluginCategory.Editor) {
+            //            if (!hasEditorSeparator) {
+            //                hasEditorSeparator = true;
 
-                            mnuEditors.DropDownItems.Add(new ToolStripSeparator() { Tag = "advanced" });
-                        }
-                        mnuEditors.DropDownItems.Add(item);
-                    } else {
-                        if (!hasToolSeparator) {
-                            hasToolSeparator = true;
+            //                mnuEditors.DropDownItems.Add(new ToolStripSeparator() { Tag = "advanced" });
+            //            }
+            //            mnuEditors.DropDownItems.Add(item);
+            //        } else {
+            //            if (!hasToolSeparator) {
+            //                hasToolSeparator = true;
 
-                            mnuTools.DropDownItems.Add(new ToolStripSeparator());
-                        }
-                        mnuTools.DropDownItems.Add(item);
-                    }
-                }
-            }
+            //                mnuTools.DropDownItems.Add(new ToolStripSeparator());
+            //            }
+            //            mnuTools.DropDownItems.Add(item);
+            //        }
+            //    }
+            //}
         }
 
         void PluginMenuItem_Click(object sender, EventArgs e) {
-            plugins.InstantiatePlugin( (EditroidPluginAttribute) ((ToolStripItem)sender).Tag);
+            //plugins.InstantiatePlugin( (EditroidPluginAttribute) ((ToolStripItem)sender).Tag);
         }
 
         private void LoadDefaultMap() {
@@ -330,6 +330,7 @@ namespace Editroid
                 RomFileName = cdgOpenRom.FileName;
                 if (PerformOpen()) {
                     UpdateFormCaption();
+                    toolbar.Visible = true;
                 } else {
                     cdgOpenRom.FileName = oldFileName;
 
@@ -474,12 +475,13 @@ namespace Editroid
         }
         
         private void btnAltPal_Click(object sender, EventArgs e) {
-            gameView.UseAltPalette = btnAltPal.Checked;
-            gameView.RedrawAll();
-            if (Program.StructFormIsLoaded)
-                Program.StructForm.UseAlternatePalette = btnAltPal.Checked;
+            //gameView.UseAltPalette = btnAltPal.Checked;
+            //gameView.RedrawAll();
+            //if (Program.StructFormIsLoaded)
+            //    Program.StructForm.UseAlternatePalette = btnAltPal.Checked;
 
-            structurePicker1.UseAlternatePalette = btnAltPal.Checked;
+            //structurePicker1.UseAlternatePalette = btnAltPal.Checked;
+            PerformAction(actions.SetAltPal(!mapView.GetAltPal(ScreenEditor.MapLocation.X, ScreenEditor.MapLocation.Y)));
         }
 
         private void btnStructBack_Click(object sender, EventArgs e) {
@@ -606,37 +608,40 @@ namespace Editroid
         bool IsShifting { get { return (ModifierKeys & Keys.Shift) == Keys.Shift; } }
         bool IsControlling { get { return (ModifierKeys & Keys.Control) == Keys.Control; } }
         private void gameView_CmdKeyPressed(object sender, KeyEventArgs e) {
+
+            bool shiftOrControl = IsShifting | IsControlling;
+
+            // Shift + arrow keys scrolls view
+            if (e.KeyCode == Keys.Left && shiftOrControl) {
+                gameView.ScrollScreen(-1, 0);
+                e.Handled = true;
+            } else if (e.KeyCode == Keys.Up && shiftOrControl) {
+                gameView.ScrollScreen(0, -1);
+                e.Handled = true;
+            } else if (e.KeyCode == Keys.Right && shiftOrControl) {
+                gameView.ScrollScreen(1, 0);
+                e.Handled = true;
+            } else if (e.KeyCode == Keys.Down && shiftOrControl) {
+                gameView.ScrollScreen(0, 1);
+                e.Handled = true;
+            }
+
             // Note: if any funtions are added that can work when a disabled editor
             //      is selected, they should go above this check.
+            // --------
             if (ScreenEditor == null || !ScreenEditor.CanEdit) return;
 
-            if (e.KeyCode == Keys.Left) {
-                if (IsShifting || IsControlling) {
-                    gameView.ScrollScreen(-1, 0);
-                } else {
-                    ScreenEditor.RaiseMoveObject(-1, 0);
-                }
+            if (e.KeyCode == Keys.Left && !shiftOrControl) {
+                ScreenEditor.RaiseMoveObject(-1, 0);
                 e.Handled = true;
-            } else if (e.KeyCode == Keys.Up) {
-                if (IsShifting || IsControlling) {
-                    gameView.ScrollScreen(0, -1);
-                } else {
-                    ScreenEditor.RaiseMoveObject(0, -1);
-                }
+            } else if (e.KeyCode == Keys.Up && !shiftOrControl) {
+                ScreenEditor.RaiseMoveObject(0, -1);
                 e.Handled = true;
-            } else if (e.KeyCode == Keys.Right) {
-                if (IsShifting || IsControlling) {
-                    gameView.ScrollScreen(1, 0);
-                } else {
-                    ScreenEditor.RaiseMoveObject(1, 0);
-                }
+            } else if (e.KeyCode == Keys.Right && !shiftOrControl) {
+                ScreenEditor.RaiseMoveObject(1, 0);
                 e.Handled = true;
-            } else if (e.KeyCode == Keys.Down) {
-                if (IsShifting || IsControlling) {
-                    gameView.ScrollScreen(0, 1);
-                } else {
-                    ScreenEditor.RaiseMoveObject(0, 1);
-                }
+            } else if (e.KeyCode == Keys.Down && !shiftOrControl) {
+                ScreenEditor.RaiseMoveObject(0, 1);
                 e.Handled = true;
             } else if (e.KeyCode == Keys.Tab) {
                 if (!IsControlling) {
@@ -1290,10 +1295,11 @@ namespace Editroid
             mnuSetLevel.Enabled = canEdit;
             btnItemDisassm.Enabled = canEdit;
             btnItemDisassm.Text = btnItemDisassm.Tag.ToString().Replace("*", canEdit ? currentLevelData.Index.ToString() : "Level");
-            btnDropSamus.Enabled = btnDropSamusOptions.Enabled = mnuStart.Enabled = btnDisableScreen.Enabled = canEdit;
+            btnDropSamus.Enabled = btnDropSamusOptions.Enabled = mnuGotoSpawn.Enabled = btnDisableScreen.Enabled = canEdit;
             btnBridge.Checked = canEdit && screen.HasBridge;
             btnTilePhys.Enabled = screen != null;
             btnTilePhys.Visible = gameRom.Format.SupportsCustomTilePhysics;
+            mnuStart.Enabled = mnuGotoSpawn.Enabled = canEdit;
 
             // Toolbar
             btnNextScreen.Enabled = canEdit;
@@ -1339,6 +1345,10 @@ namespace Editroid
             if(structurePicker1.Level != level) {
                 structurePicker1.ShowStructs(level, structurePicker1.Palette, 0);
                 //structurePicker1.Level = level;
+            }
+            if (canEdit && mapView.GetAltPal(editor.MapLocation.X, editor.MapLocation.Y) != structurePicker1.UseAlternatePalette) {
+                // Make sure we are showing correct palette
+                structurePicker1.UseAlternatePalette = mapView.GetAltPal(editor.MapLocation.X, editor.MapLocation.Y);
             }
             structurePicker1.Visible = level != null;
 
@@ -1580,6 +1590,9 @@ namespace Editroid
                 // This happens last because it needs to account for changes 
                 // in selection resulting from changes to rom data.
                 UpdateStructForm(a, isUndo);
+                if (structurePicker1.Visible && structurePicker1.UseAlternatePalette != mapView.GetAltPal(ScreenEditor.MapLocation.X, ScreenEditor.MapLocation.Y)) {
+                    structurePicker1.UseAlternatePalette = mapView.GetAltPal(ScreenEditor.MapLocation.X, ScreenEditor.MapLocation.Y);
+                }
             }
         }
 
@@ -1664,12 +1677,14 @@ namespace Editroid
 
             if (a.AffectedMapLocation == EditroidAction.nullMapLocation) {
                 gameView.Redraw(a.AffectedLevel, a.AffectedScreenIndex);
-                mapImageGenerator.Enqueue(a.AffectedLevel, a.AffectedScreenIndex);
+                mapImageGenerator.Enqueue(a.AffectedLevel, a.AffectedScreenIndex, true);
+                mapImageGenerator.Enqueue(a.AffectedLevel, a.AffectedScreenIndex, false);
             } else {
                 gameView.Redraw(a.AffectedMapLocation);
                 mapImageGenerator.Enqueue(
                     mapView.GetLevel(a.AffectedMapLocation.X, a.AffectedMapLocation.Y),
-                    gameRom.GetScreenIndex(a.AffectedMapLocation.X, a.AffectedMapLocation.Y));
+                    gameRom.GetScreenIndex(a.AffectedMapLocation.X, a.AffectedMapLocation.Y),
+                    mapView.GetAltPal(a.AffectedMapLocation.X, a.AffectedMapLocation.Y));
             }
 
             ////var item = SelectedItem as ItemInstance;
@@ -2584,7 +2599,7 @@ namespace Editroid
 
         }
         private void mnuScrollPatch_Click(object sender, EventArgs e) {
-            PatchForm.TryApplyPatch(new DoorScrollPatch(gameRom.ExpandedRom), gameRom, this);
+            PatchForm.TryApplyPatch(new DoorScrollPatch(gameRom.RomFormat), gameRom, this);
         }
 
         private void btnAddRoom_Click(object sender, EventArgs e) {
@@ -3140,29 +3155,34 @@ namespace Editroid
         }
  
 
+        /// <summary>
+        /// Advances the selected screen to the next CHR animation
+        /// </summary>
         private void SelectNextChr() {
-            if (currentLevelData == null) return;
+            if (currentLevelData == null || CurrentScreen == null) return;
+            int currentChrIndex = mapView.GetAnimation(gameView.FocusedEditor.MapLocation.X, gameView.FocusedEditor.MapLocation.Y); // currentLevelData.PreferredChrBank ?? minChrBank;
+
             if (gameRom.Format.HasChrUsageTable) {
 
                 int minChrBank = gameRom.ChrUsage.GetBgFirstPage(CurrentLevel);
                 int maxChrBank = gameRom.ChrUsage.GetBgLastPage(CurrentLevel);
-                int currentChrIndex = currentLevelData.PreferredChrBank ?? minChrBank;
 
                 // Use next CHR bank (wrap from highest to lowest if necessary)
                 int newChrIndex = currentChrIndex + 1;
                 if (newChrIndex > maxChrBank) {
                     newChrIndex = minChrBank;
                 }
-
-                // Loat it!
+                
+                // Load it!
                 if (newChrIndex != currentChrIndex) {
                     currentLevelData.PreferredChrBank = newChrIndex;
                     ReloadLevelChr(CurrentLevel);
                 }
             } else if (gameRom.Format.HasChrAnimationTable) {
-                chrAnimationIndex = Math.Min(255, chrAnimationIndex + 1);
-                ReloadChrAnimations(chrAnimationIndex);
-
+                int maxChr = currentLevelData.ChrAnimation.Animations.Count - 1;
+                chrAnimationIndex = Math.Min(maxChr, chrAnimationIndex + 1);
+                //ReloadChrAnimations(chrAnimationIndex);
+                PerformAction(actions.SetAnimation(chrAnimationIndex));
             }
         }
 
@@ -3465,7 +3485,8 @@ namespace Editroid
             foreach (var item in mnuEditors.DropDownItems) {
                 var tsItem = item as ToolStripItem;
                 if (tsItem != null) {
-                    if(tsItem.Tag is EditroidPluginAttribute || String.Equals( tsItem.Tag as string ,"advanced", StringComparison.OrdinalIgnoreCase)){
+                    //if(tsItem.Tag is EditroidPluginAttribute || String.Equals( tsItem.Tag as string ,"advanced", StringComparison.OrdinalIgnoreCase)){
+                    if(String.Equals( tsItem.Tag as string ,"advanced", StringComparison.OrdinalIgnoreCase)){
                         tsItem.Visible = showAdvancedItems;
                     }
                 }
@@ -3561,18 +3582,20 @@ namespace Editroid
         }
 
         private void structurePicker1_StructureClicked(object sender, Editroid.Controls.StructurePicker.StructureIndexEventArgs e) {
-            if (EditStructureMode) {
-                if (SelectedItem is StructInstance) {
-                    bool samePal = (int)((StructInstance)SelectedItem).PalData == structurePicker1.Palette;
+            if (e.Value < currentLevelData.StructCount) {
+                if (EditStructureMode) {
+                    if (SelectedItem is StructInstance) {
+                        bool samePal = (int)((StructInstance)SelectedItem).PalData == structurePicker1.Palette;
 
-                    if (!samePal) {
-                        PerformAction(actions.ChangePalette(structurePicker1.Palette));
+                        if (!samePal) {
+                            PerformAction(actions.ChangePalette(structurePicker1.Palette));
+                        }
+                        PerformAction(actions.SetType(e.Value));
+
                     }
-                    PerformAction(actions.SetType(e.Value));
-                   
+                } else {
+                    PerformAction(actions.AddObject(e.Value, (byte)structurePicker1.Palette));
                 }
-            } else {
-                PerformAction(actions.AddObject(e.Value, (byte)structurePicker1.Palette));
             }
         }
 
@@ -3634,6 +3657,28 @@ namespace Editroid
 
         private void btnAddItemPalswap_Click(object sender, EventArgs e) {
 
+        }
+
+        private void gameView_RequestShowObject(object sender, EventArgs e) {
+            var selection = SelectedItem as StructInstance;
+            if (selection != null && CurrentLevel != null) {
+                var type = SelectedItem.GetTypeIndex();
+                structurePicker1.ShowStructs(currentLevelData, selection.PalData, type, type, mapView.GetAltPal(ScreenEditor.MapLocation.X,ScreenEditor.MapLocation.Y));
+            }
+        }
+
+        private void mnuGotoSpawn_Click(object sender, EventArgs e) {
+            var spawnX = ScreenEditor.Level.StartScreenX;
+            var spawnY = ScreenEditor.Level.StartScreenY;
+            
+            var spawnWorldX = ScreenEditor.CellSize.Width * spawnX;
+            var spawnWorldY = ScreenEditor.CellSize.Height * spawnY;
+            gameView.SetViewportLocation(new Point(spawnWorldX - (gameView.Width - ScreenEditor.CellSize.Width) / 2, spawnWorldY - (gameView.Height - ScreenEditor.CellSize.Height) / 2));
+            gameView.FocusScreen(spawnX, spawnY);
+        }
+
+        private void picTitle_Click(object sender, EventArgs e) {
+            ShowOpenFileDialog();
         }
 
 

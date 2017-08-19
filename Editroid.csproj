@@ -95,6 +95,7 @@
     <Compile Include="Actions\ReorderObjects.cs" />
     <Compile Include="Actions\SetItemRowPosititon.cs" />
     <Compile Include="Actions\SetItemTilePosition.cs" />
+    <Compile Include="Actions\SetMapRoomDisplay.cs" />
     <Compile Include="Actions\SetPaletteColor.cs" />
     <Compile Include="Actions\SetScreenIndex.cs" />
     <Compile Include="Actions\StructureAction.cs" />
@@ -1046,12 +1047,6 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EditroidPlug\EditroidPlug.csproj">
-      <Project>{D14B09A8-9D8C-4742-AC41-082E591D760B}</Project>
-      <Name>EditroidPlug</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />

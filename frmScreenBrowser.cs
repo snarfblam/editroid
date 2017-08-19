@@ -63,18 +63,19 @@ namespace Editroid
 
             renderer.Level = this.Level;
             //renderer.ApplyPalette(blitterBuffer, UseAlternatePalette);
-            var pal = blitterBuffer.Palette;
-            if (UseAlternatePalette) {
-                Level.BgAltPalette.ApplyTable(pal.Entries,0);
-                Level.BgAltPalette.ApplyTable(pal.Entries, 16);
-                Level.SpriteAltPalette.ApplyTable(pal.Entries, 32);
-            } else {
-                Level.BgPalette.ApplyTable(pal.Entries, 0);
-                Level.BgPalette.ApplyTable(pal.Entries, 16);
-                Level.SpritePalette.ApplyTable(pal.Entries, 32);
-            }
+            //var pal = blitterBuffer.Palette;
+            //if (UseAlternatePalette) {
+            //    Level.BgAltPalette.ApplyTable(pal.Entries,0);
+            //    Level.BgAltPalette.ApplyTable(pal.Entries, 16);
+            //    Level.SpriteAltPalette.ApplyTable(pal.Entries, 32);
+            //} else {
+            //    Level.BgPalette.ApplyTable(pal.Entries, 0);
+            //    Level.BgPalette.ApplyTable(pal.Entries, 16);
+            //    Level.SpritePalette.ApplyTable(pal.Entries, 32);
+            //}
+            //blitterBuffer.Palette = pal;
+            ScreenEditor.ApplyPalette(UseAlternatePalette, Level, blitterBuffer, HighlightEffect.Invert);
 
-            blitterBuffer.Palette = pal;
 
 
             for (int x = 0; x < 4; x++) {

@@ -23,6 +23,8 @@ namespace Editroid.Controls
         public int HighlightedIndex { get; private set; }
         public int SelectedIndex { get; private set; }
 
+        int UpdatingLevel;
+
         bool _UseAlternatePalette;
         public bool UseAlternatePalette {
             get { return _UseAlternatePalette; }
@@ -40,17 +42,18 @@ namespace Editroid.Controls
         List<int> LevelScrollPositions = new List<int>(5);
 
         public StructurePicker() {
-            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.Opaque | ControlStyles.Selectable | ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.Opaque | ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.Selectable, false);
             InitializeComponent();
 
             RecreateBuffer(128, 512);
 
             ScrollBar.Scroll += new ScrollEventHandler(OnScroll);
             ScrollBar.ValueChanged += new EventHandler(ScrollBar_ValueChanged);
+            //ScrollBar.app
 
             Application.AddMessageFilter(this);
         }
-
 
 
         protected override void Dispose(bool disposing) {
@@ -59,7 +62,9 @@ namespace Editroid.Controls
             Application.RemoveMessageFilter(this);
         }
         void ScrollBar_ValueChanged(object sender, EventArgs e) {
-            ShowStructs(Level, Palette, 0, SelectedIndex);
+            if (UpdatingLevel == 0) {
+                ShowStructs(Level, Palette, 0);//, SelectedIndex);
+            }
             
         }
 
@@ -176,18 +181,40 @@ namespace Editroid.Controls
             return ShowStructs(l, pallette, baseIndex, -1);
         }
         public int ShowStructs(Level l, int pallette, int baseIndex, int selectedIndex) {
-            SetLevel(l);
+            return ShowStructs(l, Palette, baseIndex, selectedIndex, UseAlternatePalette);
+        }
+        public int ShowStructs(Level l, int pallette, int baseIndex, int selectedIndex, bool altPal) {
+            UpdatingLevel++;
+            {
+                SetLevel(l);
+                _UseAlternatePalette = altPal;
 
-            HighlightedIndex = selectedIndex;
-            SelectedIndex = -1;
+                HighlightedIndex = selectedIndex;
+                SelectedIndex = -1;
 
-            this.Palette = pallette;
-            this.BaseIndex = baseIndex;
-            this.HighlightedIndex = selectedIndex;
+                this.Palette = pallette;
+                this.BaseIndex = baseIndex;
+                this.HighlightedIndex = selectedIndex;
 
-            RenderStructures();
-            Invalidate();
+                if (selectedIndex != -1) {
+                    ScrollToIndex(selectedIndex);
+                }
+
+                RenderStructures();
+                Invalidate();
+            }
+            UpdatingLevel--;
             return SelectedIndex;
+        }
+
+        private void ScrollToIndex(int index) {
+            int visibleCount = ScrollBar.LargeChange;
+            int firstVisible = index - visibleCount / 2;
+            // Don't scroll past top
+            if (firstVisible < 0) firstVisible = 0;
+            // Don't scroll past bottom
+            firstVisible = Math.Min(firstVisible, (int)(ScrollBar.Maximum - ScrollBar.LargeChange + 1));
+            ScrollBar.Value = firstVisible;
         }
 
         protected override void OnMouseDown(MouseEventArgs e) {

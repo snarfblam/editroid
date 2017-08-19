@@ -8,8 +8,8 @@ namespace Editroid.Patches
 {
     class DoorScrollPatch:RomPatch
     {
-        public DoorScrollPatch(bool expando) 
-        :base(expando){
+        public DoorScrollPatch(RomFormats format) 
+        :base(format){
         }
 
         bool initialized = false;
@@ -18,9 +18,9 @@ namespace Editroid.Patches
 
             if (!initialized) {
                 if (Behavior == Result.NewBehavior) {
-                    this.Segments.Add(new PatchSegment((pRom)ExpandoAdjust(0x1e247), new byte[] { 0xA0, 0x00 }));
+                    this.Segments.Add(new PatchSegment((pRom)FormatAdjust(0x1e247), new byte[] { 0xA0, 0x00 }));
                 } else {
-                    this.Segments.Add(new PatchSegment((pRom)ExpandoAdjust(0x1e247), new byte[] { 0xA4, 0x57 }));
+                    this.Segments.Add(new PatchSegment((pRom)FormatAdjust(0x1e247), new byte[] { 0xA4, 0x57 }));
                 }
                 initialized = true;
             }

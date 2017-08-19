@@ -9,6 +9,7 @@ namespace Editroid
     /// </summary>
     struct LayoutIndex
     {
+        bool altPal;
         byte level;
         byte screenIndex;
 
@@ -16,7 +17,7 @@ namespace Editroid
             get {
                 return (LevelIndex)level;
             }
-            set {
+            private set {
                 level = (byte)((int)value & 0xFF);
             }
         }
@@ -25,18 +26,21 @@ namespace Editroid
             get {
                 return screenIndex;
             }
-            set {
+            private set {
                 screenIndex = (byte)(value & 0xFF);
             }
         }
 
-        public LayoutIndex(LevelIndex level, int screen) {
+        public bool AltPalette { get { return altPal; } }
+
+        public LayoutIndex(LevelIndex level, int screen, bool altPal) {
             this.level = (byte)((int)level & 0xFF);
             this.screenIndex = (byte)(screen & 0xFF);
+            this.altPal = altPal;
         }
 
         static public bool operator == (LayoutIndex a, LayoutIndex b){
-            return a.screenIndex == b.screenIndex && a.level == b.level;
+            return a.screenIndex == b.screenIndex && a.level == b.level && a.altPal == b.altPal;
         }
         static public bool operator !=(LayoutIndex a, LayoutIndex b) {
             return !(a == b);

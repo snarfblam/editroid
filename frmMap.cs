@@ -63,22 +63,26 @@ namespace Editroid
                         prams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)80);
                         pictureBox1.Image.Save(dlgSave.FileName, codec, prams);
                         return;
-                    case 5: // JPeg (Normal)
-                        foreach(ImageCodecInfo c in allCodecs) {
-                            if(c.FilenameExtension.ToUpper().Contains(".JPG"))
-                                codec = c;
-                        }
-                        prams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)40);
-                        pictureBox1.Image.Save(dlgSave.FileName, codec, prams);
+                    case 5: // PNG
+                        pictureBox1.Image.Save(dlgSave.FileName, ImageFormat.Png);
                         return;
-                    case 6: // JPeg Low
-                        foreach(ImageCodecInfo c in allCodecs) {
-                            if(c.FilenameExtension.ToUpper().Contains(".JPG"))
-                                codec = c;
-                        }
-                        prams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)10);
-                        pictureBox1.Image.Save(dlgSave.FileName, codec, prams);
-                        return;
+                    //// Below options are no longer available
+                    ////case 5: // JPeg (Normal)
+                    ////    foreach(ImageCodecInfo c in allCodecs) {
+                    ////        if(c.FilenameExtension.ToUpper().Contains(".JPG"))
+                    ////            codec = c;
+                    ////    }
+                    ////    prams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)40);
+                    ////    pictureBox1.Image.Save(dlgSave.FileName, codec, prams);
+                    ////    return;
+                    ////case 6: // JPeg Low
+                    ////    foreach(ImageCodecInfo c in allCodecs) {
+                    ////        if(c.FilenameExtension.ToUpper().Contains(".JPG"))
+                    ////            codec = c;
+                    ////    }
+                    ////    prams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)10);
+                    ////    pictureBox1.Image.Save(dlgSave.FileName, codec, prams);
+                    ////    return;
                 }
                 //Bitmap saveImage = pictureBox1.Image as Bitmap;
 
@@ -117,6 +121,14 @@ namespace Editroid
 
         private void btnClose_Click(object sender, EventArgs e) {
             Close();
+        }
+
+        private void panel1_Click(object sender, EventArgs e) {
+            panel1.Focus();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e) {
+            panel1.Focus();
         }
     }
 }

@@ -177,14 +177,18 @@ namespace Editroid
         }
 
 
-        public ScreenEditor GetEditorAt(int worldX, int worldY) {
+        public ScreenEditor GetEditorAtWorld(int worldX, int worldY) {
             worldX /= ScreenEditor.CellSize.Width;
             worldY /= ScreenEditor.CellSize.Height;
 
-            EnsureEditorExists(worldX, worldY);
+            return GetEditorAt(worldX, worldY);
+        }
+
+        public ScreenEditor GetEditorAt(int mapX, int mapY) {
+            EnsureEditorExists(mapX, mapY);
 
             foreach (ScreenEditor e in editors)
-                if (e.MapLocation.X == worldX && e.MapLocation.Y == worldY)
+                if (e.MapLocation.X == mapX && e.MapLocation.Y == mapY)
                     return e;
 
             return null;
@@ -193,7 +197,7 @@ namespace Editroid
         ScreenEditor mouseCapture;
         internal void SendMouseDown(System.Windows.Forms.MouseButtons buttons, int x, int y) {
             if (mouseCapture == null) {
-                ScreenEditor mouseEditor = GetEditorAt(x, y);
+                ScreenEditor mouseEditor = GetEditorAtWorld(x, y);
                 if (mouseEditor != null) mouseEditor.OnMouseDown(buttons, x, y);
                 mouseCapture = mouseEditor;
             } else {
@@ -203,7 +207,7 @@ namespace Editroid
 
         internal void SendMouseMove(System.Windows.Forms.MouseButtons buttons, int x, int y) {
             if (mouseCapture == null) {
-                ScreenEditor mouseEditor = GetEditorAt(x, y);
+                ScreenEditor mouseEditor = GetEditorAtWorld(x, y);
                 if (mouseEditor != null) mouseEditor.OnMouseMove(buttons, x, y);
             } else {
                 mouseCapture.OnMouseMove(buttons, x, y);
@@ -212,7 +216,7 @@ namespace Editroid
 
         internal void SendMouseUp(System.Windows.Forms.MouseButtons buttons, int x, int y) {
             if (mouseCapture == null) {
-                ScreenEditor mouseEditor = GetEditorAt(x, y);
+                ScreenEditor mouseEditor = GetEditorAtWorld(x, y);
                 if (mouseEditor != null) mouseEditor.OnMouseUp(buttons, x, y);
             } else {
                 mouseCapture.OnMouseUp(buttons, x, y);
