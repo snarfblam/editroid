@@ -129,15 +129,15 @@ namespace Editroid
         private void PatchInitAssembly(byte[] result) {
             AssmWriter assembler = new AssmWriter(result);
 
-            //// Todo: Hack: This gets rid of a branch that is not needed in MMC3 in order to allow test room to work, but this is very brittle.
-            //// Instead, MMC3 should have a separate test-room boot routine where the TestRoom feature can either update a table that is used to init the game or can at
-            //// least simply modify a standard, stable initialization routine dedicated to TestRoom
-            //assembler.Offset = 0x10E7;
-            //assembler.WriteInstruction(Opcodes.ldy_im, (byte)0x00);
-            //assembler.WriteInstruction(Opcodes.sty, 0x010e);
-            //assembler.WriteInstruction(Opcodes.dey);
-            //assembler.WriteInstruction(Opcodes.sty, 0x780D);
-            ////assembler.WriteInstruction(Opcodes.nop);
+            // Todo: Hack: This gets rid of a branch that is not needed in MMC3 in order to allow test room to work, but this is very brittle.
+            // Instead, MMC3 should have a separate test-room boot routine where the TestRoom feature can either update a table that is used to init the game or can at
+            // least simply modify a standard, stable initialization routine dedicated to TestRoom
+            assembler.Offset = 0x10E7;
+            assembler.WriteInstruction(Opcodes.ldy_im, (byte)0x00);
+            assembler.WriteInstruction(Opcodes.sty, 0x010e);
+            assembler.WriteInstruction(Opcodes.dey);
+            assembler.WriteInstruction(Opcodes.sty, 0x780D);
+            //assembler.WriteInstruction(Opcodes.nop);
             
             assembler.Offset = 0x10F4;
 

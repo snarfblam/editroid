@@ -64,14 +64,10 @@ namespace Editroid.ROM
             while (keepGoing && frameIndex < lastFrame && frameIndex < 0xFF) {
                 ChrAnimationTable loadedAnimation = LoadOneAnimation(rom, level, ref frameIndex);
                 if (loadedAnimation == null) {
-                    if (data.Animations.Count == 0) {
-                        loadedAnimation = new ChrAnimationTable();
-                        ChrAnimationFrame frame = new ChrAnimationFrame();
-                        frame.FrameTime = 1;
-                        loadedAnimation.Frames.Add(frame);
-                    } else {
-                        return data;
-                    }
+                    loadedAnimation = new ChrAnimationTable();
+                    ChrAnimationFrame frame = new ChrAnimationFrame();
+                    frame.FrameTime = 1;
+                    loadedAnimation.Frames.Add(frame);
                 }
                 data.Animations.Add(loadedAnimation);
             }
@@ -148,17 +144,6 @@ namespace Editroid.ROM
 
                 }
             }
-        }
-
-        internal static void SerializeChrAnimationTerminator(MetroidRom rom, ref int frameIndex) {
-            rom.SetAnimationTable_Bank0(frameIndex, 0xFF);
-            rom.SetAnimationTable_Bank1(frameIndex, 0xFF);
-            rom.SetAnimationTable_Bank2(frameIndex, 0xFF);
-            rom.SetAnimationTable_Bank3(frameIndex, 0xFF);
-            rom.SetAnimationTable_FrameTime(frameIndex, 0xFF);
-            rom.SetAnimationTable_FrameLast(frameIndex, true);
-
-            frameIndex++;
         }
     }
 

@@ -48,10 +48,12 @@ namespace Editroid
             this.mnuAddEnemy = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddLeftDoor = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddRightDoor = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.btnBridge = new System.Windows.Forms.ToolStripMenuItem();
             this.separator_Room = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddRoom = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCopyroom = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDeleteRoom = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,7 +146,6 @@ namespace Editroid
             this.toolStripMenuItem20 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem21 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuStart = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuGotoSpawn = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuMap = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem23 = new System.Windows.Forms.ToolStripMenuItem();
@@ -238,9 +239,9 @@ namespace Editroid
             this.itDifficultToggle = new System.Windows.Forms.ToolStripButton();
             this.itRawLabel = new System.Windows.Forms.ToolStripLabel();
             this.itRawEdit = new System.Windows.Forms.ToolStripTextBox();
-            this.passwordEditor = new Editroid.PasswordDetailEditor();
             this.structurePicker1 = new Editroid.Controls.StructurePicker();
             this.mapView = new Editroid.MapControl();
+            this.passwordEditor = new Editroid.PasswordDetailEditor();
             this.ItemDataEditor = new Editroid.ItemDataEditor();
             this.gameView = new Editroid.RomViewport();
             this.picTitle = new Editroid.SplashBox();
@@ -323,7 +324,7 @@ namespace Editroid
             // toolStripSeparator24
             // 
             toolStripSeparator24.Name = "toolStripSeparator24";
-            toolStripSeparator24.Size = new System.Drawing.Size(175, 6);
+            toolStripSeparator24.Size = new System.Drawing.Size(174, 6);
             // 
             // toolStripSeparator29
             // 
@@ -394,7 +395,6 @@ namespace Editroid
             this.toolbar.Size = new System.Drawing.Size(1526, 25);
             this.toolbar.TabIndex = 1;
             this.toolbar.Text = "toolStrip1";
-            this.toolbar.Visible = false;
             this.toolbar.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolbar_ItemClicked);
             // 
             // MemoryMenu
@@ -405,16 +405,12 @@ namespace Editroid
             this.mnuAddEnemy,
             this.btnAddLeftDoor,
             this.btnAddRightDoor,
+            this.toolStripSeparator10,
             this.mnuRemove,
             this.toolStripSeparator9,
             this.btnBridge,
             this.separator_Room,
-            this.btnAddRoom,
-            this.btnCopyroom,
-            this.btnDeleteRoom,
-            this.sepratator_Struct,
-            this.btnAddStruct,
-            this.btnDeleteStruct,
+            this.toolStripMenuItem4,
             this.btnAddItemData});
             this.MemoryMenu.Enabled = false;
             this.MemoryMenu.Image = ((System.Drawing.Image)(resources.GetObject("MemoryMenu.Image")));
@@ -429,7 +425,7 @@ namespace Editroid
             this.mnuAddObject.ForeColor = System.Drawing.Color.Green;
             this.mnuAddObject.Name = "mnuAddObject";
             this.mnuAddObject.ShortcutKeyDisplayString = "Comma";
-            this.mnuAddObject.Size = new System.Drawing.Size(201, 22);
+            this.mnuAddObject.Size = new System.Drawing.Size(184, 22);
             this.mnuAddObject.Text = "Add Object";
             this.mnuAddObject.Click += new System.EventHandler(this.mnuAddObject_Click);
             // 
@@ -439,7 +435,7 @@ namespace Editroid
             this.mnuAddEnemy.ForeColor = System.Drawing.Color.Green;
             this.mnuAddEnemy.Name = "mnuAddEnemy";
             this.mnuAddEnemy.ShortcutKeyDisplayString = "Period";
-            this.mnuAddEnemy.Size = new System.Drawing.Size(201, 22);
+            this.mnuAddEnemy.Size = new System.Drawing.Size(184, 22);
             this.mnuAddEnemy.Text = "Add Enemy";
             this.mnuAddEnemy.Click += new System.EventHandler(this.mnuAddEnemy_Click);
             // 
@@ -448,7 +444,7 @@ namespace Editroid
             this.btnAddLeftDoor.Enabled = false;
             this.btnAddLeftDoor.ForeColor = System.Drawing.Color.Green;
             this.btnAddLeftDoor.Name = "btnAddLeftDoor";
-            this.btnAddLeftDoor.Size = new System.Drawing.Size(201, 22);
+            this.btnAddLeftDoor.Size = new System.Drawing.Size(184, 22);
             this.btnAddLeftDoor.Text = "Add Left Door";
             this.btnAddLeftDoor.Click += new System.EventHandler(this.btnAddLeftDoor_Click);
             // 
@@ -457,9 +453,15 @@ namespace Editroid
             this.btnAddRightDoor.Enabled = false;
             this.btnAddRightDoor.ForeColor = System.Drawing.Color.Green;
             this.btnAddRightDoor.Name = "btnAddRightDoor";
-            this.btnAddRightDoor.Size = new System.Drawing.Size(201, 22);
+            this.btnAddRightDoor.Size = new System.Drawing.Size(184, 22);
             this.btnAddRightDoor.Text = "Add Right Door";
             this.btnAddRightDoor.Click += new System.EventHandler(this.btnAddRightDoor_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator10.Visible = false;
             // 
             // mnuRemove
             // 
@@ -467,35 +469,48 @@ namespace Editroid
             this.mnuRemove.ForeColor = System.Drawing.Color.Maroon;
             this.mnuRemove.Name = "mnuRemove";
             this.mnuRemove.ShortcutKeyDisplayString = "Backspace";
-            this.mnuRemove.Size = new System.Drawing.Size(201, 22);
+            this.mnuRemove.Size = new System.Drawing.Size(184, 22);
             this.mnuRemove.Text = "Delete";
             this.mnuRemove.Click += new System.EventHandler(this.mnuRemove_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(181, 6);
             // 
             // btnBridge
             // 
             this.btnBridge.Enabled = false;
             this.btnBridge.Name = "btnBridge";
-            this.btnBridge.Size = new System.Drawing.Size(201, 22);
+            this.btnBridge.Size = new System.Drawing.Size(184, 22);
             this.btnBridge.Text = "Place Bridge Here";
             this.btnBridge.Click += new System.EventHandler(this.btnBridge_Click);
             // 
             // separator_Room
             // 
             this.separator_Room.Name = "separator_Room";
-            this.separator_Room.Size = new System.Drawing.Size(198, 6);
+            this.separator_Room.Size = new System.Drawing.Size(181, 6);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnAddRoom,
+            this.btnCopyroom,
+            this.btnDeleteRoom,
+            this.sepratator_Struct,
+            this.btnAddStruct,
+            this.btnDeleteStruct});
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(184, 22);
+            this.toolStripMenuItem4.Text = "Definitions";
             // 
             // btnAddRoom
             // 
             this.btnAddRoom.Enabled = false;
             this.btnAddRoom.ForeColor = System.Drawing.Color.Green;
             this.btnAddRoom.Name = "btnAddRoom";
-            this.btnAddRoom.Size = new System.Drawing.Size(201, 22);
-            this.btnAddRoom.Text = "New Screen Layout";
+            this.btnAddRoom.Size = new System.Drawing.Size(173, 22);
+            this.btnAddRoom.Text = "New Screen";
             this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
             // 
             // btnCopyroom
@@ -503,8 +518,8 @@ namespace Editroid
             this.btnCopyroom.Enabled = false;
             this.btnCopyroom.ForeColor = System.Drawing.Color.Green;
             this.btnCopyroom.Name = "btnCopyroom";
-            this.btnCopyroom.Size = new System.Drawing.Size(201, 22);
-            this.btnCopyroom.Text = "Duplicate Screen Layout";
+            this.btnCopyroom.Size = new System.Drawing.Size(173, 22);
+            this.btnCopyroom.Text = "Duplicate Screen";
             this.btnCopyroom.Click += new System.EventHandler(this.btnCopyroom_Click);
             // 
             // btnDeleteRoom
@@ -512,22 +527,21 @@ namespace Editroid
             this.btnDeleteRoom.Enabled = false;
             this.btnDeleteRoom.ForeColor = System.Drawing.Color.Maroon;
             this.btnDeleteRoom.Name = "btnDeleteRoom";
-            this.btnDeleteRoom.Size = new System.Drawing.Size(201, 22);
-            this.btnDeleteRoom.Text = "Delete Screen Layout";
+            this.btnDeleteRoom.Size = new System.Drawing.Size(173, 22);
+            this.btnDeleteRoom.Text = "Delete Screen";
             this.btnDeleteRoom.Click += new System.EventHandler(this.btnDeleteRoom_Click);
             // 
             // sepratator_Struct
             // 
             this.sepratator_Struct.Name = "sepratator_Struct";
-            this.sepratator_Struct.Size = new System.Drawing.Size(198, 6);
-            this.sepratator_Struct.Visible = false;
+            this.sepratator_Struct.Size = new System.Drawing.Size(170, 6);
             // 
             // btnAddStruct
             // 
             this.btnAddStruct.Enabled = false;
             this.btnAddStruct.ForeColor = System.Drawing.Color.Green;
             this.btnAddStruct.Name = "btnAddStruct";
-            this.btnAddStruct.Size = new System.Drawing.Size(201, 22);
+            this.btnAddStruct.Size = new System.Drawing.Size(173, 22);
             this.btnAddStruct.Text = "New Object Type";
             this.btnAddStruct.Click += new System.EventHandler(this.btnAddStruct_Click);
             // 
@@ -536,7 +550,7 @@ namespace Editroid
             this.btnDeleteStruct.Enabled = false;
             this.btnDeleteStruct.ForeColor = System.Drawing.Color.Maroon;
             this.btnDeleteStruct.Name = "btnDeleteStruct";
-            this.btnDeleteStruct.Size = new System.Drawing.Size(201, 22);
+            this.btnDeleteStruct.Size = new System.Drawing.Size(173, 22);
             this.btnDeleteStruct.Text = "Delete Object Type";
             this.btnDeleteStruct.Click += new System.EventHandler(this.btnDeleteStruct_Click);
             // 
@@ -554,7 +568,7 @@ namespace Editroid
             this.btnAddItemDoor,
             this.btnAddItemPalswap});
             this.btnAddItemData.Name = "btnAddItemData";
-            this.btnAddItemData.Size = new System.Drawing.Size(201, 22);
+            this.btnAddItemData.Size = new System.Drawing.Size(184, 22);
             this.btnAddItemData.Text = "Item Data";
             this.btnAddItemData.Visible = false;
             this.btnAddItemData.DropDownOpened += new System.EventHandler(this.btnAddItemData_DropDownOpened);
@@ -1014,7 +1028,7 @@ namespace Editroid
             this.btnTourian.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnTourian.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTourian.Name = "btnTourian";
-            this.btnTourian.Size = new System.Drawing.Size(52, 22);
+            this.btnTourian.Size = new System.Drawing.Size(51, 22);
             this.btnTourian.Text = "Tourian";
             this.btnTourian.Visible = false;
             this.btnTourian.Click += new System.EventHandler(this.btnTourian_Click);
@@ -1024,7 +1038,7 @@ namespace Editroid
             this.btnExpansionTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnExpansionTest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExpansionTest.Name = "btnExpansionTest";
-            this.btnExpansionTest.Size = new System.Drawing.Size(86, 22);
+            this.btnExpansionTest.Size = new System.Drawing.Size(85, 22);
             this.btnExpansionTest.Text = "ExpansionTest";
             this.btnExpansionTest.Visible = false;
             this.btnExpansionTest.Click += new System.EventHandler(this.btnExpansionTest_Click);
@@ -1294,7 +1308,6 @@ namespace Editroid
             this.btnDisableScreen,
             this.mnuSetLevel,
             this.mnuStart,
-            this.mnuGotoSpawn,
             this.toolStripSeparator26,
             this.mnuMap,
             this.toolStripMenuItem23,
@@ -1312,7 +1325,7 @@ namespace Editroid
             this.enhancedRomTestToolStripMenuItem});
             this.mnuTools.Image = ((System.Drawing.Image)(resources.GetObject("mnuTools.Image")));
             this.mnuTools.Name = "mnuTools";
-            this.mnuTools.Size = new System.Drawing.Size(51, 20);
+            this.mnuTools.Size = new System.Drawing.Size(50, 20);
             this.mnuTools.Text = " &Tools";
             this.mnuTools.DropDownOpening += new System.EventHandler(this.mnuTools_DropDownOpening);
             // 
@@ -1322,7 +1335,7 @@ namespace Editroid
             this.btnDisableScreen.Image = ((System.Drawing.Image)(resources.GetObject("btnDisableScreen.Image")));
             this.btnDisableScreen.Name = "btnDisableScreen";
             this.btnDisableScreen.ShortcutKeyDisplayString = "Numpad 0";
-            this.btnDisableScreen.Size = new System.Drawing.Size(277, 22);
+            this.btnDisableScreen.Size = new System.Drawing.Size(276, 22);
             this.btnDisableScreen.Text = "Disable Selected Screen";
             this.btnDisableScreen.Click += new System.EventHandler(this.blankToolStripMenuItem_Click);
             // 
@@ -1338,7 +1351,7 @@ namespace Editroid
             this.toolStripMenuItem21});
             this.mnuSetLevel.Enabled = false;
             this.mnuSetLevel.Name = "mnuSetLevel";
-            this.mnuSetLevel.Size = new System.Drawing.Size(277, 22);
+            this.mnuSetLevel.Size = new System.Drawing.Size(276, 22);
             this.mnuSetLevel.Text = "Set Level For Screen";
             this.mnuSetLevel.Visible = false;
             // 
@@ -1346,42 +1359,42 @@ namespace Editroid
             // 
             this.toolStripMenuItem16.Name = "toolStripMenuItem16";
             this.toolStripMenuItem16.ShortcutKeyDisplayString = "Numpad 0";
-            this.toolStripMenuItem16.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuItem16.Size = new System.Drawing.Size(177, 22);
             this.toolStripMenuItem16.Text = "Blank";
             // 
             // toolStripMenuItem17
             // 
             this.toolStripMenuItem17.Name = "toolStripMenuItem17";
             this.toolStripMenuItem17.ShortcutKeyDisplayString = "Numpad 1";
-            this.toolStripMenuItem17.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuItem17.Size = new System.Drawing.Size(177, 22);
             this.toolStripMenuItem17.Text = "Brinstar";
             // 
             // toolStripMenuItem18
             // 
             this.toolStripMenuItem18.Name = "toolStripMenuItem18";
             this.toolStripMenuItem18.ShortcutKeyDisplayString = "Numpad 2";
-            this.toolStripMenuItem18.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuItem18.Size = new System.Drawing.Size(177, 22);
             this.toolStripMenuItem18.Text = "Norfair";
             // 
             // toolStripMenuItem19
             // 
             this.toolStripMenuItem19.Name = "toolStripMenuItem19";
             this.toolStripMenuItem19.ShortcutKeyDisplayString = "Numpad 3";
-            this.toolStripMenuItem19.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuItem19.Size = new System.Drawing.Size(177, 22);
             this.toolStripMenuItem19.Text = "Ridley";
             // 
             // toolStripMenuItem20
             // 
             this.toolStripMenuItem20.Name = "toolStripMenuItem20";
             this.toolStripMenuItem20.ShortcutKeyDisplayString = "Numpad 4";
-            this.toolStripMenuItem20.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuItem20.Size = new System.Drawing.Size(177, 22);
             this.toolStripMenuItem20.Text = "Kraid";
             // 
             // toolStripMenuItem21
             // 
             this.toolStripMenuItem21.Name = "toolStripMenuItem21";
             this.toolStripMenuItem21.ShortcutKeyDisplayString = "Numpad 5";
-            this.toolStripMenuItem21.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuItem21.Size = new System.Drawing.Size(177, 22);
             this.toolStripMenuItem21.Text = "Tourian";
             // 
             // mnuStart
@@ -1389,24 +1402,15 @@ namespace Editroid
             this.mnuStart.Enabled = false;
             this.mnuStart.Image = ((System.Drawing.Image)(resources.GetObject("mnuStart.Image")));
             this.mnuStart.Name = "mnuStart";
-            this.mnuStart.Size = new System.Drawing.Size(277, 22);
+            this.mnuStart.Size = new System.Drawing.Size(276, 22);
             this.mnuStart.Tag = "NoEnable";
-            this.mnuStart.Text = "Set Area Spawn Here";
+            this.mnuStart.Text = "Set Area Start Here";
             this.mnuStart.Click += new System.EventHandler(this.mnuStart_Click);
-            // 
-            // mnuGotoSpawn
-            // 
-            this.mnuGotoSpawn.Enabled = false;
-            this.mnuGotoSpawn.Name = "mnuGotoSpawn";
-            this.mnuGotoSpawn.Size = new System.Drawing.Size(277, 22);
-            this.mnuGotoSpawn.Tag = "NoEnable";
-            this.mnuGotoSpawn.Text = "Go To Area Spawn";
-            this.mnuGotoSpawn.Click += new System.EventHandler(this.mnuGotoSpawn_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(273, 6);
             // 
             // mnuMap
             // 
@@ -1414,7 +1418,7 @@ namespace Editroid
             this.mnuMap.Image = ((System.Drawing.Image)(resources.GetObject("mnuMap.Image")));
             this.mnuMap.Name = "mnuMap";
             this.mnuMap.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mnuMap.Size = new System.Drawing.Size(277, 22);
+            this.mnuMap.Size = new System.Drawing.Size(276, 22);
             this.mnuMap.Text = "Generate Map...";
             this.mnuMap.Click += new System.EventHandler(this.mnuMap_Click);
             // 
@@ -1423,7 +1427,7 @@ namespace Editroid
             this.toolStripMenuItem23.Enabled = false;
             this.toolStripMenuItem23.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem23.Image")));
             this.toolStripMenuItem23.Name = "toolStripMenuItem23";
-            this.toolStripMenuItem23.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItem23.Size = new System.Drawing.Size(276, 22);
             this.toolStripMenuItem23.Text = "Generate Password Tracking Data...";
             this.toolStripMenuItem23.Click += new System.EventHandler(this.btnPasswordData_Click);
             // 
@@ -1433,21 +1437,21 @@ namespace Editroid
             this.toolStripMenuItem24.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem24.Image")));
             this.toolStripMenuItem24.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripMenuItem24.Name = "toolStripMenuItem24";
-            this.toolStripMenuItem24.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItem24.Size = new System.Drawing.Size(276, 22);
             this.toolStripMenuItem24.Text = "Pointer Explorer";
             this.toolStripMenuItem24.Click += new System.EventHandler(this.mnuPointerExplorer_Click);
             // 
             // toolStripSeparator27
             // 
             this.toolStripSeparator27.Name = "toolStripSeparator27";
-            this.toolStripSeparator27.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparator27.Size = new System.Drawing.Size(273, 6);
             // 
             // btnItemDisassm
             // 
             this.btnItemDisassm.Enabled = false;
             this.btnItemDisassm.Image = ((System.Drawing.Image)(resources.GetObject("btnItemDisassm.Image")));
             this.btnItemDisassm.Name = "btnItemDisassm";
-            this.btnItemDisassm.Size = new System.Drawing.Size(277, 22);
+            this.btnItemDisassm.Size = new System.Drawing.Size(276, 22);
             this.btnItemDisassm.Tag = "Get * Item Disassembly...";
             this.btnItemDisassm.Text = "Get Level Item Disassembly...";
             this.btnItemDisassm.Visible = false;
@@ -1456,21 +1460,21 @@ namespace Editroid
             // toolStripSeparator25
             // 
             this.toolStripSeparator25.Name = "toolStripSeparator25";
-            this.toolStripSeparator25.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparator25.Size = new System.Drawing.Size(273, 6);
             this.toolStripSeparator25.Visible = false;
             // 
             // mnuScrollPatch
             // 
             this.mnuScrollPatch.Enabled = false;
             this.mnuScrollPatch.Name = "mnuScrollPatch";
-            this.mnuScrollPatch.Size = new System.Drawing.Size(277, 22);
+            this.mnuScrollPatch.Size = new System.Drawing.Size(276, 22);
             this.mnuScrollPatch.Text = "Doorway Scrolling Patch";
             this.mnuScrollPatch.Click += new System.EventHandler(this.mnuScrollPatch_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(273, 6);
             // 
             // btnDropSamus
             // 
@@ -1478,7 +1482,7 @@ namespace Editroid
             this.btnDropSamus.Image = ((System.Drawing.Image)(resources.GetObject("btnDropSamus.Image")));
             this.btnDropSamus.Name = "btnDropSamus";
             this.btnDropSamus.ShortcutKeyDisplayString = "Ctrl+Click";
-            this.btnDropSamus.Size = new System.Drawing.Size(277, 22);
+            this.btnDropSamus.Size = new System.Drawing.Size(276, 22);
             this.btnDropSamus.Text = "Test Room";
             this.btnDropSamus.Click += new System.EventHandler(this.btnDropSamus_Click);
             // 
@@ -1488,14 +1492,14 @@ namespace Editroid
             this.btnDropSamusOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnDropSamusOptions.Image")));
             this.btnDropSamusOptions.Name = "btnDropSamusOptions";
             this.btnDropSamusOptions.ShortcutKeyDisplayString = "Ctrl+Shift+Click";
-            this.btnDropSamusOptions.Size = new System.Drawing.Size(277, 22);
+            this.btnDropSamusOptions.Size = new System.Drawing.Size(276, 22);
             this.btnDropSamusOptions.Text = "Test Room Options...";
             this.btnDropSamusOptions.Click += new System.EventHandler(this.btnDropSamusOptions_Click);
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(273, 6);
             this.toolStripSeparator11.Visible = false;
             // 
             // mnuPatches
@@ -1505,7 +1509,7 @@ namespace Editroid
             this.toolStripMenuItem8});
             this.mnuPatches.Enabled = false;
             this.mnuPatches.Name = "mnuPatches";
-            this.mnuPatches.Size = new System.Drawing.Size(277, 22);
+            this.mnuPatches.Size = new System.Drawing.Size(276, 22);
             this.mnuPatches.Text = "Patches";
             this.mnuPatches.Visible = false;
             // 
@@ -1528,7 +1532,7 @@ namespace Editroid
             // 
             this.mnuTileArranger.Enabled = false;
             this.mnuTileArranger.Name = "mnuTileArranger";
-            this.mnuTileArranger.Size = new System.Drawing.Size(277, 22);
+            this.mnuTileArranger.Size = new System.Drawing.Size(276, 22);
             this.mnuTileArranger.Text = "Tile Re-arranger";
             this.mnuTileArranger.Visible = false;
             this.mnuTileArranger.Click += new System.EventHandler(this.mnuTileArranger_Click);
@@ -1536,7 +1540,7 @@ namespace Editroid
             // enhancedRomTestToolStripMenuItem
             // 
             this.enhancedRomTestToolStripMenuItem.Name = "enhancedRomTestToolStripMenuItem";
-            this.enhancedRomTestToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.enhancedRomTestToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
             this.enhancedRomTestToolStripMenuItem.Text = "Enhanced Rom Test";
             this.enhancedRomTestToolStripMenuItem.Visible = false;
             this.enhancedRomTestToolStripMenuItem.Click += new System.EventHandler(this.enhancedRomTestToolStripMenuItem_Click);
@@ -1715,7 +1719,7 @@ namespace Editroid
             // 
             this.mnuBuildoptionsBuildontest.CheckOnClick = true;
             this.mnuBuildoptionsBuildontest.Name = "mnuBuildoptionsBuildontest";
-            this.mnuBuildoptionsBuildontest.Size = new System.Drawing.Size(178, 22);
+            this.mnuBuildoptionsBuildontest.Size = new System.Drawing.Size(177, 22);
             this.mnuBuildoptionsBuildontest.Text = "Build on Test Room";
             this.mnuBuildoptionsBuildontest.Click += new System.EventHandler(this.mnuBuildoptionsBuildontest_Click);
             // 
@@ -1768,6 +1772,7 @@ namespace Editroid
             // 
             // btnAltPal
             // 
+            this.btnAltPal.CheckOnClick = true;
             this.btnAltPal.Enabled = false;
             this.btnAltPal.Image = ((System.Drawing.Image)(resources.GetObject("btnAltPal.Image")));
             this.btnAltPal.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -1840,7 +1845,7 @@ namespace Editroid
             this.btnNoItems.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnNoItems.Enabled = false;
             this.btnNoItems.Name = "btnNoItems";
-            this.btnNoItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
+            this.btnNoItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F4)));
             this.btnNoItems.Size = new System.Drawing.Size(292, 22);
             this.btnNoItems.Text = "Basic Map";
             this.btnNoItems.Click += new System.EventHandler(this.noneToolStripMenuItem_Click);
@@ -1849,7 +1854,7 @@ namespace Editroid
             // 
             this.btnBrinstarItems.Enabled = false;
             this.btnBrinstarItems.Name = "btnBrinstarItems";
-            this.btnBrinstarItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
+            this.btnBrinstarItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
             this.btnBrinstarItems.Size = new System.Drawing.Size(292, 22);
             this.btnBrinstarItems.Text = "Brinstar Items";
             this.btnBrinstarItems.Click += new System.EventHandler(this.brinstarToolStripMenuItem_Click);
@@ -1858,7 +1863,7 @@ namespace Editroid
             // 
             this.btnNorfairItems.Enabled = false;
             this.btnNorfairItems.Name = "btnNorfairItems";
-            this.btnNorfairItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D6)));
+            this.btnNorfairItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F6)));
             this.btnNorfairItems.Size = new System.Drawing.Size(292, 22);
             this.btnNorfairItems.Text = "Norfair Items";
             this.btnNorfairItems.Click += new System.EventHandler(this.norfairToolStripMenuItem_Click);
@@ -1867,7 +1872,7 @@ namespace Editroid
             // 
             this.btnRidleyItems.Enabled = false;
             this.btnRidleyItems.Name = "btnRidleyItems";
-            this.btnRidleyItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D7)));
+            this.btnRidleyItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F7)));
             this.btnRidleyItems.Size = new System.Drawing.Size(292, 22);
             this.btnRidleyItems.Text = "Ridley Items";
             this.btnRidleyItems.Click += new System.EventHandler(this.ridleyToolStripMenuItem_Click);
@@ -1876,7 +1881,7 @@ namespace Editroid
             // 
             this.btnKraidItems.Enabled = false;
             this.btnKraidItems.Name = "btnKraidItems";
-            this.btnKraidItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D8)));
+            this.btnKraidItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F8)));
             this.btnKraidItems.Size = new System.Drawing.Size(292, 22);
             this.btnKraidItems.Text = "Kraid Items";
             this.btnKraidItems.Click += new System.EventHandler(this.kraidToolStripMenuItem_Click);
@@ -1885,7 +1890,7 @@ namespace Editroid
             // 
             this.btnTourianItems.Enabled = false;
             this.btnTourianItems.Name = "btnTourianItems";
-            this.btnTourianItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
+            this.btnTourianItems.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F9)));
             this.btnTourianItems.Size = new System.Drawing.Size(292, 22);
             this.btnTourianItems.Text = "Tourian Items";
             this.btnTourianItems.Click += new System.EventHandler(this.TourianToolStripMenuItem_Click);
@@ -2075,7 +2080,7 @@ namespace Editroid
             // 
             this.toolStripLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Size = new System.Drawing.Size(202, 15);
+            this.toolStripLabel4.Size = new System.Drawing.Size(201, 15);
             this.toolStripLabel4.Text = "Yo dawg, you found the secret menu";
             // 
             // mnuSecretPatch
@@ -2157,7 +2162,7 @@ namespace Editroid
             // itEnemyTypeLabel
             // 
             this.itEnemyTypeLabel.Name = "itEnemyTypeLabel";
-            this.itEnemyTypeLabel.Size = new System.Drawing.Size(33, 22);
+            this.itEnemyTypeLabel.Size = new System.Drawing.Size(32, 22);
             this.itEnemyTypeLabel.Text = "Type";
             // 
             // itEnemyTypeEdit
@@ -2233,19 +2238,6 @@ namespace Editroid
             this.itRawEdit.Name = "itRawEdit";
             this.itRawEdit.Size = new System.Drawing.Size(32, 25);
             // 
-            // passwordEditor
-            // 
-            this.passwordEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.passwordEditor.BackColor = System.Drawing.Color.Black;
-            this.passwordEditor.Location = new System.Drawing.Point(-1, 306);
-            this.passwordEditor.Name = "passwordEditor";
-            this.passwordEditor.Padding = new System.Windows.Forms.Padding(1);
-            this.passwordEditor.Rom = null;
-            this.passwordEditor.Size = new System.Drawing.Size(258, 256);
-            this.passwordEditor.TabIndex = 14;
-            this.passwordEditor.Visible = false;
-            this.passwordEditor.EntrySelected += new System.EventHandler(this.passwordEditor_EntrySelected);
-            // 
             // structurePicker1
             // 
             this.structurePicker1.Dock = System.Windows.Forms.DockStyle.Left;
@@ -2277,6 +2269,19 @@ namespace Editroid
             this.mapView.EndDragSelection += new System.EventHandler(this.MapView_EndDragSelection);
             this.mapView.BeginDragSelection += new System.EventHandler(this.MapView_BeginDragSelection);
             // 
+            // passwordEditor
+            // 
+            this.passwordEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.passwordEditor.BackColor = System.Drawing.Color.Black;
+            this.passwordEditor.Location = new System.Drawing.Point(-1, 306);
+            this.passwordEditor.Name = "passwordEditor";
+            this.passwordEditor.Padding = new System.Windows.Forms.Padding(1);
+            this.passwordEditor.Rom = null;
+            this.passwordEditor.Size = new System.Drawing.Size(258, 256);
+            this.passwordEditor.TabIndex = 14;
+            this.passwordEditor.Visible = false;
+            this.passwordEditor.EntrySelected += new System.EventHandler(this.passwordEditor_EntrySelected);
+            // 
             // ItemDataEditor
             // 
             this.ItemDataEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -2305,7 +2310,6 @@ namespace Editroid
             this.gameView.TabIndex = 10;
             this.gameView.Text = "romViewport1";
             this.gameView.UseAltPalette = false;
-            this.gameView.RequestShowObject += new System.EventHandler(this.gameView_RequestShowObject);
             this.gameView.DefaultPaletteIconClicked += new System.EventHandler(this.gameView_DefaultPaletteIconClicked);
             this.gameView.LaunchPreview += new System.EventHandler<Editroid.PreviewEventArgs>(this.gameView_LaunchPreview);
             this.gameView.CmdKeyPressed += new System.Windows.Forms.KeyEventHandler(this.gameView_CmdKeyPressed);
@@ -2313,14 +2317,12 @@ namespace Editroid
             // 
             // picTitle
             // 
-            this.picTitle.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picTitle.Location = new System.Drawing.Point(0, 49);
             this.picTitle.Name = "picTitle";
             this.picTitle.Size = new System.Drawing.Size(1526, 512);
             this.picTitle.TabIndex = 15;
             this.picTitle.Text = "splashBox1";
-            this.picTitle.Click += new System.EventHandler(this.picTitle_Click);
             // 
             // frmMain
             // 
@@ -2442,7 +2444,7 @@ namespace Editroid
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem19;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem20;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem21;
-        private System.Windows.Forms.ToolStripMenuItem mnuGotoSpawn;
+        private System.Windows.Forms.ToolStripMenuItem mnuStart;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
         private System.Windows.Forms.ToolStripMenuItem mnuMap;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem23;
@@ -2542,10 +2544,18 @@ namespace Editroid
         private System.Windows.Forms.ToolStripMenuItem mnuAddEnemy;
         private System.Windows.Forms.ToolStripMenuItem btnAddLeftDoor;
         private System.Windows.Forms.ToolStripMenuItem btnAddRightDoor;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem mnuRemove;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem btnBridge;
         private System.Windows.Forms.ToolStripSeparator separator_Room;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem btnAddRoom;
+        private System.Windows.Forms.ToolStripMenuItem btnCopyroom;
+        private System.Windows.Forms.ToolStripMenuItem btnDeleteRoom;
+        private System.Windows.Forms.ToolStripSeparator sepratator_Struct;
+        private System.Windows.Forms.ToolStripMenuItem btnAddStruct;
+        private System.Windows.Forms.ToolStripMenuItem btnDeleteStruct;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem btnInsertStructs;
         private System.Windows.Forms.ToolStripMenuItem btnEditStructs;
@@ -2560,13 +2570,6 @@ namespace Editroid
         private System.Windows.Forms.ToolStripMenuItem btnAddItemRinkas;
         private System.Windows.Forms.ToolStripMenuItem btnAddItemDoor;
         private System.Windows.Forms.ToolStripMenuItem btnAddItemPalswap;
-        private System.Windows.Forms.ToolStripMenuItem btnAddRoom;
-        private System.Windows.Forms.ToolStripMenuItem btnCopyroom;
-        private System.Windows.Forms.ToolStripMenuItem btnDeleteRoom;
-        private System.Windows.Forms.ToolStripSeparator sepratator_Struct;
-        private System.Windows.Forms.ToolStripMenuItem btnAddStruct;
-        private System.Windows.Forms.ToolStripMenuItem btnDeleteStruct;
-        private System.Windows.Forms.ToolStripMenuItem mnuStart;
 	}
 }
 

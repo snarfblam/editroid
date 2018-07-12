@@ -33,21 +33,14 @@ namespace Editroid
 
 
         
-        public void Enqueue(LevelIndex level, int layoutIndex, bool altPal) {
+        public void Enqueue(LevelIndex level, int layoutIndex) {
             if (level == LevelIndex.None || layoutIndex == 0xFF) return;
 
-            queue.Enqueue(new LayoutIndex(level, layoutIndex, altPal));
+            queue.Enqueue(new LayoutIndex(level, layoutIndex));
         }
         public void Enqueue(LevelIndex level) {
             for (int i = 0; i < Rom.GetLevel(level).Screens.Count; i++) {
-                LayoutIndex id = new LayoutIndex(level, i,false);
-
-                if (!queue.Contains(id))
-                    queue.Enqueue(id);
-            }
-            // Todo: One way or another the map will need to be scanned to figure out so we can enqueue only the combinations of screen index, palette, and animation that are actually used
-            for (int i = 0; i < Rom.GetLevel(level).Screens.Count; i++) {
-                LayoutIndex id = new LayoutIndex(level, i, true);
+                LayoutIndex id = new LayoutIndex(level, i);
 
                 if (!queue.Contains(id))
                     queue.Enqueue(id);
@@ -99,7 +92,7 @@ namespace Editroid
                     return false;
                 }
 
-                DrawScreen(index, index.AltPalette);
+                DrawScreen(index);
                 RenderedLayout = index;
 
                 OnLayoutRendered();
@@ -109,7 +102,7 @@ namespace Editroid
             }
         }
 
-        private void DrawScreen(LayoutIndex index, bool altPalette) {
+        private void DrawScreen(LayoutIndex index) {
             Level levelData = Rom.GetLevel(index.Level);
             if (levelData.Screens.Count <= index.ScreenIndex) return;
 
@@ -117,10 +110,8 @@ namespace Editroid
 
             renderer.Level = levelData;
             renderer.SelectedEnemy = -1;
-            renderer.ApplyPalette(screenBitmap, altPalette);
 
-            //screenData.ApplyLevelPalette(screenBitmap);
-            
+            screenData.ApplyLevelPalette(screenBitmap);
 
             renderer.DefaultPalette = screenData.ColorAttributeTable;
             renderer.Clear();
@@ -150,27 +141,20 @@ namespace Editroid
 
             LevelIndex level = LevelIndex.None;
             int screenIndex = 0;
-            bool altPal;
 
             public bool MoveNext() {
                 if (level == LevelIndex.None) return false;
 
                 screenIndex++;
                 if (screenIndex >= owner.Rom.GetLevel(level).Screens.Count) {
-                    if (altPal) {
-                        screenIndex = 0;
-                        level++;
-                        altPal = false;
-                    } else {
-                        screenIndex = 0;
-                        altPal = true;
-                    }
+                    screenIndex = 0;
+                    level++;
                 }
 
                 return level != LevelIndex.None;
             }
 
-            public LayoutIndex Current { get { return new LayoutIndex(level, screenIndex, altPal); } }
+            public LayoutIndex Current { get { return new LayoutIndex(level, screenIndex); } }
 
             public bool Finished { get { return level == LevelIndex.None; } }
 

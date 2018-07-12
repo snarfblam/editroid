@@ -304,10 +304,10 @@ namespace MultiMaster.Editors
                 FindControl.SendToBack();
                 FindControl.Dock = DockStyle.Bottom;
                 ResumeLayout();
-            }
+            } else {
                 FindControl.Show();
                 FindControl.Focus();
-            
+            }
         }
 
         private void EditBox_FindFormClose(object sender, EventArgs e) {

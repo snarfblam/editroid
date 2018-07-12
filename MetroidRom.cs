@@ -151,10 +151,7 @@ namespace Editroid
             SerializeLevelChrAnimation(ref frameIndex, LevelIndex.Tourian);
             SerializeLevelChrAnimation(ref frameIndex, LevelIndex.Kraid);
             SerializeLevelChrAnimation(ref frameIndex, LevelIndex.Ridley);
-            SerializeChrAnimationTerminator(ref frameIndex);
         }
-
-        
 
         private void SerializeLevelChrAnimation(ref int frameIndex, LevelIndex index) {
             // LevelIndex.None = title screen
@@ -164,12 +161,6 @@ namespace Editroid
             ChrUsage.MMC3_SetBgLoopStart(index, (byte)frameIndex);
             // Write frame data to chr animation table
             ChrAnimation.SerializeChrAnimation(this, data, ref frameIndex);
-        }
-
-        private void SerializeChrAnimationTerminator(ref int frameIndex) {
-            if (frameIndex < 256) {
-                ChrAnimation.SerializeChrAnimationTerminator(this, ref frameIndex);
-            }
         }
 
         /// <summary>

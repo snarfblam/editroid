@@ -61,8 +61,6 @@
             this.btnAddFrame = new System.Windows.Forms.Button();
             this.tmrAnimate = new System.Windows.Forms.Timer(this.components);
             this.lblFreeSpace = new System.Windows.Forms.Label();
-            this.btnAddAnimation = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.nudSpr0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSpr1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBg0)).BeginInit();
@@ -89,7 +87,6 @@
             this.cboLevel.Name = "cboLevel";
             this.cboLevel.Size = new System.Drawing.Size(139, 21);
             this.cboLevel.TabIndex = 0;
-            this.toolTip1.SetToolTip(this.cboLevel, "Areas");
             this.cboLevel.SelectedIndexChanged += new System.EventHandler(this.cboLevel_SelectedIndexChanged);
             // 
             // label1
@@ -128,7 +125,6 @@
             this.btnSpr0.Size = new System.Drawing.Size(20, 21);
             this.btnSpr0.TabIndex = 3;
             this.btnSpr0.Text = "●";
-            this.toolTip1.SetToolTip(this.btnSpr0, "Browse");
             this.btnSpr0.UseVisualStyleBackColor = true;
             this.btnSpr0.Click += new System.EventHandler(this.btnSpr0_Click);
             // 
@@ -148,7 +144,6 @@
             this.btnSpr1.Size = new System.Drawing.Size(20, 21);
             this.btnSpr1.TabIndex = 7;
             this.btnSpr1.Text = "●";
-            this.toolTip1.SetToolTip(this.btnSpr1, "Browse");
             this.btnSpr1.UseVisualStyleBackColor = true;
             this.btnSpr1.Click += new System.EventHandler(this.btnSpr1_Click);
             // 
@@ -204,7 +199,6 @@
             this.cboAnimation.Name = "cboAnimation";
             this.cboAnimation.Size = new System.Drawing.Size(139, 21);
             this.cboAnimation.TabIndex = 9;
-            this.toolTip1.SetToolTip(this.cboAnimation, "Animations");
             this.cboAnimation.SelectedIndexChanged += new System.EventHandler(this.cboAnimation_SelectedIndexChanged);
             // 
             // txtAnimationName
@@ -241,7 +235,6 @@
             this.btnBg0.Size = new System.Drawing.Size(20, 21);
             this.btnBg0.TabIndex = 15;
             this.btnBg0.Text = "●";
-            this.toolTip1.SetToolTip(this.btnBg0, "Browse");
             this.btnBg0.UseVisualStyleBackColor = true;
             this.btnBg0.Click += new System.EventHandler(this.btnBg0_Click);
             // 
@@ -275,7 +268,6 @@
             this.btnBg1.Size = new System.Drawing.Size(20, 21);
             this.btnBg1.TabIndex = 17;
             this.btnBg1.Text = "●";
-            this.toolTip1.SetToolTip(this.btnBg1, "Browse");
             this.btnBg1.UseVisualStyleBackColor = true;
             this.btnBg1.Click += new System.EventHandler(this.btnBg1_Click);
             // 
@@ -301,7 +293,6 @@
             this.btnBg2.Size = new System.Drawing.Size(20, 21);
             this.btnBg2.TabIndex = 19;
             this.btnBg2.Text = "●";
-            this.toolTip1.SetToolTip(this.btnBg2, "Browse");
             this.btnBg2.UseVisualStyleBackColor = true;
             this.btnBg2.Click += new System.EventHandler(this.btnBg2_Click);
             // 
@@ -327,7 +318,6 @@
             this.btnBg3.Size = new System.Drawing.Size(20, 21);
             this.btnBg3.TabIndex = 21;
             this.btnBg3.Text = "●";
-            this.toolTip1.SetToolTip(this.btnBg3, "Browse");
             this.btnBg3.UseVisualStyleBackColor = true;
             this.btnBg3.Click += new System.EventHandler(this.btnBg3_Click);
             // 
@@ -424,11 +414,10 @@
             // btnDeleteAnimation
             // 
             this.btnDeleteAnimation.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteAnimation.Image")));
-            this.btnDeleteAnimation.Location = new System.Drawing.Point(336, 64);
+            this.btnDeleteAnimation.Location = new System.Drawing.Point(309, 65);
             this.btnDeleteAnimation.Name = "btnDeleteAnimation";
             this.btnDeleteAnimation.Size = new System.Drawing.Size(21, 21);
             this.btnDeleteAnimation.TabIndex = 29;
-            this.toolTip1.SetToolTip(this.btnDeleteAnimation, "Delete current animation");
             this.btnDeleteAnimation.UseVisualStyleBackColor = true;
             this.btnDeleteAnimation.Click += new System.EventHandler(this.btnDeleteAnimation_Click);
             // 
@@ -439,7 +428,6 @@
             this.btnRemoveFrame.Name = "btnRemoveFrame";
             this.btnRemoveFrame.Size = new System.Drawing.Size(21, 21);
             this.btnRemoveFrame.TabIndex = 30;
-            this.toolTip1.SetToolTip(this.btnRemoveFrame, "Remove selected frame from animation");
             this.btnRemoveFrame.UseVisualStyleBackColor = true;
             this.btnRemoveFrame.Click += new System.EventHandler(this.btnRemoveFrame_Click);
             // 
@@ -450,7 +438,6 @@
             this.btnAddFrame.Name = "btnAddFrame";
             this.btnAddFrame.Size = new System.Drawing.Size(21, 21);
             this.btnAddFrame.TabIndex = 31;
-            this.toolTip1.SetToolTip(this.btnAddFrame, "Add frame to animation");
             this.btnAddFrame.UseVisualStyleBackColor = true;
             this.btnAddFrame.Click += new System.EventHandler(this.btnAddFrame_Click);
             // 
@@ -466,23 +453,11 @@
             this.lblFreeSpace.TabIndex = 32;
             this.lblFreeSpace.Text = "Free space:";
             // 
-            // btnAddAnimation
-            // 
-            this.btnAddAnimation.Image = ((System.Drawing.Image)(resources.GetObject("btnAddAnimation.Image")));
-            this.btnAddAnimation.Location = new System.Drawing.Point(309, 64);
-            this.btnAddAnimation.Name = "btnAddAnimation";
-            this.btnAddAnimation.Size = new System.Drawing.Size(21, 21);
-            this.btnAddAnimation.TabIndex = 33;
-            this.toolTip1.SetToolTip(this.btnAddAnimation, "Add new animation");
-            this.btnAddAnimation.UseVisualStyleBackColor = true;
-            this.btnAddAnimation.Click += new System.EventHandler(this.btnAddAnimation_Click);
-            // 
             // frmChrAnimation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(787, 440);
-            this.Controls.Add(this.btnAddAnimation);
             this.Controls.Add(this.lblFreeSpace);
             this.Controls.Add(this.btnAddFrame);
             this.Controls.Add(this.btnRemoveFrame);
@@ -570,7 +545,5 @@
         private System.Windows.Forms.Button btnAddFrame;
         private System.Windows.Forms.Timer tmrAnimate;
         private System.Windows.Forms.Label lblFreeSpace;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button btnAddAnimation;
     }
 }

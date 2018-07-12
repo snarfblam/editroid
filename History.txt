@@ -591,34 +591,4 @@ Version 4.0
 		2/10/2017
 			-Integrated seach window into code editor window (does not apply to search and replace)
 	    2/12/2017
-			-Double-clicking a structure now centers the structure selector on it
-			-Right-clicking a structure, enemy, or door now cycles its palette
-		2/18/2017
-			-Rewrote MapControl backing data structure to use a struct instead of bitfield typed as an enum, and added fields for alternate palette and animation number (new data is not yet utilized by editor in any way)
-			-Fixed bug where setting a map location to inactive (screen FF) would not cause the associated ScreenEditor's Screen object to null, which was causing structure editor to be shown for deactivated locations
-			-Fixed bug introduced on 2/12/2017 where struct picker scrollbar could not be scrolled (except by double clicking an object in the screen editor)
-		2/19/2017
-			-Alt palette can now be set on a per-screen basis and displays correctly in the main window. UI changes are not complete and editor map and map generator do not implement alt palette yet.
-			-Map now renders with alternate palettes
-			-Structure picker has been updated to support alternate palettes
-			-Added alternate palette support to map generator
-			-Fixed some keyboard input issues (structpicker was stealing some input, couldn't exactly nail down why, but making the control non-selectable fixed it)
-		4/30/2017
-			-For generating map images, removed low-quality JPEG options and added PNG which is now default
-			-Scroll wheel now works in generated map preview if you click on the image
-			-Added hexadecimal indecies to advanced palette editor and fixed "offset" casing to upper-case to be consistent with other hex values
-			-"Display Alternate Palette" menu item no longer has a visual "checked" state
-		5/28/2017
-			-Added a validation feature for CHR animation editor that warns users of invalid animation names
-		5/29/2017
-			-Modified the code to show/focus the find box in the code editor so that it consistently moves focus to the find UI
-			-Fixed bug where CHR animation table terminator wasn't written to ROM, causing extraneous data to be read as animation data for Ridley's area
-			-Changed CHR animation editing UI so that instead of a "New..." item in the animation dropdown, there is a separate button to create a new animation (more discoverable, don't accidentally create 100 animations w/ scroll wheel)
-		8/16/2017
-			-Removed some Test Room code that was added specifically for Rogue Dawn, as it interferes with a normal ROM
-			-Fixed bug where when "Show Physics" is enabled, the selected object was not rendered with customized physics
-		8/18/2017
-			-Updated rendering code for map generator and screen selector to use same palettes as screen controls.
-			-Removed references to EditroidPlug
-			-Fixed DoorScrollPatch to work with MMC3 ROM
-			-Updated "About" RTF
+			-

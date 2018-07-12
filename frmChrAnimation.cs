@@ -113,9 +113,9 @@ namespace Editroid
                     cboAnimation.Items.Add(GetAnimationListItemName(i, animations[i]));
                 }
 
-                //if (project != null) {
-                //    cboAnimation.Items.Add(NewAnimationComboboxItem);
-                //}
+                if (project != null) {
+                    cboAnimation.Items.Add(NewAnimationComboboxItem);
+                }
 
             }
             cboAnimation.EndUpdate();
@@ -158,7 +158,7 @@ namespace Editroid
             if (cboAnimation.SelectedIndex == 0 && string.IsNullOrEmpty(animation.Name))
                 txtAnimationName.Text = "(Default)";
             txtAnimationName.Enabled = project != null;
-            btnDeleteAnimation.Enabled = (project != null && cboAnimation.Items.Count > 1);
+            btnDeleteAnimation.Enabled = (project != null && cboAnimation.Items.Count > 2); // Count > 2 because we need at least two items and "New..."
 
             DisplaySelectedFrame();
         }
@@ -182,7 +182,6 @@ namespace Editroid
             int freeMem = 255 - usedMem;
 
             lblFreeSpace.Text = "Free space: " + freeMem.ToString() + " frames";
-            btnAddAnimation.Enabled = project != null && freeMem > 0;
             btnAddFrame.Enabled = freeMem > 0;
         }
 
@@ -330,35 +329,6 @@ namespace Editroid
 
             }
         }
-
-        private void CreateNewAnimation() {
-            if (CalculateUsedFrames() >= 255) {
-                // Can't create new animation if there isn't enough space
-                ////BeginMiscUIUpdate();
-                ////cboAnimation.SelectedIndex = cboAnimation.Items.Count - 2;
-                ////EndMiscUIUpdate();
-                
-                // do nothing
-            } else {
-                int newIndex = SelectedLevelData.Animations.Count;
-
-                // Update data
-                ChrAnimationFrame newFrame = new ChrAnimationFrame();
-                newFrame.FrameTime = 0x10;
-                ChrAnimationTable newAnimation = new ChrAnimationTable();
-                newAnimation.Frames.Add(newFrame);
-                SelectedLevelData.Animations.Add(newAnimation);
-
-                // Update UI
-                BeginMiscUIUpdate();
-                cboAnimation.Items.Insert(newIndex, GetAnimationListItemName(newIndex, newAnimation));
-                cboAnimation.SelectedIndex = newIndex;
-                EndMiscUIUpdate();
-
-                UpdateUI(updateMode.Animation);
-            }
-        }
-
 
         private void lstFrames_SelectedIndexChanged(object sender, EventArgs e) {
             if (!IsUpdatingUI) {
@@ -545,48 +515,7 @@ namespace Editroid
         }
 
         private void btnOK_Click(object sender, EventArgs e) {
-            ValidateChrNames();
             Close();
-        }
-
-        private void ValidateChrNames() {
-            string invalidName = string.Empty;
-            int invalidNameCount = 0;
-
-            for (int i = 0; i < levelIndecies.Length; i++) {
-                var lvlData = rom.ChrAnimationData[levelIndecies[i]];
-                for (int iAnim = 0; iAnim < lvlData.Animations.Count; iAnim++) {
-                    var name = lvlData.Animations[iAnim].Name;
-                    if (!IsAnimNameValid(name)) {
-                        if (!string.IsNullOrEmpty(name)) { // Empty name field allowed
-                            if (string.IsNullOrEmpty(invalidName)) invalidName = name; // Remember first invalid name
-                            invalidNameCount++;
-                        }
-                    }
-                }
-            }
-
-            if (invalidNameCount > 0) {
-                if (invalidName.Length == 0) invalidName = "(empty)";
-                if (invalidNameCount > 1) invalidName += " and " + (invalidNameCount - 1).ToString() + " other(s)";
-                MessageBox.Show("Warning: invalid CHR animation names may cause assembler errors -- " + invalidName, "Invalid Names", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        private static bool IsAnimNameValid(string name) {
-            // Can't be empty
-            if (name == null || name.Length == 0) return false;
-            // Can't start with digit
-            if (name[0] != '_' & !char.IsLetter(name[0])) return false;
-            // Can only contain alphanumeric and _
-            for (int i = 1; i < name.Length; i++) {
-                if (name[i] != '_' & !char.IsLetterOrDigit(name[i])) return false;
-            }
-            return true;
-        }
-
-        private void btnAddAnimation_Click(object sender, EventArgs e) {
-            CreateNewAnimation();
         }
 
     }

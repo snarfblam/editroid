@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Editroid">
+</Property><Property Name="Solution File" Value="C:\VS\Editroid\Version 2B\Editroid.sln">
+</Property><Property Name="Date" Value="Tuesday, August 11, 2009">
+</Property><Property Name="Time" Value="19:38 PM">
+</Property></Properties><Event ErrorLevel="0" Project="Editroid" Source="Editroid.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Editroid" Source="Editroid.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="WindowsAPI" Source="..\..\WindowsAPI\WindowsAPI.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="WindowsAPI" Source="..\..\WindowsAPI\WindowsAPI.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Editroid.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Editroid.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Editroid" Source="Editroid.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="WindowsAPI" Source="..\..\WindowsAPI\WindowsAPI.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

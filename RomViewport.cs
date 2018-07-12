@@ -33,17 +33,6 @@ namespace Editroid
             Controls.Add(statusPanel);
         }
 
-        /// <summary>
-        /// Raised when the user wants the selected object to be shown in the object selector. (Left-click after selected). Should not
-        /// activate a separate dialog.
-        /// </summary>
-        public event EventHandler RequestShowObject;
-        /// <summary>
-        /// Raised when the user wants change the palette of the selected object. (Right-click)
-        /// </summary>
-        public event EventHandler RequestChangePalette;
-
-
         void statusPanel_DefaultPalClicked(object sender, EventArgs e) {
             OnDefaultPaldIconClicked();
         }
@@ -60,8 +49,7 @@ namespace Editroid
             UpdateStatus();
         }
         public override bool PreProcessMessage(ref Message msg) {
-            var result = base.PreProcessMessage(ref msg);
-            return result;
+            return base.PreProcessMessage(ref msg);
 
             System.Diagnostics.Debug.Write(msg.ToString());
         }
@@ -140,16 +128,11 @@ namespace Editroid
 
             UpdateCursor();
 
-            // If user left clicks and item and it is the item that was previously selected
-            // (oldSelection), the UI will be alerted to bring it up the structure selector
-            Editroid.ROM.ObjectInstance oldSelection = null;
-            if (_focus != null) oldSelection = _focus.SelectedItem;
-
             if ((ModifierKeys & Keys.Control) == Keys.Control) {
-                ScreenEditor clicked = screens.GetEditorAtWorld(e.X + viewX, e.Y + viewY);
+                ScreenEditor clicked = screens.GetEditorAt(e.X + viewX, e.Y + viewY);
                 if (clicked != _focus) 
                     RequestFocus(clicked);
-                
+
                 PreviewEventArgs args = new PreviewEventArgs(
                     (ModifierKeys & Keys.Shift) == Keys.Shift,
                     new Point(e.X + viewX - _focus.WorldBounds.X, e.Y + viewY - _focus.WorldBounds.Y));
@@ -161,16 +144,6 @@ namespace Editroid
                     BeginDrag(e.X, e.Y);
                 } else {
                     screens.SendMouseDown(e.Button, e.X + viewX, e.Y + viewY);
-
-                    if (e.Button == MouseButtons.Left) {
-                        // Scroll structure selector to selected structure type if user clicks twice
-                        Editroid.ROM.ObjectInstance newSelection = null;
-                        if (_focus != null) newSelection = _focus.SelectedItem;
-                        if (newSelection != null && newSelection == oldSelection) {
-                            RequestShowObject.Raise(this);
-                        }
-                    
-                    }
                 }
             }
         }
@@ -217,12 +190,6 @@ namespace Editroid
                 useAltPalette = value; 
             }
         }
-        public bool GetAltPaletteFlag(int mapX, int mapY) {
-            return map.GetAltPal(mapX, mapY);
-        }
-        public int GetAnimation(int mapX, int mapY) {
-            return map.GetAnimation(mapX, mapY);
-        }
 
         protected override void OnMouseMove(MouseEventArgs e) {
             base.OnMouseMove(e);
@@ -256,18 +223,12 @@ namespace Editroid
         public void ScrollScreen(int dx, int dy) {
             Point loc = _focus.WorldBounds.Location;
             loc.Offset(ScreenEditor.CellSize.Width * dx, ScreenEditor.CellSize.Height * dy);
-            ScreenEditor newEditor = screens.GetEditorAtWorld(loc.X, loc.Y);
-            if (newEditor != null) {// && newEditor.CanEdit) {
+            ScreenEditor newEditor = screens.GetEditorAt(loc.X, loc.Y);
+            if (newEditor != null && newEditor.CanEdit) {
                 RequestFocus(newEditor);
                 ScrollView(-ScreenEditor.CellSize.Width * dx, -ScreenEditor.CellSize.Height * dy);
             }
         }
-
-        public void FocusScreen(int screenX, int screenY) {
-            var editor = screens.GetEditorAt(screenX, screenY);
-            if (editor != null) RequestFocus(editor);
-        }
-
         public void ScrollView(int dx, int dy) {
             viewX -= dx;
             viewY -= dy;

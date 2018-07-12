@@ -66,7 +66,6 @@ namespace Editroid
         AlternateMusicRooms altMusic;
         int[] enemyPalettes;
         MetroidRom rom;
-
         public LevelFormat Format { get; private set; }
 
         public ByteIndexer Bytes { get; private set; }

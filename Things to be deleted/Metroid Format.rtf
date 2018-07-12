@@ -1,0 +1,139 @@
+{\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Trebuchet MS;}{\f1\fmodern\fprq1\fcharset0 Courier New;}}
+{\colortbl ;\red0\green128\blue0;\red0\green0\blue128;\red255\green0\blue0;}
+{\*\generator Msftedit 5.41.15.1507;}\viewkind4\uc1\pard\lang1033\f0\fs20 Much of the information about the Metroid data format came from the DataCrystal.org hacking wiki. The rest of the data I figured out for myself, which is listed below, along with other terms and information that I use. In tables and listings, all offsets and counts, unless otherwise stated, are in hexadecimal. In text, hexadecimal numbers will be preceeded by "0x".\par
+\par
+Data offsets are offsets within a ROM file including the 16-byte ROM header. To get the offset in the raw ROM data, subtract the size of the header. The following terms are used in the Metropolis Metroid Editor, the Editroid.exe .Net programming library, and in this document.\par
+\par
+\cf1\b Combo\cf0\b0  - A combination of four graphical tiles into a 16x16 graphic block with defined physical properties (i.e. lava/solid/shootable).\par
+\par
+\cf1\b Struct\cf0\b0  - An object, composed of combos, that can be placed directly in a screen.\par
+\par
+\par
+\cf2\ul\fs32 Graphic Tiles\cf0\ulnone\fs20\par
+Metroid graphic data is in the standard NES graphic format (2-bpp, bi-planar 8x8 tiles) and graphic tiles always fall on sixteen byte boundaries. The tiles for each level are actually loaded from several different areas within the ROM. The precise location of the tile data is difficult to determine because there are many instances of duplicated graphic data within the ROM. The following tables list locations of tiles that can be loaded to duplicate the in-game pattern table. The tables are not exactly correct because some portions of the pattern table are not loaded in certain levels, resulting in graphic data that will vary depending on which levels have been visited (and therefore should never be used in game). Also, although these data ranges will duplicate the pattern tables used in-game, they may not be the appropriate locations for those who wish to modify the game's graphics and may not work correctly in a ROM where the graphics have been modified.\par
+\par
+For terrain graphics, the listed regions (starting at the specified offset and consiting of the specified number of tiles ["count"]) should be concatenated to create a complete 256-tile pattern table. For level graphics the first 192 (0xC0) tiles are global (i.e. level-independant) and the last 64 (0x40) are level-specific, and the two sets of tiles should be concatenated to complete the pattern table.\par
+\par
+\cf3\b Brinstar Terrain\cf0\b0\par
+\ul\f1  Offset             Count       Total                         \par
+\ulnone  19DB0              15          15\par
+  (?)               0B          20    (Leftovers)\par
+ 14D70              45          65\par
+  (?)               1B          80    (Leftovers)\par
+ 19F00              80         100 \par
+\f0\par
+\cf3\b Norfair Terrain\cf0\b0\par
+\ul\f1  Offset             Count       Total                         \par
+\ulnone  1A700              26          26\par
+ 14DD0              3F          65\par
+  (?)               0B          70    (Leftovers)\par
+ 1A960              07          77\par
+  (?)               09          80    (Leftovers)\par
+ 19F00              80         100 \par
+\cf3\b\f0\par
+Kraid/Ridley Terrain\cf0\b0\par
+\ul\f1  Offset             Count       Total                         \par
+\ulnone  1A9D0              30          30\par
+ 14E70              35          65\par
+  (?)               0B          70    (Leftovers)\par
+ 1B430              0C          7C\par
+  (?)               04          80    (Leftovers)\par
+ 1AF90              60          E0 \par
+ 1B340              0C          EC \par
+ 11430/1A5C0        14         100    (Two listed regions are identical)\par
+\cf3\b\f0\par
+Tourian Terrain\cf0\b0\par
+\ul\f1  Offset             Count       Total                         \par
+\ulnone  1A9D0              20          20\par
+ 1ACB0              60          80\par
+ 19F00              10          90\par
+ 1B2B0              09          99\par
+ 1A090              37          D0\par
+ 1B4D0              2A          FA\par
+ 1A6A0              06         100\par
+\f0\par
+\cf3\b Sprites (Global / Normal)\cf0\b0\par
+\ul\f1  Offset             Count       Total                         \par
+\ulnone  18010              9A          9A    (SAMUS/ITEMS)\par
+  (?)               06          A0    (BLANK)\par
+ 1B4D0              0A          AA    (NUMBERS)\par
+  (?)               16          C0    (BLANK)\par
+ LEVEL-SPECIFIC     40         100 \par
+\f0\par
+\cf3\b Sprites (Global / Samus Suitless)\cf0\b0\par
+\ul\f1  Offset             Count       Total                         \par
+\ulnone  190F0              7B          7B    (SAMUS)\par
+ 187C0              1F          9A    (ITEMS)\par
+  (?)               06          A0    (BLANK)\par
+ 1B4D0              0A          AA    (NUMBERS)\par
+  (?)               16          C0    (BLANK)\par
+ LEVEL-SPECIFIC     40         100\par
+\f0\par
+\cf3\b Sprites (Level Specific)\cf0\b0\par
+\ul\f1  Level          Offset          Count                         \par
+\ulnone  Brinstar       5170            40\ul\par
+\ulnone  Norfair        8D70            40\ul\par
+\ulnone  Tourian        9170            40\ul\par
+\ulnone  Kraid          CD70            40\ul\par
+\ulnone  Ridley         D170            40\ul\par
+\ulnone\f0  \par
+\par
+\cf2\ul\fs32 Combo Definitions\cf0\ulnone\fs20\par
+The number of combos is not specified specifically in the ROM. You can specify up to combo number 0xFF in a struct definition, although you will almost certainly be using data that was not intended to define combos.\par
+\par
+Each combo is defined by four bytes, each of which specifies the tile number to use from the pattern table, in the order of top-left tile, top-right tile, bottom-left tile, bottom-right tile. There is no header and since the data is fixed in size, there is no pointer table. The physics of the combos are defined elsewhere in the ROM.\par
+\par
+\cf3\b Combo Definition Offsets\cf0\b0\par
+\ul\f1  Level          Offset         \par
+\ulnone  Brinstar       6F00\f0\par
+\f1  Norfair        AEFC\f0\par
+\f1  Tourian        12E59\f0\par
+\f1  Ridley         16B33\f0\par
+\f1  Kraid          16C42\f0\par
+\par
+\par
+\cf2\ul\fs32 Palettes\cf0\ulnone\fs20\par
+Palette data is 16 bytes per entry. Each byte references an NES palette color, and the complete 16-byte palette data specifies four palettes each having four colors. The following offsets are for the beginning of palette data.\par
+\cf3\b\par
+Palette Data Offsets\cf0\b0\par
+\ul\f1  Level          Offset         \par
+\ulnone  Brinstar       6284\f0\par
+\f1  Norfair        A18B\f0\par
+\f1  Tourian        E72B \f0\par
+\f1  Ridley         160FE\f0\par
+\f1  Kraid          12168\f0\par
+\par
+Sprite palette data is located 16 (0x10) bytes after the offsets listed in the table. For levels that have alternate palettes (i.e. Brinstar and Norfair) the alternate palette data offset is 60 (0x3C) bytes higher than those listed in the table. \par
+\par
+\par
+\par
+-Observations-\par
+\par
+Sprite definitions pointer table: 5DF0\par
+sprite format:\par
+    Header (3 bytes)\par
+        ? Details unkown\par
+        ? Second byte???? 80 == vertical tile flipping, 40 == horizontal tile flipping\par
+    Tiles / macros\par
+        Tiles - each byte represents a tile, which are drawn from left to right\par
+        macro - format unkown. express functions such as moving to next row of tiles, changing flipping, etc.\par
+            ? FC aa bb - Offset  aa pixels down and bb pixels right ?\par
+    FF (terminator)\par
+notes:\par
+    Sprite definitions define only a single frame/direction of a sprite. For animated sprites and sprites that rotate (like enemies that walk on walls), each frame has a different sprite definition.\par
+\par
+sprite definitions:\par
+    5FD2 - top of missile (for missile count)\par
+    5FD7 - bottom of missile \par
+    5FDC - blip (when your bullets hit a wall)\par
+    5FE1 - Flying spinning guys in blue bubble rooms - horizontal\par
+    5FEA - Same thing, but facing left\par
+    5FF3 - ????\par
+    6001 - ???? may be related to 5ff3\par
+    600F - ???? may be related to above\par
+    601B - ???? may be related to above\par
+    6029 - ???? may be related to above\par
+    6037 - ???? may be related to above\par
+    604C - \par
+}
+ 

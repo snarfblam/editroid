@@ -169,12 +169,7 @@ namespace Editroid.Graphic
             int TileX = obj.X * 2;
             int ScreenY = obj.Y * 2;
 
-            PhysicsGetter GetPhysics;
-            if (_Level.Rom.Format.SupportsCustomTilePhysics) {
-                GetPhysics = this.GetCustomPhysics;
-            } else {
-                GetPhysics = _Level.Rom.GetPhysics;
-            }
+            PhysicsGetter GetPhysics = _Level.Rom.GetPhysics;
 
             if (obj.ObjectType >= Level.StructCount) return;
 
