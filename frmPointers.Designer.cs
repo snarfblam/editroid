@@ -148,7 +148,7 @@ namespace Editroid
             this.btnRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnRefresh.Image")));
             this.btnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(65, 22);
+            this.btnRefresh.Size = new System.Drawing.Size(66, 22);
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
@@ -198,7 +198,7 @@ namespace Editroid
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmPointers";
             this.ShowInTaskbar = false;
-            this.Text = "Pointer Explorer";
+            this.Text = "ROM Explorer";
             this.toolbar.ResumeLayout(false);
             this.toolbar.PerformLayout();
             this.panel1.ResumeLayout(false);
