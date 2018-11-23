@@ -77,18 +77,19 @@ namespace Editroid
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Magenta;
-            this.imageList1.Images.SetKeyName(0, "ROM");
-            this.imageList1.Images.SetKeyName(1, "Group.png");
+            this.imageList1.Images.SetKeyName(0, "Group.png");
+            this.imageList1.Images.SetKeyName(1, "ROM");
             this.imageList1.Images.SetKeyName(2, "Palette");
             this.imageList1.Images.SetKeyName(3, "Patterns");
             this.imageList1.Images.SetKeyName(4, "Enemy");
             this.imageList1.Images.SetKeyName(5, "Doors");
             this.imageList1.Images.SetKeyName(6, "Struct");
-            this.imageList1.Images.SetKeyName(7, "Misc");
-            this.imageList1.Images.SetKeyName(8, "Screen");
-            this.imageList1.Images.SetKeyName(9, "Combo");
-            this.imageList1.Images.SetKeyName(10, "Level");
+            this.imageList1.Images.SetKeyName(7, "Screen");
+            this.imageList1.Images.SetKeyName(8, "Combo");
+            this.imageList1.Images.SetKeyName(9, "Level");
+            this.imageList1.Images.SetKeyName(10, "Items");
             this.imageList1.Images.SetKeyName(11, "Pointers");
+            this.imageList1.Images.SetKeyName(12, "Misc");
             // 
             // PointerList
             // 

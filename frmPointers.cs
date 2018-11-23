@@ -73,6 +73,8 @@ namespace Editroid
                 return "Screen";
             if (o is PointerTableData)
                 return "Pointers";
+            if (o is ItemLoader || o is ItemRowEntry || o is ScreenItems)
+                return "Items";
 
             return "Misc";
         }
