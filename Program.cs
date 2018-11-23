@@ -25,7 +25,6 @@ namespace Editroid
             //PluginManager.LoadPlugins();
 
             TemporaryFileManager.DeleteTemporaryFiles();
-            (new frmDump()).ShowDialog();
             mainForm = new frmMain();
 			Application.Run(mainForm);
 
