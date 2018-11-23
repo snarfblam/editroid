@@ -8,8 +8,12 @@ using System.Windows.Forms;
 
 namespace Editroid
 {
+
     public partial class frmIntro : Form
     {
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int HideCaret(IntPtr hwnd);
+
         List<String> tips = new List<string>();
         int tipIndex = -1;
 
@@ -19,7 +23,17 @@ namespace Editroid
             LoadTips();
             NextTip();
 
-            TipView.BackColor = SystemColors.Window;
+            //TipView.BackColor = SystemColors.Window;
+            TipView.BackColor = SystemColors.Control;
+
+            TipView.Enter += HideRtfCaret;
+            TipView.MouseDown += HideRtfCaret;
+            TipView.MouseMove += HideRtfCaret;
+
+        }
+
+        void HideRtfCaret(object sender, EventArgs e) {
+            HideCaret(TipView.Handle);
         }
 
         private void NextTip() {

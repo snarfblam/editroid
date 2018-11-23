@@ -1434,7 +1434,7 @@ namespace Editroid
             this.toolStripMenuItem24.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripMenuItem24.Name = "toolStripMenuItem24";
             this.toolStripMenuItem24.Size = new System.Drawing.Size(277, 22);
-            this.toolStripMenuItem24.Text = "Pointer Explorer";
+            this.toolStripMenuItem24.Text = "ROM Explorer";
             this.toolStripMenuItem24.Click += new System.EventHandler(this.mnuPointerExplorer_Click);
             // 
             // toolStripSeparator27

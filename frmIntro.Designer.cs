@@ -37,35 +37,33 @@
             // 
             this.TipView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TipView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TipView.Location = new System.Drawing.Point(0, 0);
+            this.TipView.Location = new System.Drawing.Point(8, 8);
             this.TipView.Name = "TipView";
             this.TipView.ReadOnly = true;
-            this.TipView.Size = new System.Drawing.Size(318, 282);
-            this.TipView.TabIndex = 0;
+            this.TipView.Size = new System.Drawing.Size(302, 388);
+            this.TipView.TabIndex = 1;
             this.TipView.Text = "TipView";
             this.TipView.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.TipView_LinkClicked);
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.ExitButton);
             this.panel1.Controls.Add(this.NextButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 282);
+            this.panel1.Location = new System.Drawing.Point(8, 396);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(318, 40);
-            this.panel1.TabIndex = 1;
-            this.panel1.Visible = false;
+            this.panel1.Size = new System.Drawing.Size(302, 40);
+            this.panel1.TabIndex = 0;
             // 
             // ExitButton
             // 
             this.ExitButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.ExitButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ExitButton.Location = new System.Drawing.Point(64, 9);
+            this.ExitButton.Location = new System.Drawing.Point(114, 9);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(75, 23);
-            this.ExitButton.TabIndex = 1;
-            this.ExitButton.Text = "Go away.";
+            this.ExitButton.TabIndex = 0;
+            this.ExitButton.Text = "&OK";
             this.ExitButton.UseVisualStyleBackColor = true;
             this.ExitButton.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -73,12 +71,13 @@
             // 
             this.NextButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.NextButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.NextButton.Location = new System.Drawing.Point(145, 9);
+            this.NextButton.Location = new System.Drawing.Point(234, 9);
             this.NextButton.Name = "NextButton";
-            this.NextButton.Size = new System.Drawing.Size(109, 23);
+            this.NextButton.Size = new System.Drawing.Size(64, 23);
             this.NextButton.TabIndex = 0;
-            this.NextButton.Text = "Tell me more!";
+            this.NextButton.Text = "Next &Tip...";
             this.NextButton.UseVisualStyleBackColor = true;
+            this.NextButton.Visible = false;
             this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
             // 
             // openFileDialog1
@@ -88,14 +87,14 @@
             // frmIntro
             // 
             this.AcceptButton = this.NextButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.ExitButton;
-            this.ClientSize = new System.Drawing.Size(318, 322);
+            this.ClientSize = new System.Drawing.Size(318, 436);
             this.Controls.Add(this.TipView);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "frmIntro";
+            this.Padding = new System.Windows.Forms.Padding(8, 8, 8, 0);
             this.ShowInTaskbar = false;
             this.Text = "About";
             this.panel1.ResumeLayout(false);
