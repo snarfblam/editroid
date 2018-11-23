@@ -977,6 +977,13 @@ namespace Editroid
         private void frmMain_Load(object sender, EventArgs e) {
             ShowProjectMenuItems(false);
             mnuProjectCreate.Enabled = false;
+
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            var major = version.Major - 4;
+            var minor = version.Minor;
+
+            Text += major.ToString() + "." + minor.ToString();
+
         }
 
         #endregion

@@ -2249,9 +2249,9 @@ namespace Editroid
             // structurePicker1
             // 
             this.structurePicker1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.structurePicker1.Location = new System.Drawing.Point(0, 49);
+            this.structurePicker1.Location = new System.Drawing.Point(0, 24);
             this.structurePicker1.Name = "structurePicker1";
-            this.structurePicker1.Size = new System.Drawing.Size(96, 512);
+            this.structurePicker1.Size = new System.Drawing.Size(96, 540);
             this.structurePicker1.TabIndex = 18;
             this.structurePicker1.Text = "structurePicker1";
             this.structurePicker1.UseAlternatePalette = false;
@@ -2315,9 +2315,9 @@ namespace Editroid
             // 
             this.picTitle.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picTitle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picTitle.Location = new System.Drawing.Point(0, 49);
+            this.picTitle.Location = new System.Drawing.Point(0, 24);
             this.picTitle.Name = "picTitle";
-            this.picTitle.Size = new System.Drawing.Size(1526, 512);
+            this.picTitle.Size = new System.Drawing.Size(1526, 540);
             this.picTitle.TabIndex = 15;
             this.picTitle.Text = "splashBox1";
             this.picTitle.Click += new System.EventHandler(this.picTitle_Click);
@@ -2328,7 +2328,7 @@ namespace Editroid
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(248)))), ((int)(((byte)(254)))));
             this.CausesValidation = false;
-            this.ClientSize = new System.Drawing.Size(1526, 561);
+            this.ClientSize = new System.Drawing.Size(1526, 564);
             this.Controls.Add(this.passwordEditor);
             this.Controls.Add(this.ItemEditToolstrip);
             this.Controls.Add(this.structurePicker1);
@@ -2345,7 +2345,7 @@ namespace Editroid
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(641, 595);
             this.Name = "frmMain";
-            this.Text = "Editroid 4.0";
+            this.Text = "Editroid - Rogue Edition ";
             this.Deactivate += new System.EventHandler(this.frmMain_Deactivate);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.Activated += new System.EventHandler(this.frmMain_Activated);

@@ -1,0 +1,8 @@
+﻿- Advanced palette editor does not stay above other windows when another window is selected.  
+  Mostly an issue when you click the screen editing window and the advanced palette editor 
+  window falls under it.  At that point you need to move the main editing window out of the
+  way to get to it.
+- CHR animation editor.  Any free frames appear to be automatically assigned to Ridley when
+  you close the editor and save the rom/ reopen.  I haven’t tried to recreate it yet but
+  it’s not a big deal, I can just delete the frames as needed before allocating them where 
+  I need them.(edited)

@@ -961,6 +961,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Editroid.png" />
+    <Content Include="Bug List.txt" />
     <Content Include="Editroid.ico" />
     <None Include="elevator.png" />
     <Content Include="History.txt" />
@@ -1020,6 +1021,7 @@
     <None Include="Resources\downPal.png" />
     <None Include="Resources\up.png" />
     <None Include="Resources\upPal.png" />
+    <None Include="Resources\rogue.png" />
     <Content Include="ROM\Formats\Format notes.txt" />
     <Content Include="ROM\MMC3\Format notes.txt" />
     <None Include="Resources\Namespace.png" />

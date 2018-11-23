@@ -8,7 +8,7 @@ namespace Editroid
 {
     class SplashBox:Control
     {
-        Image splash = SplashImages.Splash;
+        Image splash = SplashImages.rogue;
         Image screenShot;
 
         public SplashBox(){
@@ -18,60 +18,68 @@ namespace Editroid
         }
 
         private void PickScreenshot() {
+            return; // no longer used
+
+
+
             Random r = new Random();
             int i = r.Next();
             screenShot = GetScreenshot(i);
         }
 
         private static Image GetScreenshot(int i) {
-            switch ((i % 15)) {
-                case 0:
-                    return SplashImages.img1;
-                case 1:
-                    return SplashImages.img3;
-                case 2:
-                    return SplashImages.img4;
-                case 3:
-                    return SplashImages.img7;
-                case 4:
-                    return SplashImages.img8;
-                case 5:
-                    return SplashImages.img9;
-                case 6:
-                    return SplashImages.img10;
-                case 7:
-                    return SplashImages.img11;
-                case 8:
-                    return SplashImages.img12;
-                case 9:
-                    return SplashImages.img13;
-                case 10:
-                    return SplashImages.img14;
-                case 11:
-                    return SplashImages.img15;
-                case 12:
-                    return SplashImages.img16;
-                case 13:
-                    return SplashImages.img17;
-                case 14:
-                default:
-                    return SplashImages.img6;
-            }
+            return null;
+            //switch ((i % 15)) {
+            //    case 0:
+            //        return SplashImages.img1;
+            //    case 1:
+            //        return SplashImages.img3;
+            //    case 2:
+            //        return SplashImages.img4;
+            //    case 3:
+            //        return SplashImages.img7;
+            //    case 4:
+            //        return SplashImages.img8;
+            //    case 5:
+            //        return SplashImages.img9;
+            //    case 6:
+            //        return SplashImages.img10;
+            //    case 7:
+            //        return SplashImages.img11;
+            //    case 8:
+            //        return SplashImages.img12;
+            //    case 9:
+            //        return SplashImages.img13;
+            //    case 10:
+            //        return SplashImages.img14;
+            //    case 11:
+            //        return SplashImages.img15;
+            //    case 12:
+            //        return SplashImages.img16;
+            //    case 13:
+            //        return SplashImages.img17;
+            //    case 14:
+            //    default:
+            //        return SplashImages.img6;
+            //}
         }
 
         protected override void OnPaint(PaintEventArgs e) {
             base.OnPaint(e);
-            if (screenShot == null || splash == null) return;
+            //if (screenShot == null || splash == null) return;
+            if (splash == null) return;
 
             int centerX = Width / 2;
             int centerY = Height / 2;
 
-            int screenShotX = centerX - screenShot.Width ;
-            int screenShotY = centerY - screenShot.Height;
-            Rectangle source = new Rectangle(0, 0, screenShot.Width, screenShot.Height);
-            Rectangle dest = new Rectangle(screenShotX, screenShotY, screenShot.Width * 2, screenShot.Height * 2);
+            Rectangle source, dest;
 
-            e.Graphics.DrawImage(screenShot, dest, source, GraphicsUnit.Pixel);
+            //int screenShotX = centerX - screenShot.Width ;
+            //int screenShotY = centerY - screenShot.Height;
+            //source = new Rectangle(0, 0, screenShot.Width, screenShot.Height);
+            //dest = new Rectangle(screenShotX, screenShotY, screenShot.Width * 2, screenShot.Height * 2);
+
+            //e.Graphics.DrawImage(screenShot, dest, source, GraphicsUnit.Pixel);
 
 
             int splashX = centerX - splash.Width / 2;
