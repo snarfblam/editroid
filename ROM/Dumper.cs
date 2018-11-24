@@ -87,60 +87,92 @@ namespace Editroid.ROM
                     areaJson["structures"] = GetStructureJson(areaData);
                     break;
                 case DumpInsertType.Screen:
-                    var screenListJson = new List<JsonObject>();
-                    for (int iScreen = 0; iScreen < areaData.Screens.Count; iScreen++) {
-                        var screenData = areaData.Screens[iScreen];
-                        var screenJson = new JsonObject();
-                        var doorListJson = new List<JsonObject>();
-                        var enemyListJson = new List<JsonObject>();
-                        var structListJson = new List<JsonObject>();
-
-                        foreach (var door in screenData.Doors) {
-                            var doorJson = new JsonObject();
-                            doorJson["side"] = door.Side.ToString();
-                            doorJson["type"] = door.Type.ToString();
-                            doorListJson.Add(doorJson);
-                        }
-                        foreach (var enemy in screenData.Enemies) {
-                            var enemyJson = new JsonObject();
-                            enemyJson["compositeLocation"] = enemy.CompositeLocation;
-                            enemyJson["difficult"] = enemy.Difficult;
-                            enemyJson["type"] = enemy.EnemyType;
-                            enemyJson["boss"] = enemy.IsLevelBoss;
-                            enemyJson["respawn"] = enemy.Respawn;
-                            enemyJson["spriteSlot"] = enemy.SpriteSlot;
-                            enemyListJson.Add(enemyJson);
-                        }
-                        foreach (var structure in screenData.Structs) {
-                            var structJson = new JsonObject();
-                            structJson["compositeLocation"] = structure.CompositeLocation;
-                            structJson["type"] = structure.ObjectType;
-                            structJson["palette"] = structure.PalData;
-                            structListJson.Add(structJson);
-                        }
-
-                        screenJson["hasBridge"] = screenData.HasBridge;
-                        screenJson["colorAttribute"] = screenData.ColorAttributeTable;
-                        screenJson["doors"] = doorListJson;
-                        screenJson["enemies"] = enemyListJson;
-                        screenJson["structures"] = structListJson;
-
-                        screenListJson.Add(screenJson);
-                    }
-
-                    areaJson["screens"] = screenListJson;
+                    areaJson["screens"] = GetScreenJson(areaData);
                     break;
                 case DumpInsertType.AltMusic:
+                    areaJson["altMusic"] = getAltMusicJson(areaData);
                     break;
                 case DumpInsertType.Asm:
+                    areaJson["screenLoadRoutines"] = GetScreenloadJson(areaData);
                     break;
                 case DumpInsertType.TilePhysics:
-                    break;
-                case DumpInsertType.Password:
+                    if (rom.Format.SupportsCustomTilePhysics) {
+                        areaJson["tilePhysics"] = GetTilePhysicsJson(areaData);
+                    }
                     break;
                 default:
-                    break;
+                    throw new ArgumentException("Invalid DumpInsertType for level data: " + dataType.ToString());
             }
+        }
+
+        private string GetTilePhysicsJson(Level areaData) {
+            int offset = (int)areaData.TilePhysicsTableLocation;
+            byte[] data = new byte[256];
+            Array.Copy(rom.data, offset, data, 0, data.Length);
+            string b64 = Convert.ToBase64String(data);
+            return b64;
+        }
+
+        private static List<string> GetScreenloadJson(Level areaData) {
+            var screenLoadJson = new List<string>();
+            for (int i = 0; i < areaData.Screens.Count; i++) {
+                screenLoadJson.Add(areaData.Screens[i].ScreenLoadASM);
+            }
+            return screenLoadJson; 
+        }
+
+        private static List<int> getAltMusicJson(Level areaData) {
+            var altMusicJson = new List<int>();
+
+            var count = areaData.AlternateMusicRooms.UsedEntryCount;
+            for (int i = 0; i < count; i++) {
+                altMusicJson.Add(areaData.AlternateMusicRooms[i]);
+            }
+            return altMusicJson;
+        }
+
+        private static List<JsonObject> GetScreenJson(Level areaData) {
+            var screenListJson = new List<JsonObject>();
+            for (int iScreen = 0; iScreen < areaData.Screens.Count; iScreen++) {
+                var screenData = areaData.Screens[iScreen];
+                var screenJson = new JsonObject();
+                var doorListJson = new List<JsonObject>();
+                var enemyListJson = new List<JsonObject>();
+                var structListJson = new List<JsonObject>();
+
+                foreach (var door in screenData.Doors) {
+                    var doorJson = new JsonObject();
+                    doorJson["side"] = door.Side.ToString();
+                    doorJson["type"] = door.Type.ToString();
+                    doorListJson.Add(doorJson);
+                }
+                foreach (var enemy in screenData.Enemies) {
+                    var enemyJson = new JsonObject();
+                    enemyJson["compositeLocation"] = enemy.CompositeLocation;
+                    enemyJson["difficult"] = enemy.Difficult;
+                    enemyJson["type"] = enemy.EnemyType;
+                    enemyJson["boss"] = enemy.IsLevelBoss;
+                    enemyJson["respawn"] = enemy.Respawn;
+                    enemyJson["spriteSlot"] = enemy.SpriteSlot;
+                    enemyListJson.Add(enemyJson);
+                }
+                foreach (var structure in screenData.Structs) {
+                    var structJson = new JsonObject();
+                    structJson["compositeLocation"] = structure.CompositeLocation;
+                    structJson["type"] = structure.ObjectType;
+                    structJson["palette"] = structure.PalData;
+                    structListJson.Add(structJson);
+                }
+
+                screenJson["hasBridge"] = screenData.HasBridge;
+                screenJson["colorAttribute"] = screenData.ColorAttributeTable;
+                screenJson["doors"] = doorListJson;
+                screenJson["enemies"] = enemyListJson;
+                screenJson["structures"] = structListJson;
+
+                screenListJson.Add(screenJson);
+            }
+            return screenListJson;
         }
 
         private static List<List<JsonObject>> GetStructureJson(Level areaData) {

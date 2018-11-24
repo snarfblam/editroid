@@ -215,7 +215,7 @@ namespace Editroid
             } else if (value is int) {
                 OutputFloat((float)(int)value);
             } else if (value is byte) {
-                OutputFloat((float)(int)value);
+                OutputFloat((float)(byte)value);
             } else if (value is JsonObject) {
                 OutputObject((JsonObject)value);
             } else if (value is System.Collections.IList) {
