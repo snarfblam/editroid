@@ -84,8 +84,51 @@ namespace Editroid.ROM
                     areaJson["comboData"] = GetCombosAsBase64(areaData);
                     break;
                 case DumpInsertType.Structure:
+                    areaJson["structures"] = GetStructureJson(areaData);
                     break;
                 case DumpInsertType.Screen:
+                    var screenListJson = new List<JsonObject>();
+                    for (int iScreen = 0; iScreen < areaData.Screens.Count; iScreen++) {
+                        var screenData = areaData.Screens[iScreen];
+                        var screenJson = new JsonObject();
+                        var doorListJson = new List<JsonObject>();
+                        var enemyListJson = new List<JsonObject>();
+                        var structListJson = new List<JsonObject>();
+
+                        foreach (var door in screenData.Doors) {
+                            var doorJson = new JsonObject();
+                            doorJson["side"] = door.Side.ToString();
+                            doorJson["type"] = door.Type.ToString();
+                            doorListJson.Add(doorJson);
+                        }
+                        foreach (var enemy in screenData.Enemies) {
+                            var enemyJson = new JsonObject();
+                            enemyJson["compositeLocation"] = enemy.CompositeLocation;
+                            enemyJson["difficult"] = enemy.Difficult;
+                            enemyJson["type"] = enemy.EnemyType;
+                            enemyJson["boss"] = enemy.IsLevelBoss;
+                            enemyJson["respawn"] = enemy.Respawn;
+                            enemyJson["spriteSlot"] = enemy.SpriteSlot;
+                            enemyListJson.Add(enemyJson);
+                        }
+                        foreach (var structure in screenData.Structs) {
+                            var structJson = new JsonObject();
+                            structJson["compositeLocation"] = structure.CompositeLocation;
+                            structJson["type"] = structure.ObjectType;
+                            structJson["palette"] = structure.PalData;
+                            structListJson.Add(structJson);
+                        }
+
+                        screenJson["hasBridge"] = screenData.HasBridge;
+                        screenJson["colorAttribute"] = screenData.ColorAttributeTable;
+                        screenJson["doors"] = doorListJson;
+                        screenJson["enemies"] = enemyListJson;
+                        screenJson["structures"] = structListJson;
+
+                        screenListJson.Add(screenJson);
+                    }
+
+                    areaJson["screens"] = screenListJson;
                     break;
                 case DumpInsertType.AltMusic:
                     break;
@@ -98,6 +141,32 @@ namespace Editroid.ROM
                 default:
                     break;
             }
+        }
+
+        private static List<List<JsonObject>> GetStructureJson(Level areaData) {
+            var structListJson = new List<List<JsonObject>>(); // listception
+            for (int iStruct = 0; iStruct < areaData.Structures.Count; iStruct++) {
+                var structData = areaData.Structures[iStruct];
+                var structJson = new List<JsonObject>();
+
+                for (int iRow = 0; iRow < structData.RowCount; iRow++) {
+                    var rowJson = new JsonObject();
+
+                    int offsetX = structData.Data.GetFirstTileX(iRow);
+                    int size = structData.Data.GetLastTileX(iRow) - offsetX + 1;
+                    byte[] tiles = new byte[size];
+                    for (int iTile = 0; iTile < size; iTile++) {
+                        tiles[iTile] = structData.Data[offsetX + iTile, iRow];
+                    }
+
+                    rowJson["offsetX"] = offsetX;
+                    rowJson["data"] = Convert.ToBase64String(tiles);
+                    structJson.Add(rowJson);
+                }
+
+                structListJson.Add(structJson);
+            }
+            return structListJson;
         }
 
         private string GetCombosAsBase64(Level areaData) {
