@@ -120,6 +120,9 @@ namespace Editroid
             this.btnSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSaveSansMap = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSaveAndPlay = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnDumpData = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnInsertData = new System.Windows.Forms.ToolStripMenuItem();
             this.btnExpand = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCreateBackup = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEditors = new System.Windows.Forms.ToolStripMenuItem();
@@ -244,6 +247,7 @@ namespace Editroid
             this.ItemDataEditor = new Editroid.ItemDataEditor();
             this.gameView = new Editroid.RomViewport();
             this.picTitle = new Editroid.SplashBox();
+            this.JsonSaver = new System.Windows.Forms.SaveFileDialog();
             toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -1089,6 +1093,9 @@ namespace Editroid
             this.btnSaveAs,
             this.btnSaveSansMap,
             this.btnSaveAndPlay,
+            this.toolStripSeparator10,
+            this.btnDumpData,
+            this.btnInsertData,
             toolStripSeparator23,
             this.btnExpand,
             toolStripSeparator4,
@@ -1139,6 +1146,26 @@ namespace Editroid
             this.btnSaveAndPlay.Size = new System.Drawing.Size(247, 22);
             this.btnSaveAndPlay.Text = "Save && &Play";
             this.btnSaveAndPlay.Click += new System.EventHandler(this.btnSaveAndPlay_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(244, 6);
+            // 
+            // btnDumpData
+            // 
+            this.btnDumpData.Enabled = false;
+            this.btnDumpData.Name = "btnDumpData";
+            this.btnDumpData.Size = new System.Drawing.Size(247, 22);
+            this.btnDumpData.Text = "&Dump Data...";
+            this.btnDumpData.Click += new System.EventHandler(this.btnDumpData_Click);
+            // 
+            // btnInsertData
+            // 
+            this.btnInsertData.Enabled = false;
+            this.btnInsertData.Name = "btnInsertData";
+            this.btnInsertData.Size = new System.Drawing.Size(247, 22);
+            this.btnInsertData.Text = "&Insert Data...";
             // 
             // btnExpand
             // 
@@ -2322,6 +2349,10 @@ namespace Editroid
             this.picTitle.Text = "splashBox1";
             this.picTitle.Click += new System.EventHandler(this.picTitle_Click);
             // 
+            // JsonSaver
+            // 
+            this.JsonSaver.Filter = "JSON File|*.json|All Files|*.*";
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2567,6 +2598,10 @@ namespace Editroid
         private System.Windows.Forms.ToolStripMenuItem btnAddStruct;
         private System.Windows.Forms.ToolStripMenuItem btnDeleteStruct;
         private System.Windows.Forms.ToolStripMenuItem mnuStart;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem btnDumpData;
+        private System.Windows.Forms.ToolStripMenuItem btnInsertData;
+        private System.Windows.Forms.SaveFileDialog JsonSaver;
 	}
 }
 

@@ -31,6 +31,11 @@ namespace Editroid
         }
 
         private void button1_Click(object sender, EventArgs e) {
+            this.DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        internal IList<DumpInsertItem> GetDumpList() {
             List<DumpInsertItem> dataList = new List<DumpInsertItem>();
             List<LevelIndex> selectedLevels = new List<LevelIndex>();
 
@@ -71,6 +76,8 @@ namespace Editroid
                 dataList.Add(new DumpInsertItem(LevelIndex.None, DumpInsertType.CHRAnimation));
             if (chkAsm.Checked)
                 dataList.Add(new DumpInsertItem(LevelIndex.None, DumpInsertType.Asm));
+
+            return dataList;
         }
 
     }

@@ -318,6 +318,7 @@
     <Compile Include="Controls\LevelPaletteEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Json.cs" />
     <Compile Include="MagicForms.cs" />
     <Compile Include="Patches\DoorExpansionPatch.cs" />
     <Compile Include="Patches\DoorScrollPatch.cs" />
@@ -340,6 +341,7 @@
     <Compile Include="ROM\Bank.cs" />
     <Compile Include="ROM\ChrAnimationTable.cs" />
     <Compile Include="ROM\ChrUsageTable.cs" />
+    <Compile Include="ROM\Dumper.cs" />
     <Compile Include="ROM\EditorData.cs" />
     <Compile Include="ROM\MMC3.cs" />
     <Compile Include="ROM\PatternOffsets.cs" />

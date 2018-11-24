@@ -331,6 +331,7 @@ namespace Editroid
                 if (PerformOpen()) {
                     UpdateFormCaption();
                     toolbar.Visible = true;
+                    
                 } else {
                     cdgOpenRom.FileName = oldFileName;
 
@@ -3686,6 +3687,21 @@ namespace Editroid
 
         private void picTitle_Click(object sender, EventArgs e) {
             ShowOpenFileDialog();
+        }
+
+        private void btnDumpData_Click(object sender, EventArgs e) {
+            using (var dlg = new frmDump()) {
+                if (dlg.ShowDialog() == DialogResult.OK && JsonSaver.ShowDialog() == DialogResult.OK) {
+                    var dumpData = dlg.GetDumpList();
+                    var filename = JsonSaver.FileName;
+
+                    StringWriter sw = new StringWriter();
+                    var dumper = new Dumper(gameRom, dumpData);
+                    dumper.Dump(sw, false);
+                    Clipboard.SetText(sw.ToString());
+                    MessageBox.Show("Data dumped to clipboard.");
+                }
+            }
         }
 
 
