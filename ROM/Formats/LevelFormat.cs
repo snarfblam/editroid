@@ -53,6 +53,8 @@ namespace Editroid.ROM.Formats
         public virtual bool Uses24bitScreenPointers { get { return false; } }
         public virtual int FreeGeneralAsmSpace { get { return FreeScreenMemory; } }
 
+        /// <summary>Gets the CHR group that references "Justin Bailey" player graphics, or null if the ROM format does not use CHR RAM.</summary>
+        public virtual int? JustinBaileyChrGroup { get { return null; } }
 
         /// <summary>
         /// Returns the offset of the first byte AFTER used structure space.
@@ -100,7 +102,7 @@ namespace Editroid.ROM.Formats
         public Bank RoomDataBank { get { return Banks[GetRoomDataBank()]; } }
         public Bank RoomPtableBank { get { return Banks[GetRoomPtableBank()]; } }
         public Bank ComboBank { get { return Banks[GetComboBank()]; } }
-        
+
         #endregion
 
         public pRom ComboDataOffset {
@@ -228,72 +230,14 @@ namespace Editroid.ROM.Formats
     {
         public StandardLevelFormat(Level l) : base(l) { }
 
+        public override int? JustinBaileyChrGroup { get { return 27; } }
+
         public override ChrDump GetRawPatterns() {
-            // Justin Bailey is CHR group 27
-
-            // "Simulated" VRAM buffer
-            byte[] rawChrBuffer = new byte[0x2000];
-            // 4 KB CHR banks
-            var bgBlob = new byte[0x1000];
-            var sprBlob = new byte[0x1000];
-            // 2 KB CHR bank
-            var sprAltBlob = new byte[0x800];
-
-            // Non-Justin-Bailey graphics (load BG and sprites)
-            LoadRawChr_Standard(rawChrBuffer);
-            Array.Copy(rawChrBuffer, 0x0000, sprBlob, 0, 0x1000);
-            Array.Copy(rawChrBuffer, 0x1000, bgBlob, 0, 0x1000);
-
-            // Justin-Bailey graphics (load 1/2 page of sprites)
-            LoadRawChr_JustinBailey(rawChrBuffer);
-            Array.Copy(rawChrBuffer, 0x0000, sprAltBlob, 0, 0x800);
-
-            byte[][] blobs = new byte[][] { bgBlob, sprBlob, sprAltBlob };
-            var bgMeta = new FrameSectionID[] { new FrameSectionID(0) };
-            return new ChrDump(blobs, bgMeta, 1, 2, null);
+            var dumper = new StandardChrDumper(Level.Rom, Level.Index);
+            return dumper.GetRawPatterns();
         }
 
-        /// <summary>Loads Justin Bailey tiles over the specified CHR buffer.</summary>
-        /// <param name="rawChrBuffer">An 8 KB buffer for CHR data.</param>
-        private void LoadRawChr_JustinBailey(byte[] rawChrBuffer) {
-            var patternGroupTable = Level.Rom.PatternGroupOffsets;
-            var altGroup = patternGroupTable[27];
-            int altStart = altGroup.DestPpuOffset;
-            int altLen = altGroup.TileCount * 0x10;
-            // Don't exceed bounds of result array
-            altLen = Math.Min(0x2000 - altStart, altStart + altLen);
-
-            Array.Copy(Level.Rom.data, altGroup.SourceRomOffset, rawChrBuffer, altStart, altLen);
-        }
-
-        /// <summary>Loads this area's tiles over the specified CHR buffer. Does not include Justin
-        /// Bailey tiles, and does include title screen tiles.</summary>
-        /// <param name="rawChrBuffer">An 8 KB buffer for CHR data.</param>
-        private void LoadRawChr_Standard(byte[] rawChrBuffer) {
-            var patternGroupTable = Level.Rom.PatternGroupOffsets;
-
-            // Compile a list of  tiles to be loaded
-            List<PatternGroupOffsets> groups = new List<PatternGroupOffsets>();
-            // Each area depends on some residual tiles loaded during the title screen, so we'll load title screen graphics first, then area graphics.
-            foreach (var group in Level.Rom.GlobalPatternGroups) {
-                groups.Add(patternGroupTable[group]);
-            }
-            foreach (var group in Level.PatternGroups) {
-                groups.Add(patternGroupTable[group]);
-            }
-
-            // Copy CHR into the array
-            foreach (var group in groups) {
-                if (group.Index != 27) { // DONT LOAD JUSTIN BAILEY (it should probably be considered a bug that Editroid normally loads this) (group 17 in expando)
-                    int start = group.DestPpuOffset;
-                    int len = group.TileCount * 0x10;
-                    // Don't exceed bounds of result array
-                    len = Math.Min(0x2000 - start, start + len);
-
-                    Array.Copy(Level.Rom.data, group.SourceRomOffset, rawChrBuffer, start, len);
-                }
-            }
-        }
+     
 
         public override PatternTable LoadSpritePatternsTable(bool linear) {
             return new PatternTable(linear, PatternTableType.sprite, Level.Rom.GlobalPatternGroups, Level.PatternGroups, Level.Rom);
@@ -356,8 +300,8 @@ namespace Editroid.ROM.Formats
             }
         }
 
-        public override int AvailableItemMemory { 
-            get { 
+        public override int AvailableItemMemory {
+            get {
                 // Available item memory is from the end of struct p table to start of room data
                 var endOfMem = StructDataOffset;
                 var startOfMem = StructPtableOffset + Level.StructCount * 2;
@@ -410,6 +354,13 @@ namespace Editroid.ROM.Formats
     {
         public ExpandoLevelFormat(Level l) : base(l) { }
 
+        public override int? JustinBaileyChrGroup { get { return 17; } }
+
+        public override ChrDump GetRawPatterns() {
+            var dumper = new ExpandoChrDumper(Level.Rom, Level.Index);
+            return dumper.GetRawPatterns();
+        }
+
         public override PatternTable LoadSpritePatternsTable(bool linear) {
             return PatternTable.LoadNewTableForExpandedRom(linear, PatternTableType.sprite, Level);
         }
@@ -425,23 +376,6 @@ namespace Editroid.ROM.Formats
             get { return ItemExpansion.ExpandBackward; }
         }
 
-        ////public int TotalStructureMemory {
-        ////    get {
-        ////        int endOfAvailableSpace = EndOfAvailStructMemory;
-        ////        int startOfAvailableSpace = Level.Pointers_depracated.StructTableOffset;
-
-        ////        return endOfAvailableSpace - startOfAvailableSpace;
-        ////    }
-        ////}
-
-        ////public int UsedStructureMemory {
-        ////    get {
-        ////        int startOfAvailableSpace = Level.Pointers_depracated.StructTableOffset;
-        ////        int endOfUsedSpace = FindEndOfUsedStructMemory();
-
-        ////        return endOfUsedSpace - startOfAvailableSpace;
-        ////    }
-        ////}
 
         public override int FreeStructureMemory {
             get {
@@ -493,7 +427,7 @@ namespace Editroid.ROM.Formats
         }
 
         public override int AvailableItemMemory {
-            get { 
+            get {
                 // Available item memory = item memory in use + free space in memory store (expando or standard store)
                 int itemDataSize = Level.ItemTable_DEPRECATED.GetTotalBytes();
 
@@ -719,8 +653,8 @@ namespace Editroid.ROM.Formats
 
     class Mmc3LevelFormat : EnhancedLevelFormat
     {
-        public Mmc3LevelFormat(Level l) 
-        :base(l){
+        public Mmc3LevelFormat(Level l)
+            : base(l) {
         }
         public override int CalculateRoomCount() {
             var offset = this.RoomPtableOffset + 1;
@@ -841,7 +775,7 @@ namespace Editroid.ROM.Formats
 
         private PatternTable LoadBgPatternTable_ChrAnimation(bool linear, ChrAnimationTable anim) {
             //PatternTable pt = new PatternTable(linear);
-            
+
             var frame = anim.Frames[0];
 
 
@@ -902,7 +836,7 @@ namespace Editroid.ROM.Formats
             return (pRom)(0x7BB10 + 0x100 * (int)Level.Index);
         }
     }
-
+}
 //    /// <summary>
 //    /// Represents a linear range of numbers.
 //    /// </summary>
@@ -924,64 +858,3 @@ namespace Editroid.ROM.Formats
 
 //        public bool IsEmpty { get { return Start == 0 & Length == 0; } }
 //    }
-
-    public struct FrameSectionID {
-        /// <summary>Specifies which frame's CHR is being identified. Null indicates the data is frame-agnostic (e.g. from a ROM that doesn't support animation).</summary>
-        public int? Frame { get; private set; }
-        /// <summary>Specifies which 1 KB section of a frame's CHR is being identified. Null indicates the data does not reference a section (e.g. data might be an entire 4 KB CHR page).</summary>
-        public int? Section { get; private set; }
-        /// <summary>Specifies which piece of CHR data is being referenced. The meaning of a Null value is context-dependant and may be an invalid value.</summary>
-        public int? BlobNumber { get; set; }
-
-        public FrameSectionID(int blob)
-            : this() {
-            this.BlobNumber = blob;
-        }
-
-        public FrameSectionID(int blob, int frame)
-            : this() {
-            this.BlobNumber = blob;
-            this.Frame = frame;
-        }
-
-        public FrameSectionID(int blob, int frame, int section)
-            : this() {
-            this.BlobNumber = blob;
-            this.Frame = frame;
-            this.Section = section;
-        }
-    }
-
-    /// <summary>
-    /// Contains CHR data and metadata for an area of the game. 
-    /// </summary>
-    public class ChrDump
-    {
-        /// <summary>A collection of blocks of CHR data. Each blob should be 1 KB, 2 KB, or 4 KB.</summary>
-        public IList<Byte[]> Blobs { get; private set; }
-        /// <summary>A collection of blob references to construct pages of background CHR. See remarks.</summary>
-        /// <remarks>Each frame must be fully composed, either by one 4KB blob (with a Section value of null), or by
-        /// four 1 KB blobs, one associated with each section: 0, 1, 2, and 3. Frames and sections are not required 
-        /// to be ordered, but must compose a set of frames whose numbers start at zero and have no gaps in sequence.
-        /// There may not be multiple frames defined by the same number.</remarks>
-        public IList<FrameSectionID> BgBlobs { get; private set; }
-        /// <summary>The primary blob for sprite CHR. Must be either 4 KB or 2 KB.</summary>
-        public int SprBlob { get; private set; }
-        /// <summary>The second blob for sprite CHR. Must be null if the primary blob
-        /// is 4 KB, and must specify a 2 KB blob if the primary blob is 2 KB.</summary>
-        public int? Spr2Blob { get; private set; }
-        /// <summary>The alternate blob for sprite CHR. Must reference a 2 KB blob.</summary>
-        public int SprAltBlob { get; private set; }
-
-        public ChrDump(IList<Byte[]> blobs, IList<FrameSectionID> bgBlobs, int sprBlob, int sprAltBlob, int? spr2Blob) {
-            this.Blobs = new System.Collections.ObjectModel.ReadOnlyCollection<Byte[]>(blobs);
-            this.BgBlobs = new System.Collections.ObjectModel.ReadOnlyCollection<FrameSectionID>(bgBlobs);
-
-            this.SprBlob = sprBlob;
-            this.SprAltBlob = sprAltBlob;
-            this.Spr2Blob = spr2Blob;
-
-            // Todo: validate blob-size and frame/section-sequence requirements
-        }
-    }
-}

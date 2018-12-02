@@ -343,6 +343,7 @@
     <Compile Include="ROM\ChrUsageTable.cs" />
     <Compile Include="ROM\Dumper.cs" />
     <Compile Include="ROM\EditorData.cs" />
+    <Compile Include="ROM\Formats\ChrDumper.cs" />
     <Compile Include="ROM\MMC3.cs" />
     <Compile Include="ROM\PatternOffsets.cs" />
     <Compile Include="ROM\Enhanced\BankLabelList.cs" />
