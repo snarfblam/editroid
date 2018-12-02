@@ -38,6 +38,7 @@ Expando Rom format:
             -As item data is added, it expands backwards, effectively reducing the size of the store it occupies
     -Each level is now provided an entire page of backrgound patterns
     -Each level is now provided $100 bytes for combo data
+    -Each level is now given $40 bytes for level-specific sprites
     -Bank E is reserved for editor purposes
         -Editor map is now stored at beginning of bank E
     

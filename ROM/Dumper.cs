@@ -65,7 +65,7 @@ namespace Editroid.ROM
 
             switch (dataType) {
                 case DumpInsertType.CHR:
-                    // Todo: come back to this one
+                    areaJson["chr"] = GetChrJson(areaData);
                     break;
                 case DumpInsertType.CHRAnimation:
                     if (rom.Format.HasChrUsageTable) {
@@ -103,6 +103,33 @@ namespace Editroid.ROM
                 default:
                     throw new ArgumentException("Invalid DumpInsertType for level data: " + dataType.ToString());
             }
+        }
+
+        private static JsonObject GetChrJson(Level areaData) {
+            var chrJson = new JsonObject();
+            var chrData = areaData.Format.GetRawPatterns();
+
+            // Convert blobs to base-64
+            var blobList = new List<string>();
+            var bgListJson = new List<JsonObject>();
+
+            foreach (var blob in chrData.Blobs) blobList.Add(Convert.ToBase64String(blob));
+            foreach (var bgEntry in chrData.BgBlobs) {
+                var bgEntryJson = new JsonObject();
+                bgEntryJson["blob"] = bgEntry.BlobNumber;
+                if (bgEntry.Frame != null) bgEntryJson["frame"] = bgEntry.Frame.Value;
+                if (bgEntry.Section != null) bgEntryJson["section"] = bgEntry.Section.Value;
+
+                bgListJson.Add(bgEntryJson);
+            }
+            chrJson["blobs"] = blobList;
+            chrJson["bg"] = bgListJson;
+            chrJson["sprBlob"] = chrData.SprBlob;
+            chrJson["sprAltBlob"] = chrData.SprAltBlob;
+            if (chrData.Spr2Blob != null) {
+                chrJson["spr2Blob"] = chrData.Spr2Blob;
+            }
+            return chrJson;
         }
 
         private string GetTilePhysicsJson(Level areaData) {
@@ -280,6 +307,7 @@ namespace Editroid.ROM
 
                 animJson["name"] = anim.Name;
                 animJson["frames"] = framesJson;
+                animListJson.Add(animJson);
             }
 
             areaAnimationsJson["sprBank0"] = (int)areaAnimData.SprBank0;
@@ -323,12 +351,7 @@ namespace Editroid.ROM
         string ToHex4(int value) {
             return value.ToString("x").PadLeft(4, '0');
         }
-
-        // Take data list, convert to json object
-        // {
-        //     "areaName":{
-        //         "dataName":{...}
-        //     }...
-        // }
     }
+
+    
 }

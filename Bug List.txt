@@ -6,3 +6,12 @@
   you close the editor and save the rom/ reopen.  I haven’t tried to recreate it yet but
   it’s not a big deal, I can just delete the frames as needed before allocating them where 
   I need them.(edited)
+
+
+
+
+
+NEW FEATURE LIST
+
+- Data dumper/inserter:
+	- dump CHR, 
